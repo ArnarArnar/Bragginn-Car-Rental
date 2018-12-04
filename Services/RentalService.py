@@ -49,5 +49,7 @@ class RentalService:
                         car_rental_history.append(rental_view)
         return car_rental_history
     
-    def get_next_order_id(self):
-        return self._rental_repo.get_next_order_id()
+    def get_and_set_next_order_id(self):
+        next_id = self._rental_repo.get_next_order_id()
+        self._rental_repo.add_order_id(next_id)
+        return
