@@ -8,6 +8,7 @@ from Repositories.CustomerRepository import CustomerRepository
 from Models.Rental import Rental
 from Models.Car import Car
 from Models.Customer import Customer
+from Services.ValidationService import ValidationService
 from ViewModels.RentalViewModel import RentalViewModel
 
 
@@ -39,16 +40,16 @@ def add_rental(Rental):
         csv_writer.writerow([Rental._customer_id, Rental._car_id, rental_date, Rental._length, Rental._total_price])
 
 
-def get_rental_list():
-    __Rentals = []
-    with open('TestRentals.csv') as rentals_file:
-        rentals_reader = csv.reader(rentals_file, delimiter=';')
-        rentals_list = list(rentals_reader)
-        for row in rentals_list:
-            rental_date = datetime.date(datetime.strptime(row[2], '%d %m %Y'))
-            rental_order = Rental(row[0], row[1], rental_date, row[3], row[4])
-            __Rentals.append(rental_order)
-    return __Rentals
+#def get_rental_list():
+#    __Rentals = []
+#    with open('TestRentals.csv') as rentals_file:
+#        rentals_reader = csv.reader(rentals_file, delimiter=';')
+#        rentals_list = list(rentals_reader)
+#        for row in rentals_list:
+#            rental_date = datetime.date(datetime.strptime(row[2], '%d %m %Y'))
+#            rental_order = Rental(row[0], row[1], rental_date, row[3], row[4])
+#            __Rentals.append(rental_order)
+#    return __Rentals
 
 # add_rental(rental3)
 
@@ -64,10 +65,17 @@ def get_rental_list():
 
 _rental_repo = RentalRepository()
 
-next1 = _rental_repo.get_next_id()
+# next1 = _rental_repo.get_next_id()
 
 _rental_repo.add_order_id()
 
-print(next1)
+# print(next1)
 
 
+sverrir_validation = ValidationService()
+
+number = 12
+
+TrueOrFalse = sverrir_validation.is_number_negative(number)
+
+print(TrueOrFalse)

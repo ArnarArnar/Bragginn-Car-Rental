@@ -6,7 +6,10 @@ class ValidationService:
 # General validation services
     def is_number_negative(self, number):
         # can be used for input of all integers eg. price, days etc., can not be negative
-        return True
+        if number < 0:
+            return False
+        else:
+            return True
     
     def is_date_valid(self, date):
         # Check if entered date is in the valid format DD/MM/YYYY
