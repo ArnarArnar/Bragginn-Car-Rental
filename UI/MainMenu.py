@@ -23,15 +23,15 @@ class MainMenu:
                   "\t2. Fleet \n"
                   "\t3. Customer \n"
                   "\tEnter q to quit \n")  #Need to fix a quit function so it actually exits the program
-            userInput = input('What would you like to do? ')
+            user_input = input('What would you like to do? ')
 
-            if userInput == "1":
+            if user_input == "1":
                 self._rental_sub_menu.rental_sub_menu()
-            if userInput == "2":
+            if user_input == "2":
                 self._car_sub_menu.car_sub_menu()
-            if userInput == "3":
+            if user_input == "3":
                 self._customer_sub_menu.customer_sub_menu()
-            if userInput == "q" or userInput == "Q":
+            if user_input == "q" or user_input == "Q":
                 print("Thank you come again")
                 return
 
