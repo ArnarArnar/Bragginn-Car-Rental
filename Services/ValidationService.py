@@ -14,11 +14,18 @@ class ValidationService:
     def is_date_valid(self, date):
         # Check if entered date is in the valid format DD/MM/YYYY
         current_day = datetime.now()
-        date = datetime.strptime(date, "%d/%m/%Y")
-        if date < current_day:
-            return False
+        try:           
+            date = datetime.strptime(date, "%d/%m/%Y")
+        except ValueError:
+           print("This format does not match!")
+           return False
         else:
+            if date < current_day:
+                print("The date cannot be in past")
+                return False
             return True
+        
+        
 
 # Car input validation
     def is_car_id_valid(self, car_id):
