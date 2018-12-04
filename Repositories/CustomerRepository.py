@@ -1,11 +1,14 @@
 """Repo class for Customers"""
 import csv
+
 from Models.Customer import Customer
+from Models.CreditCard import CreditCard
 
 class CustomerRepository:
 
     def __init__(self):
         self.__Customers = [] #Hverjar eru nafnavenjurnar? afhverju eru 2 undirstrik her
+        self.__CreditCards = []
         self._primary_keys = []
 
 #Post functions
@@ -31,6 +34,15 @@ class CustomerRepository:
                 db_customer = Customer(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
                 self.__Customers.append(db_customer)
         return self.__Customers
+
+    def get_credit_card_list(self):
+        with open('Data/CreditCards.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=';')
+            credit_card_list = list(csv_reader)
+            for row in credit_card_list:
+                db_credit_card = CreditCard(row[0], row[1], row[2], row[3])
+                self.__CreditCards.append(db_credit_card)
+        return self.__CreditCards
 
     def get_primary_key(self):
         with open('Data/Customers.csv') as customer_file:

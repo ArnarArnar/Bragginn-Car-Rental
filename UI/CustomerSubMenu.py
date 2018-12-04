@@ -32,7 +32,9 @@ class CustomerSubMenu:
             new_customer = self.get_add_customer_input()
             self._customer_service.add_customer(new_customer)
         if user_input == "2":
-            return
+            customer_id = self.get_customer_id_input()
+            customer = self._customer_service.get_customer(customer_id)
+            self.see_customer(customer)
         if user_input == "3":
             return
         if user_input == "4":
@@ -116,6 +118,17 @@ class CustomerSubMenu:
         new_card = CreditCard(customer_id, card_number, expiry, cvc)
         return new_card
 
+    def get_customer_id_input(self):
+        self.valid = False
+        while not self.valid:
+            customer_id = input("Enter customer ID: ")
+            self.valid = self._validation_service.does_customer_id_exist(customer_id)
+            if not self.valid:
+                print("Customer does not exist")
+                os.system('pause')
+                self.see_customer_list()
+        return customer_id
+
 # Views
     def see_customer_list(self):
         customer_list = self._customer_service.get_customer_list()
@@ -126,5 +139,17 @@ class CustomerSubMenu:
                 "\tID:     Name:       phone:      street:      zip:       town:      country:      license: \n")
         for customer in customer_list:
             print(customer)
+        os.system('pause')
+
+    def see_customer(self, Customer):
+        os.system('cls')
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Customer List **************** \n"
+                "\tID:     Name:       phone:      street:      zip:       town:      country:      license: \n")
+        print(Customer)
+        print("Credit Cards:")
+        for creditcard in Customer._card_number:
+            print(creditcard)
         os.system('pause')
         
