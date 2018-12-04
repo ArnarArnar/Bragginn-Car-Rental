@@ -15,3 +15,14 @@ class DisplayHeader:
                 "\t************************blow your horn on a car from Bragginn car rental!****************************** \n"
                 )
 #Create submenu headers
+
+    def display_header_fleet(self):
+        os.system('cls')
+        print(  "\t     _____    _      ______    ______   _______       __        __                      \n"#Create a seperate function called displayTitlebar
+                "\t    |  ___)  | |    |  ____)  |  ____) |__   __|     |   \    /   |                     \n"
+                "\t    | |___   | |    | |____   | |____     | |        | |  \  /  | |  ____ ____   _   _  \n"
+                "\t    | ____)  | |    | |____)  | |____)    | |        | | \ \/ / | | / _  )  _ \ | | | | \n"
+                "\t    | |      | |__  | |____   | |____     | |        | |  \  /  | |( (/ /| | | || \_/ | \n"
+                "\t    |_|      |____) |______)  |______)    |_|        |_|   \/   |_| \____)_| |_| \___/  \n"
+                "\t************************Welcome to Fleet Menu!********************************************************* \n"
+                )
