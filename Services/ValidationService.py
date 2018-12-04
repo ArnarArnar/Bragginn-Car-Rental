@@ -14,7 +14,7 @@ class ValidationService:
 # General validation services
     def is_number_negative(self, number):
         # can be used for input of all integers eg. price, days etc., can not be negative
-        if number < 0:
+        if int(number) < 0:
             return False
         else:
             return True
@@ -71,6 +71,12 @@ class ValidationService:
             return False
         # If it does not exist we print out all cars in database in rental sub menu
 
+    def does_insurance_exist(self, insurance_short_code):
+        return False
+
+    def does_short_code_exist(self, short_code):
+        return False
+
 # Customer validation services
     def is_customer_id_valid(self, customer_id):
         # We need to decide what we want customer Id to be, kennitala? passport?
@@ -82,4 +88,16 @@ class ValidationService:
 
     def is_zip_valid(self, zip):
         # What should the validation be for this?
+        return True
+    
+    def is_card_number_valid(self, card_number):
+        # Validate creditcard number
+        return True
+
+    def is_expiry_valid(self, expiry):
+        # Validate expiry date in the format MM/YY
+        return True
+
+    def is_cvc_valid(self, cvc):
+        # Validate cvc (3 digits)
         return True

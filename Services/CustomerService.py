@@ -1,6 +1,7 @@
 """Service class for Customers"""
 from Repositories.CustomerRepository import CustomerRepository
 from Models.Customer import Customer
+from Models.CreditCard import CreditCard
 
 class CustomerService:
 
@@ -8,12 +9,10 @@ class CustomerService:
         self._customer_repo = CustomerRepository()
 
     def add_customer(self, Customer):
-        if self.is_customer_valid(Customer) == True:
-            self._customer_repo.add_customer(Customer)
+        self._customer_repo.add_customer(Customer)
 
-    def is_customer_valid(self, Customer):
-        #Validation check
-        return True
+    def add_credit_card(self, CreditCard):
+        self._customer_repo.add_credit_card(CreditCard)
 
     def get_customer_list(self):
         return self._customer_repo.get_customer_list()

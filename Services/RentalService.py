@@ -14,15 +14,15 @@ class RentalService:
         self._car_repo = CarRepository()
         self._customer_repo = CustomerRepository()
 
-
+#post functions
     def add_rental(self, Rental):
-        if self.is_rental_valid(Rental) == True:
-            self._rental_repo.add_rental(Rental)
+        self._rental_repo.add_rental(Rental)
 
-    def is_rental_valid(self, Rental):
-        #Validation check
-        return True
+    def add_insurance(self, new_insurance):
+        self._rental_repo.add_insurance(new_insurance)
 
+
+# Get functions
     def get_rental_list(self):
         return self._rental_repo.get_rental_list()
     
