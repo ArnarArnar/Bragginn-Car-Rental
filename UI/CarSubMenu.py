@@ -45,6 +45,11 @@ class CarSubMenu:
             if not self.valid:
                 print("Car Id needs to be in the format (AADDD)")
                 os.system('pause')
+                continue
+            self.valid = self._validation_service.does_car_id_exist(car_id)
+            if not self.valid:
+                print("Car Id already exists")
+                os.system('pause')
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:
