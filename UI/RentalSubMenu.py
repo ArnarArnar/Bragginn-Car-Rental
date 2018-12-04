@@ -84,7 +84,7 @@ class RentalSubMenu:
         start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
         self.valid = False
         while not self.valid:
-            length = input("Enter how many days to rent: ")
+            length = int(input("Enter how many days to rent: "))
             self.valid = self._validation_service.is_number_negative(length)
             if not self.valid:
                 print("Can not rent for negative days")
