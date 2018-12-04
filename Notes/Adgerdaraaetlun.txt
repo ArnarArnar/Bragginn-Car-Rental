@@ -1,0 +1,9 @@
+Aðgerðaráætlun:
+
+Það sem þarf að gera:
+Setja upp Trello með öllum þeim föllum sem þarf að græja og þeim hlutum sem þarf að gera:
+Næst á dagskrá:
+- stilla upp Rentals á sama hátt og við stilltum upp Customers og Cars
+- Prófa að delete-a úr gagnagrunnunum(sjá hvort Boogie fjalli ekki um það)
+- Horfa á myndböndin hans Arnars og stilla upp gitRepo(byrja á að gera bara private, en svo gerum við eina fyrir verkefnið okkar)
+
