@@ -1,6 +1,7 @@
 import re
 
 from Repositories.CarRepository import CarRepository
+from datetime import datetime
 
 class ValidationService:
 
@@ -18,7 +19,12 @@ class ValidationService:
     
     def is_date_valid(self, date):
         # Check if entered date is in the valid format DD/MM/YYYY
-        return True
+        current_day = datetime.now()
+        date = datetime.strptime(date, "%d/%m/%Y")
+        if date < current_day:
+            return False
+        else:
+            return True
 
 # Car input validation
     def is_car_id_valid(self, car_id):
