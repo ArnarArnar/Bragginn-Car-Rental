@@ -52,4 +52,4 @@ class RentalService:
     def get_and_set_next_order_id(self):
         next_id = self._rental_repo.get_next_order_id()
         self._rental_repo.add_order_id(next_id)
-        return
+        return next_id

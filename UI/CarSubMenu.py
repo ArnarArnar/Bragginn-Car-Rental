@@ -47,9 +47,10 @@ class CarSubMenu:
                 os.system('pause')
                 continue
             self.valid = self._validation_service.does_car_id_exist(car_id)
-            if not self.valid:
+            if self.valid:
                 print("Car Id already exists")
                 os.system('pause')
+                self.valid = False
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:
