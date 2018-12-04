@@ -42,7 +42,8 @@ class CustomerSubMenu:
         if user_input == "6":
             self.see_customer_list()
         if user_input == "7":
-            return
+            new_card = self.get_add_creditcard_input()
+            self._customer_service.add_credit_card(new_card)
 
 # Inputs
     def get_add_customer_input(self):
@@ -81,6 +82,39 @@ class CustomerSubMenu:
         self.valid = False
         new_customer = Customer(customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license)
         return new_customer
+
+    def get_add_creditcard_input(self): # customer_id, card_number, expiry, cvc
+        while not self.valid:
+            customer_id = input("Enter customer ID for owner of credit card: ")
+            self.valid = self._validation_service.does_customer_id_exist(customer_id)
+            if not self.valid:
+                print("Customer does not exist, please register customer first")
+                os.system('pause')
+                self.see_customer_list()
+        self.valid = False
+        while not self.valid:
+            card_number = input("Enter credit card number: ")
+            self.valid = self._validation_service.is_card_number_valid(card_number)
+            if not self.valid:
+                print("Please enter a valid card number")
+                os.system('pause')
+        self.valid = False
+        while not self.valid:
+            expiry = input("Enter expiry date (MM/YY): ")
+            self.valid = self._validation_service.is_expiry_valid(expiry)
+            if not self.valid:
+                print("Please enter a valid expiry date")
+                os.system('pause')
+        self.valid = False
+        while not self.valid:
+            cvc = input("Enter cvc number: ")
+            self.valid = self._validation_service.is_cvc_valid(cvc)
+            if not self.valid:
+                print("Please enter a valid cvc number (3 digits on back of card) ")
+                os.system('pause')
+        self.valid = False
+        new_card = CreditCard(customer_id, card_number, expiry, cvc)
+        return new_card
 
 # Views
     def see_customer_list(self):

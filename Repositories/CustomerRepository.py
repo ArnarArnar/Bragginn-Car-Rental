@@ -16,6 +16,12 @@ class CustomerRepository:
                                 Customer._phone, Customer._street, Customer._zip, Customer._town, 
                                 Customer._country, Customer._drivers_license])
 
+
+    def add_credit_card(self, CreditCard):
+        with open('Data/CreditCards.csv', 'a+', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=';')
+            csv_writer.writerow([CreditCard._customer_id, CreditCard._card_number, CreditCard._expiry, CreditCard._cvc])
+
 #Get functions
     def get_customer_list(self):
         with open('Data/Customers.csv') as customer_file:

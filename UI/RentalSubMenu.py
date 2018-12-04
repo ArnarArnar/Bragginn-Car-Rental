@@ -5,6 +5,7 @@ from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Services.CustomerService import CustomerService
 from Models.Rental import Rental
+from Models.Insurance import Insurance
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
 from UI.CustomerSubMenu import CustomerSubMenu
@@ -29,6 +30,7 @@ class RentalSubMenu:
               "\t4. Cancel Order \n"
               "\t5. Change Order \n"
               "\t6. See All Orders \n"
+              "\t7. Add an Insurance Option to Database\n"
               "\tEnter q to quit \n")
         user_input = input('What would you like to do? ')
 
@@ -49,6 +51,9 @@ class RentalSubMenu:
             return
         if user_input == "6":
             return
+        if user_input == "7":
+            new_insurance = self.get_insurance_input()
+            self._rental_service.add_insurance(new_insurance)
 
 #Inputs
     def get_rental_input(self):
@@ -91,11 +96,38 @@ class RentalSubMenu:
                 # Print a list of cars here
                 os.system('pause')
         self.valid = False
-
         total_price = 0 #Here we need to go to the service layer and calculate total price
         order_id = self._rental_service.get_and_set_next_order_id()
         new_rental = Rental(order_id, customer_id, car_id, start_date, length, total_price)
         return new_rental
+
+    def get_insurance_input(self): # name, price
+        self.valid = True
+        while self.valid:
+            name = input("Enter name of insurance: ")
+            self.valid = self._validation_service.does_insurance_exist(name)
+            if self.valid:
+                print("Insurance already exists ")
+                os.system('pause')
+                self.see_insurance_list()
+        self.valid = True
+        while self.valid:
+            short_code = input("Enter short code for Insurance: ")
+            self.valid = self._validation_service.does_short_code_exist(short_code)
+            if self.valid:
+                print("Short Code already exists ")
+                os.system('pause')
+                self.see_insurance_list()
+        self.valid = False
+        while not self.valid:
+            price = input("Enter price per day for insurance: ")
+            self.valid = self._validation_service.is_number_negative(price)
+            if not self.valid:
+                print("Car does not exist")
+                # Print a list of cars here
+                os.system('pause')
+        new_insurance = Insurance(name, short_code, price)
+        return new_insurance
 
 #Views
     def see_rental_list(self):
@@ -120,3 +152,6 @@ class RentalSubMenu:
         for rental in rvList:
             print(rental)
         os.system('pause')
+
+    def see_insurance_list(self):
+        pass

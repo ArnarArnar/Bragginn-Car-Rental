@@ -3,6 +3,7 @@ import csv
 from datetime import datetime
 
 from Models.Rental import Rental
+from Models.Insurance import Insurance
 
 class RentalRepository:
 
@@ -15,12 +16,18 @@ class RentalRepository:
         rental_date = datetime.strftime(Rental._start_date, '%d %m %Y')
         with open('Data/Rentals.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([self.get_next_order_id(), Rental._customer_id, Rental._car_id, rental_date, Rental._length, Rental._total_price])
+            csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id, rental_date, Rental._length, Rental._total_price])
 
     def add_order_id(self, order_id):
         with open('Data/OrderIDs.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([order_id])
+    
+    def add_insurance(self, Insurance):
+        with open('Data/Insurance.csv', 'a+', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=';')
+            csv_writer.writerow([Insurance._name, Insurance._short_code, Insurance._price])
+
 
 #Get functions
     def get_rental_list(self):

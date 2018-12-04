@@ -9,7 +9,7 @@ class CreditCard:
         self._cvc = cvc
     
     def __repr__(self):
-        return "Car('{}', '{}', '{}', '{}')".format(self._customer_id, 
+        return "CreditCard('{}', '{}', '{}', '{}')".format(self._customer_id, 
                 self._card_number, self._expiry, self._cvc)
 
     def __str__(self):
