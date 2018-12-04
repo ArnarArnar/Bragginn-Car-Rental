@@ -75,7 +75,7 @@ class ValidationService:
         return False
 
     def does_short_code_exist(self, short_code):
-        return False
+        return True
 
 # Customer validation services
     def is_customer_id_valid(self, customer_id):

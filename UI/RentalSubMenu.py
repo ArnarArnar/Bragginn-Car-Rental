@@ -89,16 +89,24 @@ class RentalSubMenu:
         start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
         self.valid = False
         while not self.valid:
-            length = int(input("Enter how many days to rent: "))
-            self.valid = self._validation_service.is_number_negative(length)
+            days = int(input("Enter how many days to rent: "))
+            self.valid = self._validation_service.is_number_negative(days)
             if not self.valid:
                 print("Can not rent for negative days")
                 # Print a list of cars here
                 os.system('pause')
         self.valid = False
+        while not self.valid:
+            insurance = input("Enter insurance short code to add insurance to rental: ")
+            self.valid = self._validation_service.does_short_code_exist(insurance)
+            if not self.valid:
+                print("Short code does not exist, please enter a valid insurance short code")
+                # Print a list of insurances here
+                os.system('pause')
+        self.valid = False
         total_price = 0 #Here we need to go to the service layer and calculate total price
         order_id = self._rental_service.get_and_set_next_order_id()
-        new_rental = Rental(order_id, customer_id, car_id, start_date, length, total_price)
+        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price)
         return new_rental
 
     def get_insurance_input(self): # name, price
@@ -124,24 +132,12 @@ class RentalSubMenu:
             self.valid = self._validation_service.is_number_negative(price)
             if not self.valid:
                 print("Car does not exist")
-                # Print a list of cars here
+                self.see_insurance_list()
                 os.system('pause')
-        new_insurance = Insurance(name, short_code, price)
+        new_insurance = Insurance(short_code, name, price)
         return new_insurance
 
 #Views
-    def see_rental_list(self):
-        rental_list = self._rental_service.get_rental_list()
-        os.system('cls')
-        # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Rental List **************** \n"
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
-        for rental in rental_list:
-            print(rental)
-        os.system('pause')
-
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
@@ -154,4 +150,14 @@ class RentalSubMenu:
         os.system('pause')
 
     def see_insurance_list(self):
-        pass
+        insurance_list = self._rental_service.get_insurance_list()
+        os.system('cls')
+        # Here we need a proper header in a seperate function in DisplayHeader.py
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Insurance List **************** \n"
+                "\tshort code:     name of insurance:       price per day: \n")
+        for insurance in insurance_list:
+            print(insurance)
+        os.system('pause')
+        

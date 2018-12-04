@@ -10,7 +10,8 @@ from Models.Car import Car
 from Models.Customer import Customer
 from Services.ValidationService import ValidationService
 from ViewModels.RentalViewModel import RentalViewModel
-
+from UI.RentalSubMenu import RentalSubMenu
+"""
 car_repo = CarRepository()
 
 car_id_to_check = "JZ263"
@@ -28,4 +29,9 @@ number = 12
 
 TrueOrFalse = sverrir_validation.is_number_negative(number)
 
-print(TrueOrFalse)
+print(TrueOrFalse) """
+
+# Dagur test
+rental_sub = RentalSubMenu()
+
+rental_sub.see_insurance_list()

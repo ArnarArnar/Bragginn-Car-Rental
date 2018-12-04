@@ -9,6 +9,7 @@ class RentalRepository:
 
     def __init__(self):
         self.__Rentals = [] #Hverjar eru nafnavenjurnar? afhverju eru 2 undirstrik her
+        self.__Insurance = []
         self._primary_keys = []
 
 #Post functions
@@ -16,7 +17,7 @@ class RentalRepository:
         rental_date = datetime.strftime(Rental._start_date, '%d %m %Y')
         with open('Data/Rentals.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id, rental_date, Rental._length, Rental._total_price])
+            csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id, rental_date, Rental._days, Rental._insurance, Rental._total_price])
 
     def add_order_id(self, order_id):
         with open('Data/OrderIDs.csv', 'a+', newline='') as csv_file:
@@ -26,7 +27,7 @@ class RentalRepository:
     def add_insurance(self, Insurance):
         with open('Data/Insurance.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Insurance._name, Insurance._short_code, Insurance._price])
+            csv_writer.writerow([Insurance._short_code, Insurance._name, Insurance._price])
 
 
 #Get functions
@@ -36,9 +37,18 @@ class RentalRepository:
             rentals_list = list(rentals_reader)
             for row in rentals_list:
                 rental_date = datetime.date(datetime.strptime(row[3], '%d %m %Y'))
-                rental_order = Rental(row[0], row[1],  row[2], rental_date, row[4], row[5])
+                rental_order = Rental(row[0], row[1],  row[2], rental_date, row[4], row[5], row[6])
                 self.__Rentals.append(rental_order)
         return self.__Rentals
+    
+    def get_insurance_list(self):
+        with open('Data/Insurance.csv') as rentals_file:
+            csv_reader = csv.reader(rentals_file, delimiter=';')
+            insurance_list = list(csv_reader)
+            for row in insurance_list:
+                insurance_type = Insurance(row[0], row[1],  row[2])
+                self.__Insurance.append(insurance_type)
+        return self.__Insurance
 
     def get_next_order_id(self):
         with open('Data/OrderIDs.csv') as order_id_file:

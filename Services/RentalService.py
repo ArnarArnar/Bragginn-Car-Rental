@@ -21,10 +21,12 @@ class RentalService:
     def add_insurance(self, new_insurance):
         self._rental_repo.add_insurance(new_insurance)
 
-
 # Get functions
     def get_rental_list(self):
         return self._rental_repo.get_rental_list()
+
+    def get_insurance_list(self):
+        return self._rental_repo.get_insurance_list()
     
     def get_car_rental_history(self, car_id):
         car_rental_history = []
@@ -36,8 +38,9 @@ class RentalService:
             if rental._car_id == car_id:
                 order_id = rental._order_id
                 total_price = rental._total_price
-                length = rental._length
+                days = rental._days
                 s_date = rental._start_date
+                insurance = rental._insurance
 
                 for customer in customers:
                     if rental._customer_id == customer._customer_id:
@@ -45,7 +48,8 @@ class RentalService:
                         c_first_name = customer._first_name
                         c_last_name = customer._last_name
                 
-                        rental_view = RentalViewModel(order_id, c_id, c_first_name, c_last_name, car_id, "Volvo", s_date, length, total_price)
+                        rental_view = RentalViewModel(order_id, c_id, c_first_name, c_last_name, car_id, 
+                                                      "Volvo", s_date, days, insurance, total_price)
                         car_rental_history.append(rental_view)
         return car_rental_history
     
