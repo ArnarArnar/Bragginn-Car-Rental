@@ -3,9 +3,11 @@ from datetime import datetime
 
 from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
+from Services.CustomerService import CustomerService
 from Models.Rental import Rental
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
+from UI.CustomerSubMenu import CustomerSubMenu
 
 
 class RentalSubMenu:
@@ -15,6 +17,8 @@ class RentalSubMenu:
         self._display_header = DisplayHeader()
         self._rental_service = RentalService()
         self._validation_service = ValidationService()
+        self._customer_service = CustomerService()
+        self._customer_sub_menu = CustomerSubMenu()
 
     def rental_sub_menu(self):
         """Display's the rentals submenu"""
@@ -53,8 +57,14 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer does not exist, please register customer first")
-                # Print a list of customers here
                 os.system('pause')
+                self._customer_sub_menu.see_customer_list()
+                user_input = input("Want to add customer? y/n ")
+                if user_input == 'y' or user_input == 'Y':
+                    new_customer = self._customer_sub_menu.get_add_customer_input()
+                    self._customer_service.add_customer(new_customer)
+                    customer_id = new_customer._customer_id
+                    self.valid = True
         self.valid = False
         while not self.valid:
             car_id = input("Enter ID of car to rent: ")
@@ -83,7 +93,7 @@ class RentalSubMenu:
         self.valid = False
 
         total_price = 0 #Here we need to go to the service layer and calculate total price
-        order_id = self._rental_service.get_next_order_id()
+        order_id = self._rental_service.get_and_set_next_order_id()
         new_rental = Rental(order_id, customer_id, car_id, start_date, length, total_price)
         return new_rental
 
