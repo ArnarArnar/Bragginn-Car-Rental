@@ -74,17 +74,23 @@ class RentalSubMenu:
         start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
         self.valid = False
         while not self.valid:
-            length = input("Enter how many days to rent: ")
-            self.valid = self._validation_service.is_number_negative(length)
+            days = input("Enter how many days to rent: ")
+            self.valid = self._validation_service.is_number_negative(days)
             if not self.valid:
                 print("Can not rent for negative days")
                 # Print a list of cars here
                 os.system('pause')
         self.valid = False
-
+        while not self.valid:
+            insurance = input("Enter insurance short code: ")
+            self.valid = self._validation_service.does_short_code_exist(insurance)
+            if not self.valid:
+                print("Can not rent for negative days")
+                # Print a list of cars here
+                os.system('pause')
         total_price = 0 #Here we need to go to the service layer and calculate total price
-        order_id = self._rental_service.get_next_order_id()
-        new_rental = Rental(order_id, customer_id, car_id, start_date, length, total_price)
+        order_id = self._rental_service.get_and_set_next_order_id()
+        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price)
         return new_rental
 
 #Views

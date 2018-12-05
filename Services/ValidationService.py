@@ -38,10 +38,9 @@ class ValidationService:
 # Car input validation
     def is_car_id_valid(self, car_id):
         # This is just an example, maybe we just want to limit length?
-        if re.match(r"[A-Z]{2}[0-9]{3}", car_id):
-            return True
-        else:
-            return False
+        # if re.match(r"[A-Z]{2}[0-9]{3}", car_id):
+        # Needs to be valid car ID
+        return True
 
     def is_year_valid(self, year):
         # Must be in format YYYY ex. 2018

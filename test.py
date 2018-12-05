@@ -12,6 +12,8 @@ from Models.Customer import Customer
 from Services.ValidationService import ValidationService
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.RentalSubMenu import RentalSubMenu
+from UI.DisplayHeader import DisplayHeader
+
 """
 car_repo = CarRepository()
 
@@ -48,10 +50,23 @@ def add_customer_list(customer_list):
                                     customer._phone, customer._street, customer._zip, customer._town, 
                                     customer._country, customer._drivers_license])
 
-add_customer_list(customer_list) """
+add_customer_list(customer_list) 
 customer_service = CustomerService()
 
 customer_to_del = "2006814019"
 
 customer_service.delete_customer(customer_to_del)
+
+display = DisplayHeader()
+
+display.display_header_fleet()
+display.display_header_fleet() """
+
+validation = ValidationService()
+
+number = "Gunnar"
+
+is_negative = validation.is_number_negative(number)
+
+print(is_negative)
 
