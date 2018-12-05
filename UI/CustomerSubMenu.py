@@ -1,6 +1,7 @@
 import os
 
 from Services.CustomerService import CustomerService
+from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Models.Customer import Customer
 from Models.CreditCard import CreditCard
@@ -13,6 +14,7 @@ class CustomerSubMenu:
         self.valid = False
         self._display_header = DisplayHeader()
         self._customer_service = CustomerService()
+        self._rental_service = RentalService()
         self._validation_service = ValidationService()
 
     def customer_sub_menu(self):
@@ -50,7 +52,10 @@ class CustomerSubMenu:
         if user_input == "4":
             return
         if user_input == "5":
-            return
+            customer_id = self.get_customer_id_input()
+            customer = self._customer_service.get_customer(customer_id)
+            customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
+            self.see_customer_history(customer, customer_rentals)
         if user_input == "6":
             self.see_customer_list()
         if user_input == "7":
@@ -161,5 +166,23 @@ class CustomerSubMenu:
         print("Credit Cards:")
         for creditcard in Customer._card_number:
             print(creditcard)
+        os.system('pause')
+
+    def see_customer_history(self, customer, customer_rentals): #Rental viewlist comes in
+        os.system('cls')
+        # Here we need a proper header in a seperate function in DisplayHeader.py
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Rental List **************** \n"
+                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        
+        print("Customer info: ")
+        print(customer)
+        print("Credit Cards:")
+        for creditcard in customer._card_number:
+            print(creditcard)
+        print("Rental history: ")
+        for rental in customer_rentals:
+            print(rental)
         os.system('pause')
         
