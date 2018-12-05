@@ -19,11 +19,26 @@ class CustomerRepository:
                                 Customer._phone, Customer._street, Customer._zip, Customer._town, 
                                 Customer._country, Customer._drivers_license])
 
+    def overwrite_customer_list(self, customer_list):
+        with open('Data/Customers.csv', 'w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file, delimiter=';')
+                for customer in customer_list:
+                    csv_writer.writerow([customer._customer_id, customer._first_name, customer._last_name,
+                                        customer._phone, customer._street, customer._zip, customer._town, 
+                                        customer._country, customer._drivers_license])
 
     def add_credit_card(self, CreditCard):
         with open('Data/CreditCards.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([CreditCard._customer_id, CreditCard._card_number, CreditCard._expiry, CreditCard._cvc])
+            csv_writer.writerow([CreditCard._customer_id, CreditCard._card_number,
+                                CreditCard._expiry, CreditCard._cvc])
+    
+    def overwrite_credit_card_list(self, credit_card_list):
+        with open('Data/CreditCards.csv', 'w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file, delimiter=';')
+                for credit_card in credit_card_list:
+                    csv_writer.writerow([credit_card._customer_id, credit_card._card_number,
+                                        credit_card._expiry, credit_card._cvc])
 
 #Get functions
     def get_customer_list(self):

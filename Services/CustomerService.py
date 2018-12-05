@@ -4,8 +4,6 @@ from Models.Customer import Customer
 from Models.CreditCard import CreditCard
 from ViewModels.CustomerViewModel import CustomerViewModel
 
-# Testing, take out
-import os
 
 class CustomerService:
 
@@ -19,6 +17,18 @@ class CustomerService:
 
     def add_credit_card(self, CreditCard):
         self._customer_repo.add_credit_card(CreditCard)
+
+    def delete_customer(self, customer_to_del):
+        customer_list = self._customer_repo.get_customer_list()
+        for customer in customer_list:
+            if customer._customer_id == customer_to_del: #Maybe need to find a more efficient way
+                customer_list.remove(customer)
+        self._customer_repo.overwrite_customer_list(customer_list)
+        credit_card_list = self._customer_repo.get_credit_card_list()
+        for credit_card in credit_card_list:
+            if credit_card._customer_id == customer_to_del: #Maybe need to find a more efficient way
+                credit_card_list.remove(credit_card)
+        self._customer_repo.overwrite_credit_card_list(credit_card_list)
 
 # Get functions
     def get_customer_list(self):
@@ -36,6 +46,6 @@ class CustomerService:
                 for credit_card in credit_cards:
                     if credit_card._customer_id == customer_id:
                         credit_card_list.append(credit_card._card_number)
-            customer_to_view = CustomerViewModel(customer_id, customer_first_name,
+                customer_to_view = CustomerViewModel(customer_id, customer_first_name,
                                                 customer_last_name, country, credit_card_list)
         return customer_to_view

@@ -20,7 +20,7 @@ class CustomerSubMenu:
         self._display_header.display_header()
         print("\t1. Register New Customer \n"
               "\t2. Search Customers \n"
-              "\t3. Deactivate Customer \n"
+              "\t3. Delete Customer \n"
               "\t4. Change Customer Info \n"
               "\t5. See Customer History \n"
               "\t6. See All Customers \n"
@@ -36,7 +36,17 @@ class CustomerSubMenu:
             customer = self._customer_service.get_customer(customer_id)
             self.see_customer(customer)
         if user_input == "3":
-            return
+            customer_id = self.get_customer_id_input()
+            print("Are you sure you want to delete customer number: " + customer_id)
+            user_answer = input("Select y to delete customer from database: ")
+            if user_answer == 'y' or user_answer == 'Y':
+                self._customer_service.delete_customer(customer_id)
+                print("Customer deleted from database")
+                os.system('pause')
+            else:
+                print("Customer deletion cancelled ")
+                os.system('pause')
+                return
         if user_input == "4":
             return
         if user_input == "5":
