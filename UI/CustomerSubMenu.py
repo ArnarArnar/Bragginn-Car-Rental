@@ -18,6 +18,7 @@ class CustomerSubMenu:
     def customer_sub_menu(self):
         """Display's the customer submenu"""
         self._display_header.display_header()
+        self._display_header.display_header_customer()
         print("\t1. Register New Customer \n"
               "\t2. Search Customers \n"
               "\t3. Deactivate Customer \n"
