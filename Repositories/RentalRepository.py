@@ -32,6 +32,7 @@ class RentalRepository:
 
 #Get functions
     def get_rental_list(self):
+        self.__Rentals.clear()
         with open('Data/Rentals.csv') as rentals_file:
             rentals_reader = csv.reader(rentals_file, delimiter=';')
             rentals_list = list(rentals_reader)
@@ -42,6 +43,7 @@ class RentalRepository:
         return self.__Rentals
     
     def get_insurance_list(self):
+        self.__Insurance.clear()
         with open('Data/Insurance.csv') as rentals_file:
             csv_reader = csv.reader(rentals_file, delimiter=';')
             insurance_list = list(csv_reader)
@@ -58,6 +60,7 @@ class RentalRepository:
         return next_id
 
     def get_primary_key(self):
+        self._primary_keys.clear()
         with open('Data/Rentals.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)

@@ -16,6 +16,7 @@ class CarRepository:
 
 #Get functions
     def get_fleet_list(self):
+        self.__Cars.clear()
         with open('Data/Cars.csv') as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
             cars_list = list(csv_reader)
@@ -25,6 +26,7 @@ class CarRepository:
         return self.__Cars
 
     def get_primary_key(self):
+        self._primary_keys.clear()
         with open('Data/Cars.csv') as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
             cars_list = list(csv_reader)

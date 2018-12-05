@@ -27,6 +27,7 @@ class CustomerRepository:
 
 #Get functions
     def get_customer_list(self):
+        self.__Customers.clear()
         with open('Data/Customers.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
@@ -36,6 +37,7 @@ class CustomerRepository:
         return self.__Customers
 
     def get_credit_card_list(self):
+        self.__CreditCards.clear()
         with open('Data/CreditCards.csv') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             credit_card_list = list(csv_reader)
@@ -45,6 +47,7 @@ class CustomerRepository:
         return self.__CreditCards
 
     def get_primary_key(self):
+        self._primary_keys.clear()
         with open('Data/Customers.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
