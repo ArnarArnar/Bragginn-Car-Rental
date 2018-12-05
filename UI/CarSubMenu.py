@@ -84,7 +84,7 @@ class CarSubMenu:
         print("\t*************** Bragginn Car Rental ************ \n"
                 "\t************************************************** \n"
                 "\t**************** Total Fleet List **************** \n"
-                "\tID:     Brand:       Year:      Price:      Type:       \n")
+                "ID                Brand           Year      Price        Type       \n")
         for car in fleet_list:
             print(car)
         os.system('pause')

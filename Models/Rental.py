@@ -16,7 +16,7 @@ class Rental:
                 self._car_id, self._start_date, self._days, self._insurance, self._total_price)
 
     def __str__(self):
-        return '{} : {} : {} : {} : {} : {} : {}'.format(self._order_id, self._customer_id, 
+        return '{:^7s} : {} : {} : {} : {} : {} : {}'.format(self._order_id, self._customer_id, 
                 self._car_id, self._start_date, self._days, self._insurance, self._total_price)
                 
 

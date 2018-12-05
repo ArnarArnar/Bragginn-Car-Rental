@@ -20,6 +20,7 @@ class CustomerSubMenu:
     def customer_sub_menu(self):
         """Display's the customer submenu"""
         self._display_header.display_header()
+        self._display_header.display_header_customer()
         print("\t1. Register New Customer \n"
               "\t2. Search Customers \n"
               "\t3. Delete Customer \n"
@@ -149,9 +150,9 @@ class CustomerSubMenu:
         customer_list = self._customer_service.get_customer_list()
         os.system('cls')
         print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Customer List **************** \n"
-                "\tID:     Name:       phone:      street:      zip:       town:      country:      license: \n")
+                "\t**************************************************\n"
+                "\t**************** Customer3 List ****************\n"
+                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         for customer in customer_list:
             print(customer)
         os.system('pause')
@@ -161,7 +162,7 @@ class CustomerSubMenu:
         print("\t*************** Bragginn Car Rental ************ \n"
                 "\t************************************************** \n"
                 "\t**************** Customer List **************** \n"
-                "\tID:     Name:       phone:      street:      zip:       town:      country:      license: \n")
+                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         print(Customer)
         print("Credit Cards:")
         for creditcard in Customer._card_number:
