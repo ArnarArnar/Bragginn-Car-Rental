@@ -18,7 +18,6 @@ class RentalSubMenu:
 
     def rental_sub_menu(self):
         """Display's the rentals submenu"""
-        self._display_header.display_header()
         self._display_header.display_header_rentals()
         print("\t1. Rent a Car \n"
               "\t2. Rental History \n"

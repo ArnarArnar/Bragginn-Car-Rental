@@ -16,7 +16,6 @@ class CarSubMenu:
 
     def car_sub_menu(self):
         """Display's the car submenu"""
-        self._display_header.display_header()
         self._display_header.display_header_fleet()
         print("\t1. See fleet list \n"
               "\t2. See all in rental \n"
