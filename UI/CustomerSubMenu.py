@@ -67,11 +67,16 @@ class CustomerSubMenu:
 
 # Inputs
     def get_add_customer_input(self):
+        self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
             self.valid = self._validation_service.is_customer_id_valid(customer_id)
             if not self.valid:
                 print("Customer Id is not valid")
+                os.system('pause')
+            self.valid = not self._validation_service.does_customer_id_exist(customer_id)
+            if not self.valid:
+                print("Customer Id already exists")
                 os.system('pause')
         self.valid = False
         first_name = input("Enter customer first name: ") # Do we need to validate?
@@ -104,6 +109,7 @@ class CustomerSubMenu:
         return new_customer
 
     def get_add_creditcard_input(self): # customer_id, card_number, expiry, cvc
+        self.valid = False
         while not self.valid:
             customer_id = input("Enter customer ID for owner of credit card: ")
             self.valid = self._validation_service.does_customer_id_exist(customer_id)

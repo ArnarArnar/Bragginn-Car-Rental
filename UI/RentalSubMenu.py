@@ -48,6 +48,7 @@ class RentalSubMenu:
 
 #Inputs
     def get_rental_input(self):
+        self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
