@@ -35,7 +35,7 @@ class CustomerSubMenu:
             self._customer_service.add_customer(new_customer)
         if user_input == "2":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer(customer_id) #This is a view model, needs to be a proper class
+            customer = self._customer_service.get_customer_viewmodel(customer_id)
             self.see_customer(customer)
         if user_input == "3":
             customer_id = self.get_customer_id_input()
@@ -56,7 +56,7 @@ class CustomerSubMenu:
             self.update_customer(change, customer)
         if user_input == "5":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer(customer_id)
+            customer = self._customer_service.get_customer_viewmodel(customer_id)
             customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
             self.see_customer_history(customer, customer_rentals)
         if user_input == "6":
@@ -95,7 +95,7 @@ class CustomerSubMenu:
         country = input("Enter customer country: ")
         while not self.valid:
             drivers_license = input("Enter customer driver's license number: ")
-            self.valid = self._validation_service.is_zip_valid(zip)
+            self.valid = self._validation_service.is_drivers_license_valid(drivers_license)
             if not self.valid:
                 print("Please enter a valid driver's license number")
                 os.system('pause')
@@ -157,38 +157,61 @@ class CustomerSubMenu:
         print("\t1. Change ID               6. Change zip\n"
                 "\t2. Change first name     7. Change town\n"
                 "\t3. Change last name      8. Change country \n"
-                "\t4. Change phone          9. Change drivers license number"
+                "\t4. Change phone          9. Change drivers license number \n"
                 "\t5. Change street")
         user_input = input("What would you like to change? ")
         # Here we need to validate that the input is correct try and catch
         return user_input
 
     def update_customer(self, change, customer):
-        new_value = input("Enter new value: ")
+        self.valid = False
         if change == '1': #ID
-            id_valid = self._validation_service.is_customer_id_valid(new_value)
-            id_already_exist = self._validation_service.does_customer_id_exist(new_value)
+            new_customer_id = input("Enter new ID for customer: ")
+            id_valid = self._validation_service.is_customer_id_valid(new_customer_id)
+            id_already_exist = self._validation_service.does_customer_id_exist(new_customer_id)
             if id_valid and not id_already_exist:
-                self._customer_service.update_customer_id(customer, new_value)
+                self._customer_service.update_customer_id(customer, new_customer_id)
             else:
                 print("Can not update to this value")
         elif change == '2': #First
-            print(" 2 was selected ")
-            self._customer_service.update_customer_first_name(customer, new_value)
+            new_first_name = input("Enter customer new first name: ")
+            self._customer_service.update_customer_first_name(customer, new_first_name)
         elif change == '3': #Last
-            self._customer_service.update_customer_last_name(customer, new_value)
+            new_last_name = input("Enter customer new last name: ")
+            self._customer_service.update_customer_last_name(customer, new_last_name)
         elif change == '4': #phone
-            self._customer_service.update_customer_phone(customer, new_value)
+            while not self.valid:
+                new_phone = input("Enter new customer phone: ")
+                self.valid = self._validation_service.is_phone_valid(new_phone)
+                if not self.valid:
+                    print("Please enter a valid phone number")
+                    os.system('pause')
+            self._customer_service.update_customer_phone(customer, new_phone)
         elif change == '5': #street
-            self._customer_service.update_customer_street(customer, new_value)
+            new_street = input("Enter customer new street: ")
+            self._customer_service.update_customer_street(customer, new_street)
         elif change == '6': #zip
-            self._customer_service.update_customer_zip(customer, new_value)
+            while not self.valid:
+                new_zip = input("Enter customer new zip: ")
+                self.valid = self._validation_service.is_zip_valid(new_zip)
+                if not self.valid:
+                    print("Please enter a valid Zip")
+                    os.system('pause')
+            self._customer_service.update_customer_zip(customer, new_zip)
         elif change == '7': #town
-            self._customer_service.update_customer_town(customer, new_value)
+            new_town = input("Enter customer new town: ")
+            self._customer_service.update_customer_town(customer, new_town)
         elif change == '8': #country
-            self._customer_service.update_customer_country(customer, new_value)
+            new_country = input("Enter customer new country: ")
+            self._customer_service.update_customer_country(customer, new_country)
         elif change == '9': #license
-            self._customer_service.update_customer_license(customer, new_value)
+            while not self.valid:
+                new_drivers_license = input("Enter customer new driver's license number: ")
+                self.valid = self._validation_service.is_drivers_license_valid(new_drivers_license)
+                if not self.valid:
+                    print("Please enter a valid driver's license number")
+                    os.system('pause')
+            self._customer_service.update_customer_license(customer, new_drivers_license)
 
 # Views
     def see_customer_list(self):

@@ -88,6 +88,10 @@ class ValidationService:
     def is_zip_valid(self, zip):
         # What should the validation be for this?
         return True
+
+    def is_drivers_license_valid(self, drivers_license):
+        # What should this be
+        return True
     
     def is_card_number_valid(self, card_number):
         # Validate creditcard number
