@@ -1,5 +1,16 @@
 # Bragginn-Car-Rental
 
+
+### GitHub
+8
+To get access to the project on your own computer you can use Terminal for Mac and Linux or Command Promt/Git Bash for windows. Go to the directory where you want to store the project and type in the following command:
+9
+```sh
+10
+    $ git clone git@github.com:ArnarArnar/Bragginn-Car-Rental.git
+11
+```
+
 ##### List of common git commands:
 Creates and moves you to a new branch.
 ```sh
