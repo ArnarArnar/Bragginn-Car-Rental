@@ -20,3 +20,37 @@ class CustomerViewModel:
     def __str__(self):
         return '{} : {} : {} : {}'.format(self._customer_id, 
                 self._first_name, self._last_name, self._country)
+
+#GetFuntions
+
+    def get_customer_id(self):
+        return self._customer_id
+    
+    def get_first_name(self):
+        return self._first_name
+    
+    def get_last_name(self):
+        return self._last_name
+    
+    def get_country(self):
+        return self._country
+
+    def get_card_name(self):
+        return self._card_number
+
+#SetFunction
+
+    def set_customer_id(self, customer_id):
+        self._customer_id = customer_id
+    
+    def set_first_name(self, first_name):
+        self._first_name = first_name
+
+    def set_last_name(self, last_name):
+        self._last_name = last_name
+    
+    def set_country(self, country):
+        self._country = country
+
+    def set_card_name(self, card_name):
+        self._card_name = card_name
