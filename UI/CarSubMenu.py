@@ -80,10 +80,13 @@ class CarSubMenu:
     def see_fleet_list(self):
         fleet_list = self._car_service.get_fleet_list()
         os.system('cls') ##display header function instead
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Total Fleet List **************** \n"
-                "ID                Brand           Year      Price        Type       \n")
+        print(
+              "\t ___ _         _     _    _    _   \n"
+              "\t| __| |___ ___| |_  | |  (_)__| |_\n"
+              "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
+              "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
+              "\n"
+            "ID                Brand           Year      Price        Type       \n")
         for car in fleet_list:
             print(car)
         os.system('pause')
