@@ -10,6 +10,7 @@ from UI.CustomerSubMenu import CustomerSubMenu
 from UI.CarSubMenu import CarSubMenu
 
 
+
 class RentalSubMenu:
 
     def __init__(self):
@@ -19,6 +20,7 @@ class RentalSubMenu:
         self._validation_service = ValidationService()
         self._customer_sub_menu = CustomerSubMenu()
         self._car_sub_menu = CarSubMenu()
+        
 
     def rental_sub_menu(self):
         """Display's the rentals submenu"""
@@ -98,6 +100,12 @@ class RentalSubMenu:
         total_price = 0 #Here we need to go to the service layer and calculate total price
         order_id = self._rental_service.get_and_set_next_order_id()
         new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price)
+        
+        print("t\ Order successful \n"
+            "t\ Customer " + customer_id + "\n"
+            "t\ Car number"  + car_id + "\n"
+        )
+        os.system('pause')
         return new_rental
 
 #Views
