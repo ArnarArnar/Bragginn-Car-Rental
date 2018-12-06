@@ -79,6 +79,16 @@ class ValidationService:
 # Customer validation services
     def is_customer_id_valid(self, customer_id):
         # We need to decide what we want customer Id to be, kennitala? passport?
+        # This only test if it is a negative number or not a number
+        try:
+            val = int(customer_id)
+        except ValueError:
+            print("That's not an int!")
+            return False
+        else:
+            if val < 0:
+                print("Negative number warning!")
+                return False
         return True
 
     def is_phone_valid(self, phone):
