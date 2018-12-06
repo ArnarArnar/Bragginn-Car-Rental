@@ -62,11 +62,5 @@ display = DisplayHeader()
 display.display_header_fleet()
 display.display_header_fleet() """
 
-validation = ValidationService()
 
-number = "Gunnar"
-
-is_negative = validation.is_number_negative(number)
-
-print(is_negative)
 
