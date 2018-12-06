@@ -12,7 +12,7 @@ class DisplayHeader:
                 "\t| |__)  ) |  ( ( | ( ( | ( ( | | | | | | | | |  | \____( ( | | |            | ( (/ /| | | | |_( ( | | |\n"
                 "\t|______/|_|   \_||_|\_|| |\_|| |_|_| |_|_| |_|   \______)_||_|_|            |_|\____)_| |_|\___)_||_|_|\n"
                 "\t                   (_____(_____|                                                                       \n"
-                "\t************************blow your horn on a car from Bragginn car rental!****************************** \n"
+                "\t************************blow your horn on a car from Bragginn car rental!******************************\n"
                 )
 #Create submenu headers
     def display_header_rentals(self):
