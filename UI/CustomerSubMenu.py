@@ -134,9 +134,10 @@ class CustomerSubMenu:
     def see_customer_list(self):
         customer_list = self._customer_service.get_customer_list()
         os.system('cls')
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t**************************************************\n"
-                "\t**************** Customer3 List ****************\n"
+        print("\t  ___        _                        \n"
+              "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
+              "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
+              "\t \___\_,_/__/\__\___/_|_|_\___|_| /__/\n\n"
                 "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         for customer in customer_list:
             print(customer)
@@ -144,9 +145,11 @@ class CustomerSubMenu:
 
     def see_customer(self, Customer):
         os.system('cls')
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Customer List **************** \n"
+        print("\t  ___        _                        \n"
+              "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
+              "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
+              "\t \___\_,_/__/\__\___/_|_|_\___|_| /__/\n\n"
+                                      
                 "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         print(Customer)
         print("Credit Cards:")

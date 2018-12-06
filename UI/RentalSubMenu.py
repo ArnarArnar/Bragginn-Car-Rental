@@ -93,9 +93,10 @@ class RentalSubMenu:
         rental_list = self._rental_service.get_rental_list()
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Rental List **************** \n"
+        print("\t ___         _        _   _    _    _   \n"
+              "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
+              "\t|   / -_) ' \  _/ _` | | | |__| (_-<  _|\n"
+              "\t|_|_\___|_||_\__\__,_|_| |____|_/__/\__|\n\n"
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rental_list:
             print(rental)
@@ -104,9 +105,10 @@ class RentalSubMenu:
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Rental List **************** \n"
+        print("\t ___         _        _   _    _    _   \n"
+              "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
+              "\t|   / -_) ' \  _/ _` | | | |__| (_-<  _|\n"
+              "\t|_|_\___|_||_\__\__,_|_| |____|_/__/\__|\n\n"              
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rvList:
             print(rental)
