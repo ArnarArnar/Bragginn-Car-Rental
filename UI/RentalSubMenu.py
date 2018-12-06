@@ -33,7 +33,10 @@ class RentalSubMenu:
             self._rental_service.add_rental(new_rental)
         if user_input == "2":
             #Hafa kannski ser get user input fall sem er ur user input interface klasa
-            car_id = input("Enter ID of car to see rental history: ")
+            car_id = input("Enter ID of car to see rental history or press q to quit: ")
+            if car_id == "q" and car_id == "Q" :
+                return main_menu()
+        
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
             #Senda rentalView svo i view sem prentar ut listann
