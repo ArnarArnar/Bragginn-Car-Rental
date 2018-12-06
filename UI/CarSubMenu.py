@@ -16,7 +16,6 @@ class CarSubMenu:
 
     def car_sub_menu(self):
         """Display's the car submenu"""
-        self._display_header.display_header()
         self._display_header.display_header_fleet()
         print("\t1. See fleet list \n"
               "\t2. See all in rental \n"
@@ -40,18 +39,18 @@ class CarSubMenu:
 
 #Inputs
     def get_add_car_input(self):
+        self.valid = False
         while not self.valid:
             car_id = input("Enter car ID (AADDD): ")
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
-                print("Car Id needs to be in the format (AADDD)")
+                print("Car Id can not be longer then X ")
                 os.system('pause')
                 continue
-            self.valid = self._validation_service.does_car_id_exist(car_id)
-            if self.valid:
+            self.valid = not self._validation_service.does_car_id_exist(car_id)
+            if not self.valid:
                 print("Car Id already exists")
                 os.system('pause')
-                self.valid = False
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:

@@ -1,6 +1,7 @@
 import os
 
 from Services.CustomerService import CustomerService
+from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Models.Customer import Customer
 from Models.CreditCard import CreditCard
@@ -13,15 +14,15 @@ class CustomerSubMenu:
         self.valid = False
         self._display_header = DisplayHeader()
         self._customer_service = CustomerService()
+        self._rental_service = RentalService()
         self._validation_service = ValidationService()
 
     def customer_sub_menu(self):
         """Display's the customer submenu"""
-        self._display_header.display_header()
         self._display_header.display_header_customer()
         print("\t1. Register New Customer \n"
               "\t2. Search Customers \n"
-              "\t3. Deactivate Customer \n"
+              "\t3. Delete Customer \n"
               "\t4. Change Customer Info \n"
               "\t5. See Customer History \n"
               "\t6. See All Customers \n"
@@ -34,14 +35,30 @@ class CustomerSubMenu:
             self._customer_service.add_customer(new_customer)
         if user_input == "2":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer(customer_id)
+            customer = self._customer_service.get_customer_viewmodel(customer_id)
             self.see_customer(customer)
         if user_input == "3":
-            return
+            customer_id = self.get_customer_id_input()
+            print("Are you sure you want to delete customer number: " + customer_id)
+            user_answer = input("Select y to delete customer from database: ")
+            if user_answer == 'y' or user_answer == 'Y':
+                self._customer_service.delete_customer(customer_id)
+                print("Customer deleted from database")
+                os.system('pause')
+            else:
+                print("Customer deletion cancelled ")
+                os.system('pause')
+                return
         if user_input == "4":
-            return
+            customer_id = self.get_customer_id_input()
+            customer = self._customer_service.get_customer(customer_id)
+            change = self.get_change_customer_input(customer)
+            self.update_customer(change, customer)
         if user_input == "5":
-            return
+            customer_id = self.get_customer_id_input()
+            customer = self._customer_service.get_customer_viewmodel(customer_id)
+            customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
+            self.see_customer_history(customer, customer_rentals)
         if user_input == "6":
             self.see_customer_list()
         if user_input == "7":
@@ -78,7 +95,7 @@ class CustomerSubMenu:
         country = input("Enter customer country: ")
         while not self.valid:
             drivers_license = input("Enter customer driver's license number: ")
-            self.valid = self._validation_service.is_zip_valid(zip)
+            self.valid = self._validation_service.is_drivers_license_valid(drivers_license)
             if not self.valid:
                 print("Please enter a valid driver's license number")
                 os.system('pause')
@@ -130,6 +147,72 @@ class CustomerSubMenu:
                 self.see_customer_list()
         return customer_id
 
+    def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
+        os.system('cls')
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Customer List **************** \n"
+                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+        print(customer)
+        print("\t1. Change ID               6. Change zip\n"
+                "\t2. Change first name     7. Change town\n"
+                "\t3. Change last name      8. Change country \n"
+                "\t4. Change phone          9. Change drivers license number \n"
+                "\t5. Change street")
+        user_input = input("What would you like to change? ")
+        # Here we need to validate that the input is correct try and catch
+        return user_input
+
+    def update_customer(self, change, customer):
+        self.valid = False
+        if change == '1': #ID
+            new_customer_id = input("Enter new ID for customer: ")
+            id_valid = self._validation_service.is_customer_id_valid(new_customer_id)
+            id_already_exist = self._validation_service.does_customer_id_exist(new_customer_id)
+            if id_valid and not id_already_exist:
+                self._customer_service.update_customer_id(customer, new_customer_id)
+            else:
+                print("Can not update to this value")
+        elif change == '2': #First
+            new_first_name = input("Enter customer new first name: ")
+            self._customer_service.update_customer_first_name(customer, new_first_name)
+        elif change == '3': #Last
+            new_last_name = input("Enter customer new last name: ")
+            self._customer_service.update_customer_last_name(customer, new_last_name)
+        elif change == '4': #phone
+            while not self.valid:
+                new_phone = input("Enter new customer phone: ")
+                self.valid = self._validation_service.is_phone_valid(new_phone)
+                if not self.valid:
+                    print("Please enter a valid phone number")
+                    os.system('pause')
+            self._customer_service.update_customer_phone(customer, new_phone)
+        elif change == '5': #street
+            new_street = input("Enter customer new street: ")
+            self._customer_service.update_customer_street(customer, new_street)
+        elif change == '6': #zip
+            while not self.valid:
+                new_zip = input("Enter customer new zip: ")
+                self.valid = self._validation_service.is_zip_valid(new_zip)
+                if not self.valid:
+                    print("Please enter a valid Zip")
+                    os.system('pause')
+            self._customer_service.update_customer_zip(customer, new_zip)
+        elif change == '7': #town
+            new_town = input("Enter customer new town: ")
+            self._customer_service.update_customer_town(customer, new_town)
+        elif change == '8': #country
+            new_country = input("Enter customer new country: ")
+            self._customer_service.update_customer_country(customer, new_country)
+        elif change == '9': #license
+            while not self.valid:
+                new_drivers_license = input("Enter customer new driver's license number: ")
+                self.valid = self._validation_service.is_drivers_license_valid(new_drivers_license)
+                if not self.valid:
+                    print("Please enter a valid driver's license number")
+                    os.system('pause')
+            self._customer_service.update_customer_license(customer, new_drivers_license)
+
 # Views
     def see_customer_list(self):
         customer_list = self._customer_service.get_customer_list()
@@ -155,5 +238,23 @@ class CustomerSubMenu:
         print("Credit Cards:")
         for creditcard in Customer._card_number:
             print(creditcard)
+        os.system('pause')
+
+    def see_customer_history(self, customer, customer_rentals): #Rental viewlist comes in
+        os.system('cls')
+        # Here we need a proper header in a seperate function in DisplayHeader.py
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Rental List **************** \n"
+                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        
+        print("Customer info: ")
+        print(customer)
+        print("Credit Cards:")
+        for creditcard in customer._card_number:
+            print(creditcard)
+        print("Rental history: ")
+        for rental in customer_rentals:
+            print(rental)
         os.system('pause')
         

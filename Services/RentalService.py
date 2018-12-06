@@ -53,6 +53,36 @@ class RentalService:
                         car_rental_history.append(rental_view)
         return car_rental_history
     
+    def get_customer_rental_history(self, customer_id):
+        customer_rental_history = []
+        # tarf ad na i einn bil her ur grunninunum seme r med tetta carID
+        customers = self._customer_repo.get_customer_list()
+        rentals = self._rental_repo.get_rental_list()
+        cars = self._car_repo.get_fleet_list()
+
+        for rental in rentals:
+            if rental._customer_id == customer_id:
+                order_id = rental._order_id
+                total_price = rental._total_price
+                days = rental._days
+                s_date = rental._start_date
+                insurance = rental._insurance
+                car_id = rental._car_id
+
+                for car in cars:
+                    if car._car_id == car_id:
+                        car_brand = car._brand
+
+                for customer in customers:
+                    if customer._customer_id == customer_id:
+                        c_first_name = customer._first_name
+                        c_last_name = customer._last_name
+                
+                        rental_view = RentalViewModel(order_id, customer_id, c_first_name, c_last_name, car_id, 
+                                                      car_brand, s_date, days, insurance, total_price)
+                        customer_rental_history.append(rental_view)
+        return customer_rental_history
+    
     def get_and_set_next_order_id(self):
         next_id = self._rental_repo.get_next_order_id()
         self._rental_repo.add_order_id(next_id)

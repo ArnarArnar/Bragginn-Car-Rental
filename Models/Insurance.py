@@ -14,3 +14,27 @@ class Insurance:
         return '{}  :   {}  :   {}'.format(self._short_code, self._name, self._price)
 
 #Need to add get and set functions for all the elements
+
+#GetFunctions
+
+    def get_name(self):
+        return self._name
+
+    def get_short_code(self):
+        return self._short_code
+    
+    def get_price(self):
+        return self._price
+
+#SetFunctions
+
+    def set_name(self, name):
+        self._name = name
+    
+    def set_short_code(self, short_code):
+        self._short_code = short_code
+    
+    def set_price(self, price):
+        self._price = price
+
+    
