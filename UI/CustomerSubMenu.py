@@ -35,7 +35,7 @@ class CustomerSubMenu:
             self._customer_service.add_customer(new_customer)
         if user_input == "2":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer(customer_id)
+            customer = self._customer_service.get_customer(customer_id) #This is a view model, needs to be a proper class
             self.see_customer(customer)
         if user_input == "3":
             customer_id = self.get_customer_id_input()
@@ -50,7 +50,10 @@ class CustomerSubMenu:
                 os.system('pause')
                 return
         if user_input == "4":
-            return
+            customer_id = self.get_customer_id_input()
+            customer = self._customer_service.get_customer(customer_id)
+            change = self.get_change_customer_input(customer)
+            self.update_customer(change, customer)
         if user_input == "5":
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer(customer_id)
@@ -143,6 +146,49 @@ class CustomerSubMenu:
                 os.system('pause')
                 self.see_customer_list()
         return customer_id
+
+    def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
+        os.system('cls')
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Customer List **************** \n"
+                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+        print(customer)
+        print("\t1. Change ID               6. Change zip\n"
+                "\t2. Change first name     7. Change town\n"
+                "\t3. Change last name      8. Change country \n"
+                "\t4. Change phone          9. Change drivers license number"
+                "\t5. Change street")
+        user_input = input("What would you like to change? ")
+        # Here we need to validate that the input is correct try and catch
+        return user_input
+
+    def update_customer(self, change, customer):
+        new_value = input("Enter new value: ")
+        if change == '1': #ID
+            id_valid = self._validation_service.is_customer_id_valid(new_value)
+            id_already_exist = self._validation_service.does_customer_id_exist(new_value)
+            if id_valid and not id_already_exist:
+                self._customer_service.update_customer_id(customer, new_value)
+            else:
+                print("Can not update to this value")
+        elif change == '2': #First
+            print(" 2 was selected ")
+            self._customer_service.update_customer_first_name(customer, new_value)
+        elif change == '3': #Last
+            self._customer_service.update_customer_last_name(customer, new_value)
+        elif change == '4': #phone
+            self._customer_service.update_customer_phone(customer, new_value)
+        elif change == '5': #street
+            self._customer_service.update_customer_street(customer, new_value)
+        elif change == '6': #zip
+            self._customer_service.update_customer_zip(customer, new_value)
+        elif change == '7': #town
+            self._customer_service.update_customer_town(customer, new_value)
+        elif change == '8': #country
+            self._customer_service.update_customer_country(customer, new_value)
+        elif change == '9': #license
+            self._customer_service.update_customer_license(customer, new_value)
 
 # Views
     def see_customer_list(self):

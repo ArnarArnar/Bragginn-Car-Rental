@@ -30,6 +30,42 @@ class CustomerService:
                 credit_card_list.remove(credit_card)
         self._customer_repo.overwrite_credit_card_list(credit_card_list)
 
+#Update function
+    def update_customer_id(self, customer_to_change, new_value):
+        customer_list = self._customer_repo.get_customer_list()
+        for customer in customer_list:
+            if customer._customer_id == customer_to_change: #Maybe need to find a more efficient way
+                customer._customer_id = new_value
+        self._customer_repo.overwrite_customer_list(customer_list)
+
+    def update_customer_first_name(self, customer_to_change, new_value):
+        customer_list = self._customer_repo.get_customer_list()
+        for customer in customer_list:
+            if customer._customer_id == customer_to_change:
+                customer._first_name = new_value
+        self._customer_repo.overwrite_customer_list(customer_list)
+    
+    def update_customer_last_name(self, customer_to_change, new_value):
+        pass
+
+    def update_customer_phone(self, customer_to_change, new_value):
+        pass
+    
+    def update_customer_street(self, customer_to_change, new_value):
+        pass
+    
+    def update_customer_zip(self, customer_to_change, new_value):
+        pass
+    
+    def update_customer_town(self, customer_to_change, new_value):
+        pass
+
+    def update_customer_country(self, customer_to_change, new_value):
+        pass
+    
+    def update_customer_license(self, customer_to_change, new_value):
+        pass
+
 # Get functions
     def get_customer_list(self):
         return self._customer_repo.get_customer_list()
