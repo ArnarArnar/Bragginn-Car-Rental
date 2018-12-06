@@ -31,7 +31,7 @@ class ValidationService:
             if date < current_day:
                 print("The date cannot be in past")
                 return False
-            return True
+        return True
         
         
 
@@ -44,6 +44,12 @@ class ValidationService:
 
     def is_year_valid(self, year):
         # Must be in format YYYY ex. 2018
+        #try:           
+        #      #re.match("%Y/", expiry):
+        # except ValueError:
+        #    print("This format does not match!")
+        #    return False
+        # return True
         return True
 
     def is_car_type_valid(self, car_type):
@@ -93,25 +99,31 @@ class ValidationService:
 
     def is_phone_valid(self, phone):
         # Regex a valid phone number
+        if not re.match(r"[0-9]{7,12}$", phone):
+            return False
         return True
 
     def is_zip_valid(self, zip):
         # What should the validation be for this?
-        #if re.match(r"[0-9]{3}$", car_id):
+        if not re.match(r"[0-9]{3,7}$", zip):
+            return False
         return True
 
     def is_drivers_license_valid(self, drivers_license):
-         # This is just an example, maybe we just want to limit length?
-        # if re.match(r"[A-Z]{2}[0-9]{3}", car_id):
-        # Needs to be valid car ID
+        # This is just an example, maybe we just want to limit length?
         return True
     
     def is_card_number_valid(self, card_number):
         # Validate creditcard number
+        #if re.match(r"[0-9]{16}$", card_number):
         return True
 
     def is_expiry_valid(self, expiry):
-        # Validate expiry date in the format MM/YY
+        # try:           
+        #      #re.match("%d/%m/", expiry):
+        # except ValueError:
+        #    print("This format does not match!")
+        #    return False
         return True
 
     def is_cvc_valid(self, cvc):
@@ -120,4 +132,4 @@ class ValidationService:
         #     print ("Error! Make sure you only use 3 digits in cvc")
         #     return False
         # else:
-            return True
+        return True
