@@ -6,6 +6,8 @@ from Services.ValidationService import ValidationService
 from Models.Rental import Rental
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
+from UI.CustomerSubMenu import CustomerSubMenu
+from UI.CarSubMenu import CarSubMenu
 
 
 class RentalSubMenu:
@@ -15,6 +17,8 @@ class RentalSubMenu:
         self._display_header = DisplayHeader()
         self._rental_service = RentalService()
         self._validation_service = ValidationService()
+        self._customer_sub_menu = CustomerSubMenu()
+        self._car_sub_menu = CarSubMenu()
 
     def rental_sub_menu(self):
         """Display's the rentals submenu"""
@@ -54,9 +58,12 @@ class RentalSubMenu:
             if not self.valid:
                 print("Customer does not exist, please register customer first")
                 # Print a list of customers here
-                os.system('pause')
+                self._customer_sub_menu.see_customer_list()
+                print("Customer does not exist, please register customer first")
+                #os.system('pause')
         self.valid = False
         while not self.valid:
+            self._car_sub_menu.see_fleet_list_in_rent_a_car()
             car_id = input("Enter ID of car to rent: ")
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
