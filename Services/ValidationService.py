@@ -97,10 +97,13 @@ class ValidationService:
 
     def is_zip_valid(self, zip):
         # What should the validation be for this?
+        #if re.match(r"[0-9]{3}$", car_id):
         return True
 
     def is_drivers_license_valid(self, drivers_license):
-        # What should this be
+         # This is just an example, maybe we just want to limit length?
+        # if re.match(r"[A-Z]{2}[0-9]{3}", car_id):
+        # Needs to be valid car ID
         return True
     
     def is_card_number_valid(self, card_number):
@@ -112,5 +115,9 @@ class ValidationService:
         return True
 
     def is_cvc_valid(self, cvc):
-        # Validate cvc (3 digits)
-        return True
+        # Validate cvc (3 digits) Kommentaði þetta út því ekkert komið inn til að setja in cvc þannig ótestað
+        # if not re.match("[0-9]{3}$ or ^\d{3}$", cvc):
+        #     print ("Error! Make sure you only use 3 digits in cvc")
+        #     return False
+        # else:
+            return True
