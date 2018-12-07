@@ -32,8 +32,21 @@ class ValidationService:
                 print("The date cannot be in past")
                 return False
         return True
-        
-        
+
+
+# Order input validation
+    def is_order_id_valid(self, order_id):
+        try:
+            val = int(order_id)
+        except ValueError:
+            print("That's not an int!")
+            return False
+        else:
+            if val < 0:
+                print("Negative number warning!")
+                return False
+        return True
+
 
 # Car input validation
     def is_car_id_valid(self, car_id):
