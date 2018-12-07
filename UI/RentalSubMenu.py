@@ -100,7 +100,8 @@ class RentalSubMenu:
                 os.system('pause')
         total_price = 0 #Here we need to go to the service layer and calculate total price
         order_id = self._rental_service.get_and_set_next_order_id()
-        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price)
+        end_date = self._rental_service.calculate_end_date(start_date, days)
+        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price, end_date)
         
         print("t\ Order successful \n"
             "t\ Customer " + customer_id + "\n"

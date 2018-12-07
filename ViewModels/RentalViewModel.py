@@ -4,7 +4,7 @@ class RentalViewModel:
     #Einskonar constructor, er samt u raun ad configure object sem er nu tegar til
     #Heitir initializer
     def __init__(self, order_id, customer_id, customer_first_name, customer_last_name, 
-                car_id, car_brand, start_date, days, insurance, total_price):
+                car_id, car_brand, start_date, days, insurance, total_price, end_date):
         
         #Nota underscore tarna fyrir private breytur, samt er i raun ekkert private i Python
         self._order_id = order_id
@@ -17,18 +17,19 @@ class RentalViewModel:
         self._days = days
         self._insurance = insurance
         self._total_price = total_price
+        self._end_date = end_date
 
     #Get og set foll fyrir allt vantar svo, og __str__ fall
 
     def __repr__(self):
-        return "RentalViewModel('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
+        return "RentalViewModel('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
                 self._order_id, self._customer_id, self._first_name, self._last_name, self._car_id, 
-                self._car_brand, self._start_date, self._days, self._insurance, self._total_price)
+                self._car_brand, self._start_date, self._days, self._insurance, self._total_price, self._end_date)
 
     def __str__(self):
-        return '{} : {} : {} : {} : {} : {} : {} : {} : {}  : {}'.format(
+        return '{} : {} : {} : {} : {} : {} : {} : {} : {}  : {} : {}'.format(
                 self._order_id, self._customer_id, self._first_name, self._last_name, self._car_id, 
-                self._car_brand, self._start_date, self._days, self._insurance, self._total_price)
+                self._car_brand, self._start_date, self._days, self._insurance, self._total_price, self._end_date)
 
 
 #GetFunctions
@@ -61,7 +62,10 @@ class RentalViewModel:
         return self._insurance
     
     def get_total_price(self):
-        return self._total_price 
+        return self._total_price
+    
+    def get_end_date(self):
+        return self._end_date
     
 #SetFunctions
 
@@ -94,3 +98,6 @@ class RentalViewModel:
     
     def set_total_price(self, total_price):
         self._total_price = total_price
+
+    def set_end_date(self, end_date):
+        self._end_date = end_date

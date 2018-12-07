@@ -15,9 +15,11 @@ class RentalRepository:
 #Post functions
     def add_rental(self, Rental):
         rental_date = datetime.strftime(Rental._start_date, '%d %m %Y')
+        rental_end_date = datetime.strftime(Rental._end_date, '%d %m %Y')
         with open('Data/Rentals.csv', 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id, rental_date, Rental._days, Rental._insurance, Rental._total_price])
+            csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id,
+                                rental_date, Rental._days, Rental._insurance, Rental._total_price, rental_end_date])
 
     def add_order_id(self, order_id):
         with open('Data/OrderIDs.csv', 'a+', newline='') as csv_file:
@@ -38,7 +40,9 @@ class RentalRepository:
             rentals_list = list(rentals_reader)
             for row in rentals_list:
                 rental_date = datetime.date(datetime.strptime(row[3], '%d %m %Y'))
-                rental_order = Rental(row[0], row[1],  row[2], rental_date, row[4], row[5], row[6])
+                rental_end_date = datetime.date(datetime.strptime(row[7], '%d %m %Y'))
+                rental_order = Rental(row[0], row[1],  row[2], rental_date, row[4], row[5],
+                                      row[6], rental_end_date)
                 self.__Rentals.append(rental_order)
         return self.__Rentals
     
