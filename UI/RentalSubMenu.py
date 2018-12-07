@@ -193,7 +193,7 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             name = input("Enter name of insurance: ")
-            self.valid = not self._validation_service.does_insurance_exist(name)
+            self.valid = not self._validation_service.does_insurance_name_exist(name)
             if not self.valid:
                 print("Insurance already exists ")
                 os.system('pause')

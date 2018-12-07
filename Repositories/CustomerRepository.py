@@ -61,9 +61,18 @@ class CustomerRepository:
                 self.__CreditCards.append(db_credit_card)
         return self.__CreditCards
 
-    def get_primary_key(self):
+    def get_customer_primary_keys(self):
         self._primary_keys.clear()
         with open('Data/Customers.csv') as customer_file:
+            csv_reader = csv.reader(customer_file, delimiter=';')
+            customer_list = list(csv_reader)
+            for row in customer_list:
+                self._primary_keys.append(row[0])
+        return self._primary_keys
+
+    def get_credit_card_primary_keys(self):
+        self._primary_keys.clear()
+        with open('Data/CreditCards.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:

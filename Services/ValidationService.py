@@ -3,12 +3,14 @@ from datetime import datetime
 
 from Repositories.CarRepository import CarRepository
 from Repositories.CustomerRepository import CustomerRepository
+from Repositories.RentalRepository import RentalRepository
 
 class ValidationService:
 
     def __init__(self):
         self._car_repo = CarRepository()
         self._customer_repo = CustomerRepository()
+        self._rental_repo = RentalRepository()
 
 
 # General validation services
@@ -72,7 +74,7 @@ class ValidationService:
 # Rental validation services customer_id, car_id, start_date, length, total_price
     def does_customer_id_exist(self, customer_id):
         # Here we don't need regex, need to check if it exist in the database
-        customer_pkeys = self._customer_repo.get_primary_key()
+        customer_pkeys = self._customer_repo.get_customer_primary_keys()
         if customer_id in customer_pkeys:
             return True
         else:
@@ -82,18 +84,26 @@ class ValidationService:
 
     def does_car_id_exist(self, car_id):
         # Here we don't need regex, need to check if it exist in the database
-        car_pkeys = self._car_repo.get_primary_key()
+        car_pkeys = self._car_repo.get_car_primary_keys()
         if car_id in car_pkeys:
             return True
         else:
             return False
         # If it does not exist we print out all cars in database in rental sub menu
 
-    def does_insurance_exist(self, insurance):
+    def does_insurance_name_exist(self, insurance_name):
+        Insurances = self._rental_repo.get_insurance_list()
+        for insurance in Insurances:
+            if insurance._name == insurance_name:
+                return True
         return False
 
     def does_short_code_exist(self, short_code):
-        return True
+        insurance_pkeys = self._rental_repo.get_insurance_primary_keys()
+        if short_code in insurance_pkeys:
+            return True
+        else:
+            return False
 
 # Customer validation services
     def is_customer_id_valid(self, customer_id):

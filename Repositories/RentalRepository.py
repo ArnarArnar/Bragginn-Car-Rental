@@ -63,9 +63,18 @@ class RentalRepository:
             next_id = int(id_list[-1][0]) + 1
         return next_id
 
-    def get_primary_key(self):
+    def get_car_primary_keys(self):
         self._primary_keys.clear()
         with open('Data/Rentals.csv') as customer_file:
+            csv_reader = csv.reader(customer_file, delimiter=';')
+            customer_list = list(csv_reader)
+            for row in customer_list:
+                self._primary_keys.append(row[0])
+        return self._primary_keys
+
+    def get_insurance_primary_keys(self):
+        self._primary_keys.clear()
+        with open('Data/Insurance.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:

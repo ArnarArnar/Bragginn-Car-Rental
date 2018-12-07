@@ -25,7 +25,7 @@ class CarRepository:
                 self.__Cars.append(fleet_car)
         return self.__Cars
 
-    def get_primary_key(self):
+    def get_car_primary_keys(self):
         self._primary_keys.clear()
         with open('Data/Cars.csv') as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
