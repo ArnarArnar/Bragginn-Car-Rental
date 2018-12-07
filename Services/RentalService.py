@@ -25,9 +25,24 @@ class RentalService:
     def add_insurance(self, new_insurance):
         self._rental_repo.add_insurance(new_insurance)
 
+    def delete_order(self, order_id_to_del):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == order_id_to_del: #Maybe need to find a more efficient way
+                rentals_list.remove(rental)
+        self._rental_repo.overwrite_rentals_list(rentals_list)
+
 # Get functions
     def get_rental_list(self):
         return self._rental_repo.get_rental_list()
+
+    def get_rental(self, order_id):
+        Rentals = self._rental_repo.get_rental_list()
+
+        for rental in Rentals:
+            if rental._order_id == order_id:
+                rental_to_return = rental
+        return rental_to_return
 
     def get_insurance_list(self):
         return self._rental_repo.get_insurance_list()
@@ -117,3 +132,23 @@ class RentalService:
         total_price = (int(car_price) * int(days)) + (int(insurance_price) * int(days))
         total_price *= VAT
         return total_price
+
+#Update functions
+    def update_customer_id(self, rental_to_change, new_value):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == rental_to_change._order_id:
+                rental._customer_id = new_value
+        self._rental_repo.overwrite_rentals_list(rentals_list)
+
+    def update_car_id(self, rental, new_car_id):
+        pass
+
+    def update_start_date(self, rental, new_start_date):
+        pass
+
+    def update_days(self, rental, new_days):
+        pass
+
+    def update_insurance(self, rental, new_insurance):
+        pass

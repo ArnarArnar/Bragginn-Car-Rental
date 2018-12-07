@@ -49,6 +49,7 @@ class CustomerSubMenu:
                 print("Customer deletion cancelled ")
                 os.system('pause')
                 return
+        #Change customer info
         if user_input == "4":
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer(customer_id)

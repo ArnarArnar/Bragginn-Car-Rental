@@ -48,11 +48,28 @@ class RentalSubMenu:
         if user_input == "3":
             self.get_return_a_car_input()
         if user_input == "4":
-            return
+            order_id = self.get_order_id_input()
+            rental = self._rental_service.get_rental(order_id)
+            self.see_order(rental)
+            print("Are you sure you want to delete order number: " + order_id)
+            user_answer = input("Select y to delete order from database: ")
+            if user_answer == 'y' or user_answer == 'Y':
+                self._rental_service.delete_order(order_id)
+                print("Order deleted from database")
+                os.system('pause')
+            else:
+                print("Order deletion cancelled ")
+                os.system('pause')
+                return
+        # Change order
         if user_input == "5":
-            return
+            order_id = self.get_order_id_input()
+            rental = self._rental_service.get_rental(order_id)
+            self.see_order(rental)
+            change = self.get_change_order_input(rental)
+            self.update_rental(change, rental)
         if user_input == "6":
-            return
+            self.see_rental_list()
         if user_input == "7":
             insurance = self.get_insurance_input()
             self._rental_service.add_insurance(insurance)
@@ -220,6 +237,84 @@ class RentalSubMenu:
                 os.system('pause')
         new_insurance = Insurance(short_code, name, price)
         return new_insurance
+    
+    def get_order_id_input(self):
+        self.valid = False
+        while not self.valid:
+            order_id = input("Enter order id to delete: ")
+            self.valid = self._validation_service.does_order_id_exist(order_id)
+            if not self.valid:
+                print("Order ID does not exist")
+                self.see_rental_list()
+                os.system('pause')
+        return order_id
+
+    def get_change_order_input(self, rental): 
+        os.system('cls')
+        print("\t*************** Bragginn Car Rental ************ \n"
+                "\t************************************************** \n"
+                "\t**************** Customer List **************** \n"
+                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+        print(rental)
+        print("\t1. Customer ID               3. Change start date\n"
+                "\t2. Change car ID          4. Change days\n"
+                "\t5. Change insurance")
+        user_input = input("What would you like to change? ")
+        # Here we need to validate that the input is correct try and catch
+        return user_input
+
+    def update_rental(self, change, rental): # customer_id, car_id, start_date, days, insurance
+        self.valid = False
+        if change == '1': #ID
+            while not self.valid:
+                new_customer_id = input("Enter new ID for customer: ")
+                id_valid = self._validation_service.is_customer_id_valid(new_customer_id)
+                id_already_exist = not self._validation_service.does_customer_id_exist(new_customer_id)
+                if id_valid and not id_already_exist:
+                    self.valid = True
+                    self._rental_service.update_customer_id(rental, new_customer_id)
+                else:
+                    print("Can not update to this value")
+        elif change == '2': #car_id
+            while not self.valid:
+                new_car_id = input("Enter new car id: ")
+                self.valid = self._validation_service.does_car_id_exist(new_car_id)
+                if not self.valid:
+                    print("Please enter a valid car id")
+                    os.system('pause')
+            self._rental_service.update_car_id(rental, new_car_id)
+        elif change == '3': #Start_date
+            while not self.valid:
+                new_start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
+                self.valid = self._validation_service.is_date_valid(new_start_date_input)
+                if not self.valid:
+                    print("Date is not in valid format")
+                    os.system('pause')
+                new_start_date = datetime.date(datetime.strptime(new_start_date_input, '%d/%m/%Y'))
+                self.valid = not self._validation_service.is_date_in_past(new_start_date)
+                if not self.valid:
+                    print("Date can not be in the past")
+                    os.system('pause')
+            self._rental_service.update_start_date(rental, new_start_date)
+        elif change == '4': #days
+            while not self.valid:
+                new_days = input("Enter how many days to rent: ")
+                self.valid = self._validation_service.is_number_negative(new_days)
+                if not self.valid:
+                    print("Can not rent for negative days")
+                    # Print a list of cars here
+                    os.system('pause')
+            self._rental_service.update_days(rental, new_days)
+        elif change == '5': #insurance
+            self.valid = False
+            while not self.valid:
+                new_insurance = input("Enter insurance short code: ")
+                self.valid = self._validation_service.does_short_code_exist(new_insurance)
+                if not self.valid:
+                    print("Insurance short code does not exist")
+                    # Print list of available insurance
+                    os.system('pause')
+            self._rental_service.update_insurance(rental, new_insurance)
 
 #Views
     def see_rental_list(self):
@@ -265,4 +360,11 @@ class RentalSubMenu:
                 "\tshort code:     name of insurance:       price per day: \n")
         for insurance in insurance_list:
             print(insurance)
+        os.system('pause')
+
+    def see_order(self, rental):
+        os.system('cls')
+        # Here we need a proper header in a seperate function in DisplayHeader.py
+        print("\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        print(rental)
         os.system('pause')

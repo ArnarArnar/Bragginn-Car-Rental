@@ -12,7 +12,6 @@ class ValidationService:
         self._customer_repo = CustomerRepository()
         self._rental_repo = RentalRepository()
 
-
 # General validation services
     def is_number_negative(self, number):
         # can be used for input of all integers eg. price, days etc., can not be negative
@@ -73,7 +72,14 @@ class ValidationService:
         # Can only enter the types that we decide e.g. budget, off road, luxury etc.
         return True
 
-# Rental validation services customer_id, car_id, start_date, length, total_price
+# Rental validation services
+    def does_order_id_exist(self, order_id):
+        rentals_pkeys = self._rental_repo.get_rentals_primary_keys()
+        if order_id in rentals_pkeys:
+            return True
+        else:
+            return False
+
     def does_customer_id_exist(self, customer_id):
         # Here we don't need regex, need to check if it exist in the database
         customer_pkeys = self._customer_repo.get_customer_primary_keys()

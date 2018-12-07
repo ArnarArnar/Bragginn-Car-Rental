@@ -31,6 +31,13 @@ class RentalRepository:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Insurance._short_code, Insurance._name, Insurance._price])
 
+    def overwrite_rentals_list(self, rentals_list):
+        with open('Data/Rentals.csv', 'w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file, delimiter=';')
+                for rental in rentals_list:
+                    csv_writer.writerow([rental._order_id, rental._customer_id, rental._car_id,
+                                datetime.strftime(rental._start_date, '%d %m %Y'), rental._days, rental._insurance, 
+                                rental._total_price, datetime.strftime(rental._end_date, '%d %m %Y')])
 
 #Get functions
     def get_rental_list(self):
@@ -63,7 +70,7 @@ class RentalRepository:
             next_id = int(id_list[-1][0]) + 1
         return next_id
 
-    def get_car_primary_keys(self):
+    def get_rentals_primary_keys(self):
         self._primary_keys.clear()
         with open('Data/Rentals.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
