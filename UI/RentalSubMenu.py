@@ -83,10 +83,13 @@ class RentalSubMenu:
             start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
             self.valid = self._validation_service.is_date_valid(start_date_input)
             if not self.valid:
-                print("Car does not exist")
-                # Print a list of cars here
+                print("Date is not in valid format")
                 os.system('pause')
-        start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
+            start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
+            self.valid = not self._validation_service.is_date_in_past(start_date)
+            if not self.valid:
+                print("Date can not be in the past")
+                os.system('pause')
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")

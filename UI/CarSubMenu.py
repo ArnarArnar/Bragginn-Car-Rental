@@ -28,9 +28,9 @@ class CarSubMenu:
         if user_input == "1":
             self.see_fleet_list()
         if user_input == "2":
-            return
+            self.see_all_in_rental()
         if user_input == "3":
-            return
+            self.see_all_available()
         if user_input == "4":
             new_car = self.get_add_car_input()
             self._car_service.add_car(new_car)
@@ -103,3 +103,33 @@ class CarSubMenu:
             "ID                Brand           Year      Price        Type       \n")
         for car in fleet_list:
             print(car)
+
+    def see_all_in_rental(self):
+        cars_in_rental = self._car_service.get_all_in_rental()
+        os.system('cls') ##display header function instead
+        print(
+              "\t ___ _         _     _    _    _   \n"
+              "\t| __| |___ ___| |_  | |  (_)__| |_\n"
+              "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
+              "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
+              "\n"
+              "All cars now in Rental: \n"
+            "ID                Brand           Year      Price        Type       \n")
+        for car in cars_in_rental:
+            print(car)
+        os.system('pause')
+
+    def see_all_available(self):
+        cars_available = self._car_service.get_all_available()
+        os.system('cls') ##display header function instead
+        print(
+              "\t ___ _         _     _    _    _   \n"
+              "\t| __| |___ ___| |_  | |  (_)__| |_\n"
+              "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
+              "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
+              "\n"
+              "All cars now available: \n"
+            "ID                Brand           Year      Price        Type       \n")
+        for car in cars_available:
+            print(car)
+        os.system('pause')

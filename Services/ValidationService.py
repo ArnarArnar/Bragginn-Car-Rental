@@ -21,19 +21,21 @@ class ValidationService:
         else:
             return True
 
-    def is_date_valid(self, date):
+    def is_date_valid(self, input_date):
         # Check if entered date is in the valid format DD/MM/YYYY
-        current_day = datetime.now()
         try:           
-            date = datetime.strptime(date, "%d/%m/%Y")
+            #date = datetime.date(datetime.strptime(date, "%d/%m/%Y"))
+            datetime.date(datetime.strptime(input_date, '%d/%m/%Y'))
         except ValueError:
-           print("This format does not match!")
            return False
-        else:
-            if date < current_day:
-                print("The date cannot be in past")
-                return False
         return True
+
+    def is_date_in_past(self, date):
+        current_day = datetime.date(datetime.now())
+        if date < current_day:
+            return True
+        else:
+            return False
 
 
 # Order input validation
