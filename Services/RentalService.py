@@ -102,3 +102,18 @@ class RentalService:
     def calculate_end_date(self, start_date, days_to_add):
         end_date = start_date + timedelta(days=int(days_to_add))
         return end_date
+
+    def calculate_total_price(self, car_id, insurance_short_code, days):
+        Cars = self._car_repo.get_fleet_list()
+        Insurances = self._rental_repo.get_insurance_list()
+        for car in Cars:
+            if car._car_id == car_id:
+                car_price = car._price_per_day
+        for insurance in Insurances:
+            if insurance._short_code == insurance_short_code:
+                insurance_price = insurance._price
+        
+        VAT = 1.245
+        total_price = (int(car_price) * int(days)) + (int(insurance_price) * int(days))
+        total_price *= VAT
+        return total_price

@@ -46,8 +46,7 @@ class RentalSubMenu:
             self.see_rental_view_list(rental_view)
             #Senda rentalView svo i view sem prentar ut listann
         if user_input == "3":
-            return_car = self.get_return_a_car_input()
-            return
+            self.get_return_a_car_input()
         if user_input == "4":
             return
         if user_input == "5":
@@ -101,10 +100,10 @@ class RentalSubMenu:
             insurance = input("Enter insurance short code: ")
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
-                print("Can not rent for negative days")
-                # Print a list of cars here
+                print("Insurance short code does not exist")
+                # Print list of available insurance
                 os.system('pause')
-        total_price = 0 #Here we need to go to the service layer and calculate total price
+        total_price = self._rental_service.calculate_total_price(car_id, insurance, days)
         order_id = self._rental_service.get_and_set_next_order_id()
         end_date = self._rental_service.calculate_end_date(start_date, days)
         new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price, end_date)
@@ -115,6 +114,7 @@ class RentalSubMenu:
         )
         os.system('pause')
         return new_rental
+
     def get_return_a_car_input(self):
         #Má henda út Order ID úr þessu ef við ákveðum að það sé bara hægt að leita eftir bílnúmeri
         #Hef ekki search for Customer ID vegna þess að ef vv. hefur fleiri
@@ -188,11 +188,6 @@ class RentalSubMenu:
                     return
             if return_car_user_input_fuel_full == "q":
                 return
-
-        
-        
-
-
 
     def get_insurance_input(self): # name, price
         self.valid = False
