@@ -1,11 +1,14 @@
 import csv
 import re
+import os
 from datetime import datetime
+from datetime import timedelta
 
 from Repositories.RentalRepository import RentalRepository
 from Repositories.CarRepository import CarRepository
 from Repositories.CustomerRepository import CustomerRepository
 from Services.CustomerService import CustomerService
+from Services.RentalService import RentalService
 from Models.Rental import Rental
 from Models.Car import Car
 from Models.Customer import Customer
@@ -62,5 +65,21 @@ display = DisplayHeader()
 display.display_header_fleet()
 display.display_header_fleet() """
 
+validation_service = ValidationService()
+rental_service = RentalService()
 
+valid = False
+days = 2
 
+while not valid:
+    start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
+    valid = validation_service.is_date_valid(start_date_input)
+    if not valid:
+        print("Date not in right format")
+        os.system('pause')
+
+start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
+
+end_date = rental_service.calculate_end_date(start_date, days)
+
+print(end_date)

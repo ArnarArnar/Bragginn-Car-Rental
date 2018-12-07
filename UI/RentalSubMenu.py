@@ -4,6 +4,7 @@ from datetime import datetime
 from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Models.Rental import Rental
+from Models.Insurance import Insurance
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
 from UI.CustomerSubMenu import CustomerSubMenu
@@ -31,6 +32,7 @@ class RentalSubMenu:
               "\t4. Cancel Order \n"
               "\t5. Change Order \n"
               "\t6. See All Orders \n"
+              "\t7. Add insurance type \n"
               "\tEnter q to quit \n")
         user_input = input('What would you like to do? ')
 
@@ -52,6 +54,9 @@ class RentalSubMenu:
             return
         if user_input == "6":
             return
+        if user_input == "7":
+            insurance = self.get_insurance_input()
+            self._rental_service.add_insurance(insurance)
 
 #Inputs
     def get_rental_input(self):
@@ -101,7 +106,8 @@ class RentalSubMenu:
                 os.system('pause')
         total_price = 0 #Here we need to go to the service layer and calculate total price
         order_id = self._rental_service.get_and_set_next_order_id()
-        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price)
+        end_date = self._rental_service.calculate_end_date(start_date, days)
+        new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price, end_date)
         
         print("t\ Order successful \n"
             "t\ Customer " + customer_id + "\n"
@@ -188,6 +194,35 @@ class RentalSubMenu:
 
 
 
+    def get_insurance_input(self): # name, price
+        self.valid = False
+        while not self.valid:
+            name = input("Enter name of insurance: ")
+            self.valid = not self._validation_service.does_insurance_exist(name)
+            if not self.valid:
+                print("Insurance already exists ")
+                os.system('pause')
+                self.see_insurance_list()
+        self.valid = False
+        while not self.valid:
+            short_code = input("Enter short code for Insurance: ")
+            self.valid = not self._validation_service.does_short_code_exist(short_code)
+            if not self.valid:
+                print("Short Code already exists ")
+                os.system('pause')
+                self.see_insurance_list()
+        self.valid = False
+        while not self.valid:
+            price = input("Enter price per day for insurance: ")
+            self.valid = self._validation_service.is_number_negative(price)
+            if not self.valid:
+                print("Car does not exist")
+                # Print a list of cars here
+                self.see_insurance_list()
+                os.system('pause')
+        new_insurance = Insurance(short_code, name, price)
+        return new_insurance
+
 #Views
     def see_rental_list(self):
         rental_list = self._rental_service.get_rental_list()
@@ -213,6 +248,7 @@ class RentalSubMenu:
         for rental in rvList:
             print(rental)
         os.system('pause')
+
     
     def return_a_car_view(self):
         os.system('cls')
@@ -220,3 +256,15 @@ class RentalSubMenu:
                 "\t| _ \___| |_ _  _ _ _ _ _     /_\    / __|__ _ _ _ \n"
                 "\t|   / -_)  _| || | '_| ' \   / _ \  | (__/ _` | '_|\n"
                 "\t|_|_\___|\__|\_,_|_| |_||_| /_/ \_\  \___\__,_|_|   \n\n"  )           
+
+    def see_insurance_list(self):
+        insurance_list = self._rental_service.get_insurance_list()
+        os.system('cls')
+        # Here we need a proper header in a seperate function in DisplayHeader.py
+        print("\t*************** Bragginn Car Rental ************ \n"
+              "\t************************************************** \n"
+                "\t**************** Insurance List **************** \n"
+                "\tshort code:     name of insurance:       price per day: \n")
+        for insurance in insurance_list:
+            print(insurance)
+        os.system('pause')

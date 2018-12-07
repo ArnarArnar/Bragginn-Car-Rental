@@ -89,11 +89,11 @@ class ValidationService:
             return False
         # If it does not exist we print out all cars in database in rental sub menu
 
-    def does_insurance_exist(self, insurance_short_code):
+    def does_insurance_exist(self, insurance):
         return False
 
     def does_short_code_exist(self, short_code):
-        return True
+        return False
 
 # Customer validation services
     def is_customer_id_valid(self, customer_id):
