@@ -30,13 +30,16 @@ class CustomerSubMenu:
               "\tEnter q to quit \n")
         user_input = input('What would you like to do? ')
 
+        # Register New Customer 
         if user_input == "1":
             new_customer = self.get_add_customer_input()
             self._customer_service.add_customer(new_customer)
+        # Search Customers
         if user_input == "2":
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer_viewmodel(customer_id)
             self.see_customer(customer)
+        # Delete Customer
         if user_input == "3":
             customer_id = self.get_customer_id_input()
             print("Are you sure you want to delete customer number: " + customer_id)
@@ -49,19 +52,22 @@ class CustomerSubMenu:
                 print("Customer deletion cancelled ")
                 os.system('pause')
                 return
-        #Change customer info
+        #Change Customer Info
         if user_input == "4":
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer(customer_id)
             change = self.get_change_customer_input(customer)
             self.update_customer(change, customer)
+        # See Customer History
         if user_input == "5":
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer_viewmodel(customer_id)
             customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
             self.see_customer_history(customer, customer_rentals)
+        # See All Customers
         if user_input == "6":
             self.see_customer_list()
+        # Add Customer Credit Card
         if user_input == "7":
             new_card = self.get_add_creditcard_input()
             self._customer_service.add_credit_card(new_card)

@@ -31,26 +31,27 @@ class RentalSubMenu:
               "\t4. Cancel Order \n"
               "\t5. Change Order \n"
               "\t6. See All Orders \n"
-              "\t7. Add insurance type \n"
+              "\t7. Add Insurance Type \n"
               "\tEnter q to quit \n")
         user_input = input('What would you like to do? ')
-
+        # Rent a Car
         if user_input == "1":
             new_rental = self.get_rental_input()
             self._rental_service.add_rental(new_rental)
+        # Rental History
         if user_input == "2":
-            #Hafa kannski ser get user input fall sem er ur user input interface klasa
-            car_id = input("Enter ID of car to see rental history: ")
+            car_id = self.get_car_id_input()
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
-            #Senda rentalView svo i view sem prentar ut listann
+        # Return Car
         if user_input == "3":
             self.get_return_a_car_input()
+        # Cancel Order
         if user_input == "4":
             order_id = self.get_order_id_input()
             rental = self._rental_service.get_rental(order_id)
             self.see_order(rental)
-            print("Are you sure you want to delete order number: " + order_id)
+            print("Are you sure you want to cancel order number " + order_id + " and delete it from the database")
             user_answer = input("Select y to delete order from database: ")
             if user_answer == 'y' or user_answer == 'Y':
                 self._rental_service.delete_order(order_id)
@@ -67,8 +68,10 @@ class RentalSubMenu:
             self.see_order(rental)
             change = self.get_change_order_input(rental)
             self.update_rental(change, rental)
+        # See All Orders
         if user_input == "6":
             self.see_rental_list()
+        # Add Insurance Type
         if user_input == "7":
             insurance = self.get_insurance_input()
             self._rental_service.add_insurance(insurance)
@@ -133,6 +136,21 @@ class RentalSubMenu:
         )
         os.system('pause')
         return new_rental
+
+    def get_car_id_input(self):
+        self.valid = False
+        while not self.valid:
+            car_id = input("Enter car ID (AADDD): ")
+            self.valid = self._validation_service.is_car_id_valid(car_id)
+            if not self.valid:
+                print("Car Id can not be longer then X ")
+                os.system('pause')
+                continue
+            self.valid = not self._validation_service.does_car_id_exist(car_id)
+            if not self.valid:
+                print("Car Id already exists")
+                os.system('pause')
+        return car_id
 
     def get_return_a_car_input(self):
         #Má henda út Order ID úr þessu ef við ákveðum að það sé bara hægt að leita eftir bílnúmeri
