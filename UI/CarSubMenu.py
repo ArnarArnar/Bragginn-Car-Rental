@@ -49,7 +49,7 @@ class CarSubMenu:
     def get_add_car_input(self):
         self.valid = False
         while not self.valid:
-            car_id = input("Enter car ID (AADDD): ")
+            car_id = input("Enter car ID (AAADD if older car AADDD): ")
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
                 print("Car Id can not be longer then X ")

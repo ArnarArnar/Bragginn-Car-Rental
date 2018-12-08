@@ -54,7 +54,8 @@ class ValidationService:
 # Car input validation
     def is_car_id_valid(self, car_id):
         # This is just an example, maybe we just want to limit length?
-        # if re.match(r"[A-Z]{2}[0-9]{3}", car_id):
+        if not re.match(r"[A-Z]{2,3}[0-9]{2,3}", car_id):
+            return False
         # Needs to be valid car ID
         return True
 
