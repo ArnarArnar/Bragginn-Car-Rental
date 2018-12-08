@@ -134,21 +134,41 @@ class RentalService:
         return total_price
 
 #Update functions
-    def update_customer_id(self, rental_to_change, new_value):
+    def update_customer_id(self, rental_to_change, new_customer_id):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental._order_id == rental_to_change._order_id:
-                rental._customer_id = new_value
+                rental._customer_id = new_customer_id
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
-    def update_car_id(self, rental, new_car_id):
-        pass
+    def update_car_id(self, rental_to_change, new_car_id):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == rental_to_change._order_id:
+                rental._car_id = new_car_id
+        self._rental_repo.overwrite_rentals_list(rentals_list)
 
-    def update_start_date(self, rental, new_start_date):
-        pass
+    def update_start_date(self, rental_to_change, new_start_date):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == rental_to_change._order_id:
+                rental._start_date = new_start_date
+                rental._end_date = self.calculate_end_date(new_start_date, rental._days)
+        self._rental_repo.overwrite_rentals_list(rentals_list)
 
-    def update_days(self, rental, new_days):
-        pass
+    def update_days(self, rental_to_change, new_days):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == rental_to_change._order_id:
+                rental._days = new_days
+                rental._end_date = self.calculate_end_date(rental._start_date, new_days)
+                rental._total_price = self.calculate_total_price(rental._car_id, rental._insurance, new_days)
+        self._rental_repo.overwrite_rentals_list(rentals_list)
 
-    def update_insurance(self, rental, new_insurance):
-        pass
+    def update_insurance(self, rental_to_change, new_insurance):
+        rentals_list = self._rental_repo.get_rental_list()
+        for rental in rentals_list:
+            if rental._order_id == rental_to_change._order_id:
+                rental._insurance = new_insurance
+                rental._total_price = self.calculate_total_price(rental._car_id, new_insurance, rental._days)
+        self._rental_repo.overwrite_rentals_list(rentals_list)

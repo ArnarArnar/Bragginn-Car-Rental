@@ -11,7 +11,6 @@ from UI.CustomerSubMenu import CustomerSubMenu
 from UI.CarSubMenu import CarSubMenu
 
 
-
 class RentalSubMenu:
 
     def __init__(self):
@@ -260,7 +259,6 @@ class RentalSubMenu:
                 "\t2. Change car ID          4. Change days\n"
                 "\t5. Change insurance")
         user_input = input("What would you like to change? ")
-        # Here we need to validate that the input is correct try and catch
         return user_input
 
     def update_rental(self, change, rental): # customer_id, car_id, start_date, days, insurance
