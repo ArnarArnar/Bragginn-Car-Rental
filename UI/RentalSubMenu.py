@@ -48,12 +48,16 @@ class RentalSubMenu:
             self.get_return_a_car_input()
         # Cancel Order
         if user_input == "4":
+            self.cancel_order_view()
             order_id = self.get_order_id_input()
             rental = self._rental_service.get_rental(order_id)
+            self.cancel_order_view()            
             self.see_order(rental)
-            print("Are you sure you want to cancel order number " + order_id + " and delete it from the database")
-            user_answer = input("Select y to delete order from database: ")
-            if user_answer == 'y' or user_answer == 'Y':
+            print("\n\nAre you sure you want to cancel order number " + order_id + " and delete it from the database\n\n")
+            print(  "[ 1 ] Delete order from database\n"
+                    "[ Q ] To exit without changes\n\n")
+            user_answer = input("Please select an option: ")
+            if user_answer == '1':
                 self._rental_service.delete_order(order_id)
                 print("Order deleted from database")
                 os.system('pause')
@@ -296,12 +300,12 @@ class RentalSubMenu:
     def get_order_id_input(self):
         self.valid = False
         while not self.valid:
-            order_id = input("Enter order id to delete: ")
+            order_id = input("Please enter a order id to delete: ")
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
+                os.system('cls')
                 print("Order ID does not exist")
                 self.see_rental_list()
-                os.system('pause')
         return order_id
 
     def get_change_order_input(self, rental): 
@@ -373,7 +377,6 @@ class RentalSubMenu:
 #Views
     def see_rental_list(self):
         rental_list = self._rental_service.get_rental_list()
-        os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print("\t ___         _        _   _    _    _   \n"
               "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
@@ -382,7 +385,6 @@ class RentalSubMenu:
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rental_list:
             print(rental)
-        os.system('pause')
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         os.system('cls')
@@ -394,7 +396,6 @@ class RentalSubMenu:
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rvList:
             print(rental)
-        os.system('pause')
 
     
     def return_a_car_view(self):
@@ -417,8 +418,21 @@ class RentalSubMenu:
         os.system('pause')
 
     def see_order(self, rental):
-        os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print("\tcustomerID:     carID:       startDate:      days:      total price: \n")
         print(rental)
-        os.system('pause')
+
+    def cancel_order_view(self):
+        os.system('cls')
+        print(  "\t  ___                  _    ___         _         \n"
+                "\t / __|__ _ _ _  __ ___| |  / _ \ _ _ __| |___ _ _ \n"
+                "\t| (__/ _` | ' \/ _/ -_) | | (_) | '_/ _` / -_) '_|\n"
+                "\t \___\__,_|_||_\__\___|_|  \___/|_| \__,_\___|_|  \n")
+
+    def delete_order_view(self):
+        os.system('cls')
+        print(  "\t  ___ _                          ___         _         \n"
+                "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
+                "\t| (__| ' \/ _` | ' \/ _` / -_) | (_) | '_/ _` / -_) '_|\n"
+                "\t \___|_||_\__,_|_||_\__, \___|  \___/|_| \__,_\___|_|  \n"
+                "\t                    |___/                              \n")
