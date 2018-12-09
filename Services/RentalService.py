@@ -25,6 +25,9 @@ class RentalService:
     def add_insurance(self, new_insurance):
         self._rental_repo.add_insurance(new_insurance)
 
+    def add_return(self, car_return):
+        self._rental_repo.add_return(car_return)
+
     def delete_order(self, order_id_to_del):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
