@@ -98,6 +98,17 @@ class CarSubMenu:
                 print("Car Id already exists")
                 os.system('pause')
         return car_id
+    
+    def get_car_rental_history_input(self):
+        self.valid = False
+        while not self.valid:
+            car_id = input("Enter car ID to see rental history: ")
+            self.valid = self._validation_service.does_car_id_exist(car_id)
+            if not self.valid:
+                print("Car Id does not exist! Please enter a car ID that exists")
+                self.see_fleet_list()
+                os.system('pause')
+        return car_id
 
 #Views
     def see_fleet_list(self):
