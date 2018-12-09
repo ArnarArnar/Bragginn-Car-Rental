@@ -54,6 +54,8 @@ class CustomerSubMenu:
                 return
         #Change Customer Info
         if user_input == "4":
+            os.system('cls')
+            self.change_customer_info_view()
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer(customer_id)
             change = self.get_change_customer_input(customer)
@@ -162,16 +164,14 @@ class CustomerSubMenu:
 
     def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
         os.system('cls')
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Customer List **************** \n"
-                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+        self.change_customer_info_view()
+        print("ID           Name                              Phone           Street         Zip         Town          Country     License")
         print(customer)
-        print("\t1. Change ID               6. Change zip\n"
-                "\t2. Change first name     7. Change town\n"
-                "\t3. Change last name      8. Change country \n"
-                "\t4. Change phone          9. Change drivers license number \n"
-                "\t5. Change street")
+        print("\n[1] Change ID                                [6] Change zip\n"
+                "[2] Change first name                        [7] Change town\n"
+                "[3] Change last name                         [8] Change country \n"
+                "[4] Change phone                             [9] Change drivers license number \n"
+                "[5] Change street                            [Q] Return to main menu \n\n")
         user_input = input("What would you like to change? ")
         # Here we need to validate that the input is correct try and catch
         return user_input
@@ -277,4 +277,12 @@ class CustomerSubMenu:
         for rental in customer_rentals:
             print(rental)
         os.system('pause')
+
+    def change_customer_info_view(self):
+        os.system('cls')
+        print(  "\t  ___ _                          ___        _                       ___       __     \n"
+                "\t / __| |_  __ _ _ _  __ _ ___   / __|  _ __| |_ ___ _ __  ___ _ _  |_ _|_ _  / _|___ \n"
+                "\t| (__| ' \/ _` | ' \/ _` / -_) | (_| || (_-<  _/ _ \ '  \/ -_) '_|  | || ' \|  _/ _ \ \n"
+                "\t \___|_||_\__,_|_||_\__, \___|  \___\_,_/__/\__\___/_|_|_\___|_|   |___|_||_|_| \___/\n"
+                "\t                    |___/                                                            \n\n")
         

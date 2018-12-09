@@ -74,7 +74,8 @@ class RentalSubMenu:
             self.update_rental(change, rental)
         # See All Orders
         if user_input == "6":
-            self.see_rental_list()
+            self.all_order_view()
+            os.system('pause')
         # Add Insurance Type
         if user_input == "7":
             insurance = self.get_insurance_input()
@@ -308,6 +309,17 @@ class RentalSubMenu:
                 self.see_rental_list()
         return order_id
 
+    def get_order_id_input_to_cancel(self):
+        self.valid = False
+        while not self.valid:
+            order_id = input("Please enter a order id to delete: ")
+            self.valid = self._validation_service.does_order_id_exist(order_id)
+            if not self.valid:
+                os.system('cls')
+                print("Order ID does not exist")
+                self.see_rental_list()
+        return order_id
+
     def get_change_order_input(self, rental): 
         os.system('cls')
         print("\t*************** Bragginn Car Rental ************ \n"
@@ -436,3 +448,13 @@ class RentalSubMenu:
                 "\t| (__| ' \/ _` | ' \/ _` / -_) | (_) | '_/ _` / -_) '_|\n"
                 "\t \___|_||_\__,_|_||_\__, \___|  \___/|_| \__,_\___|_|  \n"
                 "\t                    |___/                              \n")
+    def all_order_view(self):
+        rental_list = self._rental_service.get_rental_list()
+        os.system('cls')
+        print(  "\t   _   _ _    ___         _            \n"
+                "\t  /_\ | | |  / _ \ _ _ __| |___ _ _ ___\n"
+                "\t / _ \| | | | (_) | '_/ _` / -_) '_(_-<\n"
+                "\t/_/ \_\_|_|  \___/|_| \__,_\___|_| /__/\n\n"
+                "OrderID:  customerID:  carID:       startDate:      days:      total price: \n")
+        for rental in rental_list:
+            print(rental)
