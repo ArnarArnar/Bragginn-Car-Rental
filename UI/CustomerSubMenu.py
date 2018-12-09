@@ -256,17 +256,24 @@ class CustomerSubMenu:
     def see_customer_history(self, customer, customer_rentals): #Rental viewlist comes in
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Rental List **************** \n"
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        print(  "\t  ___        _                       _  _ _    _                \n"
+                "\t / __|  _ __| |_ ___ _ __  ___ _ _  | || (_)__| |_ ___ _ _ _  _ \n"
+                "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_| | __ | (_-<  _/ _ \ '_| || |\n"
+                "\t \___\_,_/__/\__\___/_|_|_\___|_|   |_||_|_/__/\__\___/_|  \_, |\n"
+                "\t                                                          |__/ \n\n"
+                "Customer info:\n"
+                "customerID:     First name:       Last name:      Country:")
         
-        print("Customer info: ")
+
         print(customer)
         print("Credit Cards:")
         for creditcard in customer._card_number:
             print(creditcard)
-        print("Rental history: ")
+        print("\nRental history:")
+        #Þarf að breyta þessu. Of mikið af upplýsingum. Henda út customerID, First og last name
+        #Einnig henda út days og setja s_date og e_date hlið við hlið
+        print("OrderID: CustomerID:  First name: Last name: CarID: Car brand: þarf að breyta sjá kóða")
+
         for rental in customer_rentals:
             print(rental)
         os.system('pause')
