@@ -118,13 +118,40 @@ class RentalSubMenu:
                 # Print a list of cars here
                 os.system('pause')
         self.valid = False
+        print ( "Please select insurance: \n\n"
+            "[ 1 ] Front Window Insurance. 4500 kr\n"
+            "[ 2 ] Gravel Insurance. 2500 kr\n"
+            "[ 3 ] No Insurance. 0 kr\n")
+        insurance = input('Please select an option: ')
         while not self.valid:
-            insurance = input("Enter insurance short code: ")
+            if insurance == "1":
+                insurance = "FWI"
+                self.valid = self._validation_service.does_short_code_exist(insurance)
+                if not self.valid:
+                    print("Invalid input")
+                    os.system('pause')
+            if insurance == "2":
+                insurance = "GRI"
+                self.valid = self._validation_service.does_short_code_exist(insurance)
+                if not self.valid:
+                    print("Invalid input")
+                    os.system('pause')   
+            if insurance == "3":
+                insurance = "NON"
+                self.valid = self._validation_service.does_short_code_exist(insurance)
+                if not self.valid:
+                    print("Invalid input")
+                    os.system('pause')
+
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
                 print("Insurance short code does not exist")
-                # Print list of available insurance
-                os.system('pause')
+                print(insurance)
+                print ( "Please select insurance: \n\n"
+                    "[ 1 ] Front Window Insurance. 4500 kr\n"
+                    "[ 2 ] Gravel Insurance. 2500 kr\n"
+                    "[ 3 ] No Insurance. 0 kr\n")
+                insurance = input('Please try again: ')
         total_price = self._rental_service.calculate_total_price(car_id, insurance, days)
         order_id = self._rental_service.get_and_set_next_order_id()
         end_date = self._rental_service.calculate_end_date(start_date, days)
