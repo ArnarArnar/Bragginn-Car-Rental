@@ -62,10 +62,10 @@ class CarSubMenu:
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:
-            year = input("Enter year of car model (YYYY): ")
+            year = int(input("Enter year of car model (YYYY): "))
             self.valid = self._validation_service.is_year_valid(year)
             if not self.valid:
-                print("Year needs to be in the format (YYYY)")
+                print("Year needs to be in the format (YYYY), not older then 1980 and of course cannot be in the future")
                 os.system('pause')
         self.valid = False
         while not self.valid:

@@ -60,14 +60,17 @@ class ValidationService:
         return True
 
     def is_year_valid(self, year):
-        # Must be in format YYYY ex. 2018
-        #try:           
-        #      #re.match("%Y/", expiry):
-        # except ValueError:
-        #    print("This format does not match!")
-        #    return False
-        # return True
+        #Must be in format YYYY ex. 2018
+        currentYear = int(datetime.now().year)
+        val = int(year)
+        if val < 1980:
+            return False
+        if currentYear < val:
+            return False  
         return True
+    
+        
+        
 
     def is_car_type_valid(self, car_type):
         # Can only enter the types that we decide e.g. budget, off road, luxury etc.
