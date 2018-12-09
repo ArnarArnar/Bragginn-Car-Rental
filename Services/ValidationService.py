@@ -68,9 +68,6 @@ class ValidationService:
         if currentYear < val:
             return False  
         return True
-    
-        
-        
 
     def is_car_type_valid(self, car_type):
         # Can only enter the types that we decide e.g. budget, off road, luxury etc.

@@ -4,6 +4,7 @@ from datetime import datetime
 from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Models.Rental import Rental
+from Models.CarReturn import CarReturn
 from Models.Insurance import Insurance
 from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
@@ -45,7 +46,8 @@ class RentalSubMenu:
             self.see_rental_view_list(rental_view)
         # Return Car
         if user_input == "3":
-            self.get_return_a_car_input()
+            car_return = self.get_return_a_car_input()
+            self._rental_service.add_return(car_return)
         # Cancel Order
         if user_input == "4":
             order_id = self.get_order_id_input()
@@ -211,7 +213,7 @@ class RentalSubMenu:
                     os.system('pause')
             if return_car_user_input == "2":
                 order_id = input("Enter order ID: ")
-                self.valid = self._validation_service.is_order_id_valid(order_id)
+                self.valid = self._validation_service.does_order_id_exist(order_id)
                 if not self.valid:
                     print("Order id does not exsist")
                     os.system('pause')
@@ -219,18 +221,35 @@ class RentalSubMenu:
                 return
         self.return_a_car_view()
         self.valid = False
+        print ( "Is the Car being return late?: \n\n"
+                "[ 1 ] It's right on time!\n"
+                "[ 2 ] No, it's too late\n"
+                "[ q ] Return to main menu\n")
+        
+        while not self.valid:
+            return_car_user_input_is_ok = input('Please select an option: ')
+            if return_car_user_input_is_ok == "1":
+                self.valid = True
+                days_late = 0
+            if return_car_user_input_is_ok == "2":
+                self.valid = True
+                days_late = input("How many days late? ")
+            if return_car_user_input_is_ok == "q":
+                return
+        self.return_a_car_view()
+        self.valid = False
         print ( "Is the Car OK?: \n\n"
                 "[ 1 ] Yes\n"
                 "[ 2 ] No, write a comment\n"
                 "[ q ] Return to main menu\n")
-        return_car_user_input_is_ok = input('Please select an option: ')
         while not self.valid:
+            return_car_user_input_is_ok = input('Please select an option: ')
             if return_car_user_input_is_ok == "1":
-                self.valid = self._validation_service.is_number_negative(return_car_user_input_is_ok)
+                self.valid = True
+                return_comment = "No comment"
             if return_car_user_input_is_ok == "2":
-                print('hér vantar að setja inn skjá þar sem hægt er að skrifa comment um hvað er að')
-                os.system('pause')
-                return
+                self.valid = True
+                return_comment = input("What's wrong with the car? ")
             if return_car_user_input_is_ok == "q":
                 return
         self.return_a_car_view()
@@ -241,8 +260,8 @@ class RentalSubMenu:
             "[ q ] Return to main menu\n")
         while not self.valid:
             return_car_user_input_fuel_full = input('Please select an option: ')
-            self.valid = self._validation_service.is_number_negative(return_car_user_input_is_ok)
             if return_car_user_input_fuel_full == "1":
+                gas_level = "FULL"
                 print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
                 os.system('pause')
                 return
@@ -258,11 +277,12 @@ class RentalSubMenu:
                 while not self.valid:
                     return_car_user_input_fuel_how_much = input('Please select an option: ')
                     self.valid = self._validation_service.is_number_negative(return_car_user_input_fuel_how_much)
-                    print ( "Hér kemur Payment Option til að borga fyrir bensínið")
                     os.system('pause')
                     return
             if return_car_user_input_fuel_full == "q":
                 return
+        car_return = CarReturn(order_id, days_late, gas_level, return_comment)
+        return car_return
 
     def get_insurance_input(self): # name, price
         self.valid = False
