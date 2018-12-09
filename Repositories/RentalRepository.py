@@ -3,6 +3,7 @@ import csv
 from datetime import datetime
 
 from Models.Rental import Rental
+from Models.CarReturn import CarReturn
 from Models.Insurance import Insurance
 
 class RentalRepository:
@@ -39,6 +40,12 @@ class RentalRepository:
                                 datetime.strftime(rental._start_date, '%d %m %Y'), rental._days, rental._insurance, 
                                 rental._total_price, datetime.strftime(rental._end_date, '%d %m %Y')])
 
+    def add_return(self, CarReturn):
+        with open('Data/Returns.csv', 'a+', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=';')
+            csv_writer.writerow([CarReturn._order_id, CarReturn._days_late, CarReturn._gas_level, CarReturn._return_comment])
+
+
 #Get functions
     def get_rental_list(self):
         self.__Rentals.clear()
@@ -55,13 +62,23 @@ class RentalRepository:
     
     def get_insurance_list(self):
         self.__Insurance.clear()
-        with open('Data/Insurance.csv') as rentals_file:
-            csv_reader = csv.reader(rentals_file, delimiter=';')
+        with open('Data/Insurance.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=';')
             insurance_list = list(csv_reader)
             for row in insurance_list:
                 insurance_type = Insurance(row[0], row[1],  row[2])
                 self.__Insurance.append(insurance_type)
         return self.__Insurance
+
+    def get_returns_list(self):
+        Returns = []
+        with open('Data/Returns.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=';')
+            returns_list = list(csv_reader)
+            for row in returns_list:
+                return_data = CarReturn(row[0], row[1],  row[2], row[3])
+                Returns.append(return_data)
+        return Returns
 
     def get_next_order_id(self):
         with open('Data/OrderIDs.csv') as order_id_file:
