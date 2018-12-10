@@ -32,6 +32,7 @@ class CustomerSubMenu:
 
         # Register New Customer 
         if user_input == "1":
+            self.new_customer_view()
             new_customer = self.get_add_customer_input()
             self._customer_service.add_customer(new_customer)
         # Search Customers
@@ -71,6 +72,7 @@ class CustomerSubMenu:
             self.see_customer_list()
         # Add Customer Credit Card
         if user_input == "7":
+            self.add_credit_card_view()
             new_card = self.get_add_creditcard_input()
             self._customer_service.add_credit_card(new_card)
 
@@ -127,8 +129,10 @@ class CustomerSubMenu:
                 os.system('pause')
                 self.see_customer_list()
         self.valid = False
+        customer = self._customer_service.get_customer_viewmodel(customer_id)
+        self.add_credit_card_view_and_customer(customer)
         while not self.valid:
-            card_number = input("Enter credit card number: ")
+            card_number = input("Credit card number: ")
             self.valid = self._validation_service.is_card_number_valid(card_number)
             if not self.valid:
                 print("Please enter a valid card number")
@@ -262,7 +266,7 @@ class CustomerSubMenu:
                 "\t \___\_,_/__/\__\___/_|_|_\___|_|   |_||_|_/__/\__\___/_|  \_, |\n"
                 "\t                                                          |__/ \n\n"
                 "Customer info:\n"
-                "customerID:     First name:       Last name:      Country:")
+                "customerID:     First name:       Last name:           Country:")
         
 
         print(customer)
@@ -285,4 +289,38 @@ class CustomerSubMenu:
                 "\t| (__| ' \/ _` | ' \/ _` / -_) | (_| || (_-<  _/ _ \ '  \/ -_) '_|  | || ' \|  _/ _ \ \n"
                 "\t \___|_||_\__,_|_||_\__, \___|  \___\_,_/__/\__\___/_|_|_\___|_|   |___|_||_|_| \___/\n"
                 "\t                    |___/                                                            \n\n")
-        
+    
+    def new_customer_view(self):
+        os.system('cls')
+        print(  "\t _  _               ___        _                     \n"
+                "\t| \| |_____ __ __  / __|  _ __| |_ ___ _ __  ___ _ _ \n"
+                "\t| .` / -_) V  V / | (_| || (_-<  _/ _ \ '  \/ -_) '_|\n"
+                "\t|_|\_\___|\_/\_/   \___\_,_/__/\__\___/_|_|_\___|_|   \n\n")
+
+    def new_customer_view(self):
+        os.system('cls')
+        print(  "\t _  _               ___        _                     \n"
+                "\t| \| |_____ __ __  / __|  _ __| |_ ___ _ __  ___ _ _ \n"
+                "\t| .` / -_) V  V / | (_| || (_-<  _/ _ \ '  \/ -_) '_|\n"
+                "\t|_|\_\___|\_/\_/   \___\_,_/__/\__\___/_|_|_\___|_|   \n\n")
+
+    def add_credit_card_view(self):
+        os.system('cls')
+        print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
+                "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
+                "\t / _ \/ _` / _` | | (__| '_/ -_) _` | |  _| | (__/ _` | '_/ _` |\n"
+                "\t/_/ \_\__,_\__,_|  \___|_| \___\__,_|_|\__|  \___\__,_|_| \__,_|\n\n")
+
+    def add_credit_card_view_and_customer(self, Customer):
+        os.system('cls')
+        print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
+                "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
+                "\t / _ \/ _` / _` | | (__| '_/ -_) _` | |  _| | (__/ _` | '_/ _` |\n"
+                "\t/_/ \_\__,_\__,_|  \___|_| \___\__,_|_|\__|  \___\__,_|_| \__,_|\n\n")
+
+        print("Customer ID  Name        Country")
+        print(Customer)
+        print("\nRegistered Credit Cards:")
+        for creditcard in Customer._card_number:
+            print(creditcard)
+        print("\nEnter a new credit card in the format 0000111122223333\n")
