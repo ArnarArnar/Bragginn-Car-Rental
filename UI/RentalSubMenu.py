@@ -432,7 +432,7 @@ class RentalSubMenu:
                 "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
                 "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
                 "\t                                                |__/ \n\n"             
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        "Order  CustomerID   Name                       CarNr   Brand     Type    StartDate     EndDate     Ins.  Total cost: \n")
         for rental in rvList:
             print(rental)
         os.system('pause')
@@ -493,7 +493,7 @@ class RentalSubMenu:
                 "\t  /_\ | | |  / _ \ _ _ __| |___ _ _ ___\n"
                 "\t / _ \| | | | (_) | '_/ _` / -_) '_(_-<\n"
                 "\t/_/ \_\_|_|  \___/|_| \__,_\___|_| /__/\n\n"
-                "OrderID:  customerID:  carID:       startDate:      days:      total price: \n")
+                "Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost \n")
         for rental in rental_list:
             print(rental)
 
