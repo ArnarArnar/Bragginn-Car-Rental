@@ -41,6 +41,7 @@ class RentalSubMenu:
             self._rental_service.add_rental(new_rental)
         # Rental History
         if user_input == "2":
+            self.rental_history_view()
             car_id = self.get_car_rental_history_input()
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
@@ -421,14 +422,15 @@ class RentalSubMenu:
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t ___         _        _   _    _    _   \n"
-              "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
-              "\t|   / -_) ' \  _/ _` | | | |__| (_-<  _|\n"
-              "\t|_|_\___|_||_\__\__,_|_| |____|_/__/\__|\n\n"              
+        print(  "\t ___         _        _   _  _ _    _                \n"
+                "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
+                "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
+                "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
+                "\t                                                |__/ \n\n"             
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rvList:
             print(rental)
-
+        os.system('pause')
     
     def return_a_car_view(self):
         os.system('cls')
@@ -489,3 +491,11 @@ class RentalSubMenu:
                 "OrderID:  customerID:  carID:       startDate:      days:      total price: \n")
         for rental in rental_list:
             print(rental)
+
+    def rental_history_view(self):
+        os.system('cls')
+        print(  "\t ___         _        _   _  _ _    _                \n"
+                "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
+                "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
+                "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
+                "\t                                                |__/ \n\n")
