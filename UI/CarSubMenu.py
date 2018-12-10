@@ -43,7 +43,7 @@ class CarSubMenu:
             self._car_service.add_car(new_car)
         # See Car History
         if user_input == "5":
-            car_id = self.get_car_id_input()
+            car_id = self.get_car_rental_history_input()
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
 
