@@ -321,7 +321,7 @@ class RentalSubMenu:
     def get_order_id_input(self):
         self.valid = False
         while not self.valid:
-            order_id = input("Please enter a order id to delete: ")
+            order_id = input("Please enter a order ID: ")
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
                 os.system('cls')
