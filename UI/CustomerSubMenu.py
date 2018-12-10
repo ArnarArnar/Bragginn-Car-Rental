@@ -38,8 +38,9 @@ class CustomerSubMenu:
         # Search Customers
         if user_input == "2":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer_viewmodel(customer_id)
-            self.see_customer(customer)
+            customer = self._customer_service.get_customer(customer_id)
+            credit_cards = self._customer_service.get_customer_credit_cards(customer_id)
+            self.see_customer(customer, credit_cards)
         # Delete Customer
         if user_input == "3":
             customer_id = self.get_customer_id_input()
@@ -64,9 +65,10 @@ class CustomerSubMenu:
         # See Customer History
         if user_input == "5":
             customer_id = self.get_customer_id_input()
-            customer = self._customer_service.get_customer_viewmodel(customer_id)
+            customer = self._customer_service.get_customer(customer_id)
             customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
-            self.see_customer_history(customer, customer_rentals)
+            credit_cards = self._customer_service.get_customer_credit_cards(customer_id)
+            self.see_customer_history(customer, customer_rentals, credit_cards)
         # See All Customers
         if user_input == "6":
             self.see_customer_list()
@@ -243,7 +245,7 @@ class CustomerSubMenu:
             print(customer)
         os.system('pause')
 
-    def see_customer(self, Customer):
+    def see_customer(self, Customer, credit_cards):
         os.system('cls')
         print("\t  ___        _                        \n"
               "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
@@ -253,11 +255,11 @@ class CustomerSubMenu:
                 "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         print(Customer)
         print("Credit Cards:")
-        for creditcard in Customer._card_number:
+        for creditcard in credit_cards:
             print(creditcard)
         os.system('pause')
 
-    def see_customer_history(self, customer, customer_rentals): #Rental viewlist comes in
+    def see_customer_history(self, customer, customer_rentals, credit_cards): #Rental viewlist comes in
         os.system('cls')
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t  ___        _                       _  _ _    _                \n"
@@ -271,7 +273,7 @@ class CustomerSubMenu:
 
         print(customer)
         print("Credit Cards:")
-        for creditcard in customer._card_number:
+        for creditcard in credit_cards:
             print(creditcard)
         print("\nRental history:")
         #Þarf að breyta þessu. Of mikið af upplýsingum. Henda út customerID, First og last name
@@ -290,13 +292,6 @@ class CustomerSubMenu:
                 "\t \___|_||_\__,_|_||_\__, \___|  \___\_,_/__/\__\___/_|_|_\___|_|   |___|_||_|_| \___/\n"
                 "\t                    |___/                                                            \n\n")
     
-    def new_customer_view(self):
-        os.system('cls')
-        print(  "\t _  _               ___        _                     \n"
-                "\t| \| |_____ __ __  / __|  _ __| |_ ___ _ __  ___ _ _ \n"
-                "\t| .` / -_) V  V / | (_| || (_-<  _/ _ \ '  \/ -_) '_|\n"
-                "\t|_|\_\___|\_/\_/   \___\_,_/__/\__\___/_|_|_\___|_|   \n\n")
-
     def new_customer_view(self):
         os.system('cls')
         print(  "\t _  _               ___        _                     \n"

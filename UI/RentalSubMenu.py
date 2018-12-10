@@ -93,10 +93,8 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer does not exist, please register customer first")
-                # Print a list of customers here
                 self._customer_sub_menu.see_customer_list()
                 print("Customer does not exist, please register customer first")
-                #os.system('pause')
         self.valid = False
         while not self.valid:
             self._car_sub_menu.see_fleet_list_in_rent_a_car()
@@ -104,7 +102,6 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car does not exist")
-                # Print a list of cars here
                 os.system('pause')
         self.valid = False
         while not self.valid:
@@ -118,6 +115,10 @@ class RentalSubMenu:
             if not self.valid:
                 print("Date can not be in the past")
                 os.system('pause')
+            self.valid = self._validation_service.is_car_start_date_available(car_id, start_date)
+            if not self.valid:
+                print("This start date is not available for chosen car")
+                os.system('pause')
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")
@@ -125,6 +126,11 @@ class RentalSubMenu:
             if not self.valid:
                 print("Can not rent for negative days")
                 # Print a list of cars here
+                os.system('pause')
+            end_date = self._rental_service.calculate_end_date(start_date, days)
+            self.valid = self._validation_service.is_car_end_date_available(car_id, start_date, days, end_date)
+            if not self.valid:
+                print("Car is not available for this rental period")
                 os.system('pause')
         self.valid = False
         print ( "Please select insurance: \n\n"
@@ -163,7 +169,6 @@ class RentalSubMenu:
                 insurance = input('Please try again: ')
         total_price = self._rental_service.calculate_total_price(car_id, insurance, days)
         order_id = self._rental_service.get_and_set_next_order_id()
-        end_date = self._rental_service.calculate_end_date(start_date, days)
         new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price, end_date)
         
         print("t\ Order successful \n"
