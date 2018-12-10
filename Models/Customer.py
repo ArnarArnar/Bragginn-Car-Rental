@@ -19,7 +19,7 @@ class Customer:
                 self._country, self._drivers_license)
 
     def __str__(self):
-        return '{:<10} : {:<10}  {:<15} : {:^13} : {:^15} : {:^5} : {:^15} : {:^10} : {:^5}'.format(self._customer_id, 
+        return '{:<10} | {:<10}  {:<15} | {:^13} | {:^15} | {:^5} | {:^20} | {:^10} | {:^5}'.format(self._customer_id, 
                 self._first_name, self._last_name, self._phone, self._street, self._zip, self._town,
                 self._country, self._drivers_license)
 
