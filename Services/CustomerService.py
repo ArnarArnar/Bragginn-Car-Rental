@@ -105,6 +105,16 @@ class CustomerService:
                 customer_to_return = customer
         return customer_to_return
 
+    def get_customer_credit_cards(self, customer_id):
+        customer_credit_card_list = []
+        credit_cards = self._customer_repo.get_credit_card_list()
+        for credit_card in credit_cards:
+                    if credit_card._customer_id == customer_id:
+                        customer_credit_card_list.append(credit_card._card_number)
+        return customer_credit_card_list
+        
+
+    # Maybe not being used anymore, we just use customer and credit card seperately
     def get_customer_viewmodel(self, customer_id):
         credit_card_list = []
         customers = self._customer_repo.get_customer_list()
