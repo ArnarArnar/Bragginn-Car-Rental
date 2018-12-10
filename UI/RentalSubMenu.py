@@ -202,29 +202,24 @@ class RentalSubMenu:
         #Hef ekki search for Customer ID vegna þess að ef vv. hefur fleiri
         #en tvo bíla á leigu þá þarf að setja inn auka valmynd fyrir það
         self.return_a_car_view()
-        self.valid = False
+        
         print ( "Search order by: \n\n"
-                "[ 1 ] By car ID\n"
+                "[ 1 ] By car ID [Cannot search after CarID, too complex, much simpler to use just order ID, we'll discuss]\n"
                 "[ 2 ] By order ID\n"
                 "[ q ] Return to main menu\n")
         return_car_user_input = input('Please select an option: ')
+        self.valid = False
         while not self.valid:
-            if return_car_user_input == "1":
-                car_id = input("Enter car ID: ")
-                self.valid = self._validation_service.does_car_id_exist(car_id)
-                if not self.valid:
-                    print("Car does not exist")
-                    # Print a list of cars that are in rental here
-                    os.system('pause')
-            if return_car_user_input == "2":
-                order_id = input("Enter order ID: ")
-                self.valid = self._validation_service.does_order_id_exist(order_id)
-                if not self.valid:
-                    print("Order id does not exsist")
-                    os.system('pause')
+            order_id = input("Enter order ID: ")
             if return_car_user_input == "q":
                 return
+            self.valid = self._validation_service.does_order_id_exist(order_id)
+            if not self.valid:
+                print("Order id does not exsist")
+                os.system('pause')   
         self.return_a_car_view()
+        print(order_id)
+        os.system('pause')
         self.valid = False
         print ( "Is the Car being return late?: \n\n"
                 "[ 1 ] It's right on time!\n"
@@ -242,6 +237,8 @@ class RentalSubMenu:
             if return_car_user_input_is_ok == "q":
                 return
         self.return_a_car_view()
+        print(days_late)
+        os.system('pause')
         self.valid = False
         print ( "Is the Car OK?: \n\n"
                 "[ 1 ] Yes\n"
@@ -258,6 +255,8 @@ class RentalSubMenu:
             if return_car_user_input_is_ok == "q":
                 return
         self.return_a_car_view()
+        print(return_comment)
+        os.system('pause')
         self.valid = False
         print ( "Was the fuel tank full?: \n\n"
             "[ 1 ] Yes\n"
@@ -281,9 +280,10 @@ class RentalSubMenu:
                     "[ q ] Return to main menu\n")
                 while not self.valid:
                     return_car_user_input_fuel_how_much = input('Please select an option: ')
+                    gas_level = "Not full"
                     self.valid = self._validation_service.is_number_negative(return_car_user_input_fuel_how_much)
+                    print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
                     os.system('pause')
-                    return
             if return_car_user_input_fuel_full == "q":
                 return
         car_return = CarReturn(order_id, days_late, gas_level, return_comment)

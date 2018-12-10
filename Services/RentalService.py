@@ -8,6 +8,7 @@ from Repositories.CustomerRepository import CustomerRepository
 from Models.Rental import Rental
 from Models.Car import Car
 from Models.Customer import Customer
+from Models.CarReturn import CarReturn
 from ViewModels.RentalViewModel import RentalViewModel
 
 
