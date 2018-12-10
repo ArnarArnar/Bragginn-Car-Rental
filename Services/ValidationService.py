@@ -69,6 +69,11 @@ class ValidationService:
             return False  
         return True
 
+    def is_car_type_option_valid(self, car_type):
+        if car_type == "1" or car_type == "2" or car_type == "3" or car_type == "3":
+            return True
+
+    #Má mögulega henda vegna þess að tékkið hér að ofan ætti að vera nóg.
     def is_car_type_valid(self, car_type):
         # Can only enter the types that we decide e.g. budget, off road, luxury etc.
         return True

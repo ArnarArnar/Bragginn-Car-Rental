@@ -37,6 +37,8 @@ class CarSubMenu:
             self.see_all_available()
         # Add Car
         if user_input == "4":
+            os.system('cls')
+            self.add_car_view()
             new_car = self.get_add_car_input()
             self._car_service.add_car(new_car)
         # See Car History
@@ -62,7 +64,7 @@ class CarSubMenu:
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:
-            year = int(input("Enter year of car model (YYYY): "))
+            year = int(input("The cars production year (YYYY): "))
             self.valid = self._validation_service.is_year_valid(year)
             if not self.valid:
                 print("Year needs to be in the format (YYYY), not older then 1980 and of course cannot be in the future")
@@ -75,13 +77,39 @@ class CarSubMenu:
                 print("Price can not be negative")
                 os.system('pause')
         self.valid = False
+        print ( "Please select insurance: \n\n"
+            "[ 1 ] Budget\n"
+            "[ 2 ] Family\n"
+            "[ 3 ] Jeep\n"
+            "[ 4 ] Luxury\n")
         while not self.valid:
             car_type = input("Enter car type: ")
-            self.valid = self._validation_service.is_year_valid(year)
+            if car_type == "1":
+                self.valid = self._validation_service.is_car_type_option_valid(car_type)
+                car_type = "Budget"
+            if car_type == "2":
+                self.valid = self._validation_service.is_car_type_option_valid(car_type)
+                car_type = "Family"  
+            if car_type == "3":
+                self.valid = self._validation_service.is_car_type_option_valid(car_type)
+                car_type = "Jeep"
+            if car_type == "4":
+                self.valid = self._validation_service.is_car_type_option_valid(car_type)
+                car_type = "Luxury"
+            self.valid = self.valid = self._validation_service.is_car_type_valid(car_type)
             if not self.valid:
                 print("Car type can only be one of 4 types (Jeep, Luxury, Budget, Family")
                 os.system('pause')
         new_car = Car(car_id, brand, year, price_per_day, car_type)
+        os.system('cls')
+        self.add_car_view()
+        print("New car registered \n\n"
+        "Car name:        " + car_id + "\n" 
+        "Car brand:       " + brand + "\n"
+        "Production year: " + str(year) + "\n"
+        "Price per day:   " + str(price_per_day) + "\n"
+        "Car type:        " + car_type + "\n")
+        os.system('pause')
         return new_car
 
     def get_car_id_input(self):
@@ -179,3 +207,9 @@ class CarSubMenu:
         for rental in rvList:
             print(rental)
         os.system('pause')
+        
+    def add_car_view(self): #Rental viewlist comes in
+        print(  "\t   _      _    _    ___          \n"
+                "\t  /_\  __| |__| |  / __|__ _ _ _ \n"
+                "\t / _ \/ _` / _` | | (__/ _` | '_|\n"
+                "\t/_/ \_\__,_\__,_|  \___\__,_|_|  \n\n" )
