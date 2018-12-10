@@ -69,6 +69,7 @@ class RentalSubMenu:
                 return
         # Change order
         if user_input == "5":
+            self.change_order_view()
             order_id = self.get_order_id_input()
             rental = self._rental_service.get_rental(order_id)
             self.see_order(rental)
@@ -326,7 +327,7 @@ class RentalSubMenu:
             if not self.valid:
                 os.system('cls')
                 print("Order ID does not exist")
-                self.see_rental_list()
+                self.change_order_view_list_all()
         return order_id
 
     def get_order_id_input_to_cancel(self):
@@ -338,18 +339,17 @@ class RentalSubMenu:
                 os.system('cls')
                 print("Order ID does not exist")
                 self.see_rental_list()
+                print("\n")
         return order_id
 
     def get_change_order_input(self, rental): 
         os.system('cls')
-        print("\t*************** Bragginn Car Rental ************ \n"
-                "\t************************************************** \n"
-                "\t**************** Customer List **************** \n"
-                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+        self.change_order_view()
+        print("OderID        CustomerID CarID ..... þarf að breyta þessu view modeli: \n")
         print(rental)
-        print("\t1. Customer ID               3. Change start date\n"
-                "\t2. Change car ID          4. Change days\n"
-                "\t5. Change insurance")
+        print("\n[1] Change what customer registered for the rent   [4] Change duration of the rent\n"
+                "[2] Change car                                     [5] Change insurance\n"
+                "[3] Change start date                              [Q] Return to main menu\n\n")
         user_input = input("What would you like to change? ")
         return user_input
 
@@ -461,13 +461,24 @@ class RentalSubMenu:
                 "\t| (__/ _` | ' \/ _/ -_) | | (_) | '_/ _` / -_) '_|\n"
                 "\t \___\__,_|_||_\__\___|_|  \___/|_| \__,_\___|_|  \n")
 
-    def delete_order_view(self):
+    def change_order_view(self):
         os.system('cls')
         print(  "\t  ___ _                          ___         _         \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
                 "\t| (__| ' \/ _` | ' \/ _` / -_) | (_) | '_/ _` / -_) '_|\n"
                 "\t \___|_||_\__,_|_||_\__, \___|  \___/|_| \__,_\___|_|  \n"
                 "\t                    |___/                              \n")
+
+    def change_order_view_list_all(self):
+        rental_list = self._rental_service.get_rental_list()
+        print(  "\t  ___ _                          ___         _         \n"
+                "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
+                "\t| (__| ' \/ _` | ' \/ _` / -_) | (_) | '_/ _` / -_) '_|\n"
+                "\t \___|_||_\__,_|_||_\__, \___|  \___/|_| \__,_\___|_|  \n"
+                "\t                    |___/                              \n")
+        for rental in rental_list:
+            print(rental)
+
     def all_order_view(self):
         rental_list = self._rental_service.get_rental_list()
         os.system('cls')
