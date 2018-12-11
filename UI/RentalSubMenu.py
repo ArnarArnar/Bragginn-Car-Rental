@@ -235,14 +235,19 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
                 print("Order id does not exsist")
-                self._system.pause_system()  
+                self._system.pause_system()
+                continue
+            self.valid = not self._validation_service.has_order_already_been_returned(order_id)
+            if not self.valid:
+                print("Order has already been returned")
+                self._system.pause_system()
         self.return_a_car_view()
         print(order_id)
         self._system.pause_system()
         self.valid = False
         print ( "Is the Car being return late?: \n\n"
                 "[ 1 ] It's right on time!\n"
-                "[ 2 ] No, it's too late\n"
+                "[ 2 ] It's too late\n"
                 "[ q ] Return to main menu\n")
         
         while not self.valid:
@@ -312,7 +317,8 @@ class RentalSubMenu:
                     self._system.pause_system()
             if return_car_user_input_fuel_full == "q":
                 return
-        car_return = CarReturn(order_id, days_late, gas_level, return_comment)
+        extra_fee = self._rental_service.calculate_extra_fee(order_id, days_late, gas_level)
+        car_return = CarReturn(order_id, days_late, gas_level, return_comment, extra_fee)
         return car_return
 
     def get_insurance_input(self): # name, price

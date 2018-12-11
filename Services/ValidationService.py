@@ -125,6 +125,14 @@ class ValidationService:
             if insurance._name == insurance_name:
                 return True
         return False
+
+    def has_order_already_been_returned(self, order_id):
+        returns_pkeys = self._rental_repo.get_returns_primary_keys()  
+        if order_id in returns_pkeys:
+            return True
+        else:
+            return False
+
 # Order UI insurance
     #þarf að vera í lagi að setja annaðhvort inn insurance short code eða tölur
     def is_insurance_valid(self, insurance_name):

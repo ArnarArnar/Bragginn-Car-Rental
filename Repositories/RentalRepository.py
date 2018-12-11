@@ -44,7 +44,7 @@ class RentalRepository:
     def add_return(self, CarReturn):
         with open(os.path.realpath('Data/Returns.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([CarReturn._order_id, CarReturn._days_late, CarReturn._gas_level, CarReturn._return_comment])
+            csv_writer.writerow([CarReturn._order_id, CarReturn._days_late, CarReturn._gas_level, CarReturn._return_comment, CarReturn._extra_fee])
 
 
 #Get functions
@@ -77,7 +77,7 @@ class RentalRepository:
             csv_reader = csv.reader(csv_file, delimiter=';')
             returns_list = list(csv_reader)
             for row in returns_list:
-                return_data = CarReturn(row[0], row[1],  row[2], row[3])
+                return_data = CarReturn(row[0], row[1],  row[2], row[3], row[4])
                 Returns.append(return_data)
         return Returns
 
@@ -94,6 +94,15 @@ class RentalRepository:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:
+                self._primary_keys.append(row[0])
+        return self._primary_keys
+
+    def get_returns_primary_keys(self):
+        self._primary_keys.clear()
+        with open(os.path.realpath('Data/Returns.csv')) as customer_file:
+            csv_reader = csv.reader(customer_file, delimiter=';')
+            returns_list = list(csv_reader)
+            for row in returns_list:
                 self._primary_keys.append(row[0])
         return self._primary_keys
 
