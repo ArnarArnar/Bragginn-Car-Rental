@@ -17,22 +17,22 @@ class RentalRepository:
     def add_rental(self, Rental):
         rental_date = datetime.strftime(Rental._start_date, '%d %m %Y')
         rental_end_date = datetime.strftime(Rental._end_date, '%d %m %Y')
-        with open('Data/Rentals.csv', 'a+', newline='') as csv_file:
+        with open('Data/Rentals.csv', 'a+', newline='', encoding='ASCII') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Rental._order_id, Rental._customer_id, Rental._car_id,
                                 rental_date, Rental._days, Rental._insurance, Rental._total_price, rental_end_date])
 
     def add_order_id(self, order_id):
-        with open('Data/OrderIDs.csv', 'a+', newline='') as csv_file:
+        with open('Data/OrderIDs.csv', 'a+', newline='', encoding='ASCII') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([order_id])
     
     def add_insurance(self, Insurance):
-        with open('Data/Insurance.csv', 'a+', newline='') as csv_file:
+        with open('Data/Insurance.csv', 'a+', newline='', encoding='ASCII') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Insurance._short_code, Insurance._name, Insurance._price])
 
-    def overwrite_rentals_list(self, rentals_list):
+    def overwrite_rentals_list(self, rentals_list, encoding='ASCII'):
         with open('Data/Rentals.csv', 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for rental in rentals_list:
@@ -41,7 +41,7 @@ class RentalRepository:
                                 rental._total_price, datetime.strftime(rental._end_date, '%d %m %Y')])
 
     def add_return(self, CarReturn):
-        with open('Data/Returns.csv', 'a+', newline='') as csv_file:
+        with open('Data/Returns.csv', 'a+', newline='', encoding='ASCII') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([CarReturn._order_id, CarReturn._days_late, CarReturn._gas_level, CarReturn._return_comment])
 
@@ -49,7 +49,7 @@ class RentalRepository:
 #Get functions
     def get_rental_list(self):
         self.__Rentals.clear()
-        with open('Data/Rentals.csv') as rentals_file:
+        with open('Data/Rentals.csv', encoding='ASCII') as rentals_file:
             rentals_reader = csv.reader(rentals_file, delimiter=';')
             rentals_list = list(rentals_reader)
             for row in rentals_list:
@@ -62,7 +62,7 @@ class RentalRepository:
     
     def get_insurance_list(self):
         self.__Insurance.clear()
-        with open('Data/Insurance.csv') as csv_file:
+        with open('Data/Insurance.csv', encoding='ASCII') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             insurance_list = list(csv_reader)
             for row in insurance_list:
@@ -72,7 +72,7 @@ class RentalRepository:
 
     def get_returns_list(self):
         Returns = []
-        with open('Data/Returns.csv') as csv_file:
+        with open('Data/Returns.csv', encoding='ASCII') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             returns_list = list(csv_reader)
             for row in returns_list:
@@ -80,14 +80,14 @@ class RentalRepository:
                 Returns.append(return_data)
         return Returns
 
-    def get_next_order_id(self):
+    def get_next_order_id(self, encoding='ASCII'):
         with open('Data/OrderIDs.csv') as order_id_file:
             order_id_reader = csv.reader(order_id_file, delimiter=';')
             id_list = list(order_id_reader)
             next_id = int(id_list[-1][0]) + 1
         return next_id
 
-    def get_rentals_primary_keys(self):
+    def get_rentals_primary_keys(self, encoding='ASCII'):
         self._primary_keys.clear()
         with open('Data/Rentals.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
@@ -96,7 +96,7 @@ class RentalRepository:
                 self._primary_keys.append(row[0])
         return self._primary_keys
 
-    def get_insurance_primary_keys(self):
+    def get_insurance_primary_keys(self, encoding='ASCII'):
         self._primary_keys.clear()
         with open('Data/Insurance.csv') as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')

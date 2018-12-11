@@ -13,7 +13,7 @@ class CarRepository:
 
 #Post functions
     def add_car(self, Car):
-        with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='') as csv_file:
+        with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='', encoding='ASCII') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Car._car_id, Car._brand, Car._year, Car._price_per_day, Car._car_type])
 

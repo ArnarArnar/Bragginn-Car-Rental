@@ -11,6 +11,7 @@ from ViewModels.RentalViewModel import RentalViewModel
 from UI.DisplayHeader import DisplayHeader
 from UI.CustomerSubMenu import CustomerSubMenu
 from UI.CarSubMenu import CarSubMenu
+from UI.SystemSpecificUI import SystemSpecificUI
 
 
 class RentalSubMenu:
@@ -23,6 +24,7 @@ class RentalSubMenu:
         self._validation_service = ValidationService()
         self._customer_sub_menu = CustomerSubMenu()
         self._car_sub_menu = CarSubMenu()
+        self._system = SystemSpecificUI()
         
 
     def rental_sub_menu(self):
@@ -53,7 +55,7 @@ class RentalSubMenu:
             car_return = self.get_return_a_car_input()
             if car_return == "q":
                 print("return car cancelled")
-                os.system('pause')
+                self._system.pause_system()
                 return
             self._rental_service.add_return(car_return)
         # Cancel Order
@@ -70,10 +72,10 @@ class RentalSubMenu:
             if user_answer == '1':
                 self._rental_service.delete_order(order_id)
                 print("Order deleted from database")
-                os.system('pause')
+                self._system.pause_system()
             else:
                 print("Order deletion cancelled ")
-                os.system('pause')
+                self._system.pause_system()
                 return
         # Change order
         if user_input == "5":
@@ -86,7 +88,7 @@ class RentalSubMenu:
         # See All Orders
         if user_input == "6":
             self.all_order_view()
-            os.system('pause')
+            self._system.pause_system()
         # Add Insurance Type
         if user_input == "7":
             insurance = self.get_insurance_input()
@@ -109,23 +111,23 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car does not exist")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
             self.valid = self._validation_service.is_date_valid(start_date_input)
             if not self.valid:
                 print("Date is not in valid format")
-                os.system('pause')
+                self._system.pause_system()
             start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
             self.valid = not self._validation_service.is_date_in_past(start_date)
             if not self.valid:
                 print("Date can not be in the past")
-                os.system('pause')
+                self._system.pause_system()
             self.valid = self._validation_service.is_car_start_date_available(car_id, start_date)
             if not self.valid:
                 print("This start date is not available for chosen car")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")
@@ -133,12 +135,12 @@ class RentalSubMenu:
             if not self.valid:
                 print("Can not rent for negative days")
                 # Print a list of cars here
-                os.system('pause')
+                self._system.pause_system()
             end_date = self._rental_service.calculate_end_date(start_date, days)
             self.valid = self._validation_service.is_car_end_date_available(car_id, start_date, days, end_date)
             if not self.valid:
                 print("Car is not available for this rental period")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         print ( "Please select insurance: \n\n"
             "[ 1 ] Front Window Insurance. 4500 kr\n"
@@ -151,19 +153,19 @@ class RentalSubMenu:
                 self.valid = self._validation_service.does_short_code_exist(insurance)
                 if not self.valid:
                     print("Invalid input")
-                    os.system('pause')
+                    self._system.pause_system()
             if insurance == "2":
                 insurance = "GRI"
                 self.valid = self._validation_service.does_short_code_exist(insurance)
                 if not self.valid:
                     print("Invalid input")
-                    os.system('pause')   
+                    self._system.pause_system()  
             if insurance == "3":
                 insurance = "NON"
                 self.valid = self._validation_service.does_short_code_exist(insurance)
                 if not self.valid:
                     print("Invalid input")
-                    os.system('pause')
+                    self._system.pause_system()
 
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
@@ -182,7 +184,7 @@ class RentalSubMenu:
             "t\ Customer " + customer_id + "\n"
             "t\ Car number"  + car_id + "\n"
         )
-        os.system('pause')
+        self._system.pause_system()
         return new_rental
 
     def get_car_id_input(self):
@@ -192,12 +194,12 @@ class RentalSubMenu:
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
                 print("Car Id can not be longer then X ")
-                os.system('pause')
+                self._system.pause_system()
                 continue
             self.valid = not self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id already exists")
-                os.system('pause')
+                self._system.pause_system()
         return car_id
     
     def get_car_rental_history_input(self):
@@ -208,7 +210,7 @@ class RentalSubMenu:
             if not self.valid:
                 print("Car Id does not exist! Please enter a car ID that exists")
                 # See fleet list from car service if we want
-                os.system('pause')
+                self._system.pause_system()
         return car_id
 
     def get_return_a_car_input(self):
@@ -232,10 +234,10 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
                 print("Order id does not exsist")
-                os.system('pause')   
+                self._system.pause_system()  
         self.return_a_car_view()
         print(order_id)
-        os.system('pause')
+        self._system.pause_system()
         self.valid = False
         print ( "Is the Car being return late?: \n\n"
                 "[ 1 ] It's right on time!\n"
@@ -254,7 +256,7 @@ class RentalSubMenu:
                 return "q"
         self.return_a_car_view()
         print(days_late)
-        os.system('pause')
+        self._system.pause_system()
         self.valid = False
         print ( "Is the Car OK?: \n\n"
                 "[ 1 ] Yes\n"
@@ -272,7 +274,7 @@ class RentalSubMenu:
                 return
         self.return_a_car_view()
         print(return_comment)
-        os.system('pause')
+        self._system.pause_system()
         self.valid = False
         print ( "Was the fuel tank full?: \n\n"
             "[ 1 ] Yes\n"
@@ -283,7 +285,7 @@ class RentalSubMenu:
             if return_car_user_input_fuel_full == "1":
                 gas_level = "FULL"
                 print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
-                os.system('pause')
+                self._system.pause_system()
                 self.valid = True
             if return_car_user_input_fuel_full == "2":
                 self.return_a_car_view()
@@ -306,7 +308,7 @@ class RentalSubMenu:
                         gas_level = "less than 1/4"
                     self.valid = True
                     print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
-                    os.system('pause')
+                    self._system.pause_system()
             if return_car_user_input_fuel_full == "q":
                 return
         car_return = CarReturn(order_id, days_late, gas_level, return_comment)
@@ -319,7 +321,7 @@ class RentalSubMenu:
             self.valid = not self._validation_service.does_insurance_name_exist(name)
             if not self.valid:
                 print("Insurance already exists ")
-                os.system('pause')
+                self._system.pause_system()
                 self.see_insurance_list()
         self.valid = False
         while not self.valid:
@@ -327,7 +329,7 @@ class RentalSubMenu:
             self.valid = not self._validation_service.does_short_code_exist(short_code)
             if not self.valid:
                 print("Short Code already exists ")
-                os.system('pause')
+                self._system.pause_system()
                 self.see_insurance_list()
         self.valid = False
         while not self.valid:
@@ -337,7 +339,7 @@ class RentalSubMenu:
                 print("Car does not exist")
                 # Print a list of cars here
                 self.see_insurance_list()
-                os.system('pause')
+                self._system.pause_system()
         new_insurance = Insurance(short_code, name, price)
         return new_insurance
     
@@ -347,7 +349,7 @@ class RentalSubMenu:
             order_id = input("Please enter a order ID: ")
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
-                os.system('cls')
+                self._system.clear_screen()
                 print("Order ID does not exist")
                 self.change_order_view_list_all()
         return order_id
@@ -358,14 +360,14 @@ class RentalSubMenu:
             order_id = input("Please enter a order id to delete: ")
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
-                os.system('cls')
+                self._system.clear_screen()
                 print("Order ID does not exist")
                 self.see_rental_list()
                 print("\n")
         return order_id
 
     def get_change_order_input(self, rental): 
-        os.system('cls')
+        self._system.clear_screen()
         self.change_order_view()
         print("OderID        CustomerID CarID ..... þarf að breyta þessu view modeli: \n")
         print(rental)
@@ -393,7 +395,7 @@ class RentalSubMenu:
                 self.valid = self._validation_service.does_car_id_exist(new_car_id)
                 if not self.valid:
                     print("Please enter a valid car id")
-                    os.system('pause')
+                    self._system.pause_system()
             self._rental_service.update_car_id(rental, new_car_id)
         elif change == '3': #Start_date
             while not self.valid:
@@ -401,12 +403,12 @@ class RentalSubMenu:
                 self.valid = self._validation_service.is_date_valid(new_start_date_input)
                 if not self.valid:
                     print("Date is not in valid format")
-                    os.system('pause')
+                    self._system.pause_system()
                 new_start_date = datetime.date(datetime.strptime(new_start_date_input, '%d/%m/%Y'))
                 self.valid = not self._validation_service.is_date_in_past(new_start_date)
                 if not self.valid:
                     print("Date can not be in the past")
-                    os.system('pause')
+                    self._system.pause_system()
             self._rental_service.update_start_date(rental, new_start_date)
         elif change == '4': #days
             while not self.valid:
@@ -415,7 +417,7 @@ class RentalSubMenu:
                 if not self.valid:
                     print("Can not rent for negative days")
                     # Print a list of cars here
-                    os.system('pause')
+                    self._system.pause_system()
             self._rental_service.update_days(rental, new_days)
         elif change == '5': #insurance
             self.valid = False
@@ -425,7 +427,7 @@ class RentalSubMenu:
                 if not self.valid:
                     print("Insurance short code does not exist")
                     # Print list of available insurance
-                    os.system('pause')
+                    self._system.pause_system()
             self._rental_service.update_insurance(rental, new_insurance)
 
 #Views
@@ -441,7 +443,7 @@ class RentalSubMenu:
             print(rental)
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
-        os.system('cls')
+        self._system.clear_screen()
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t ___         _        _   _  _ _    _                \n"
                 "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
@@ -451,10 +453,10 @@ class RentalSubMenu:
         "Order  CustomerID   Name                       CarNr   Brand     Type    StartDate     EndDate     Ins.  Total cost: \n")
         for rental in rvList:
             print(rental)
-        os.system('pause')
+        self._system.pause_system()
     
     def see_rental_overview(self, rental): #Rental viewlist comes in
-        os.system('cls')
+        self._system.clear_screen()
         customer = self._customer_service.get_customer(rental._customer_id)
         credit_cards = self._customer_service.get_customer_credit_cards(rental._customer_id)
         print(  "\t ___         _        _   _  _ _    _                \n"
@@ -469,7 +471,7 @@ class RentalSubMenu:
         print(customer)
         if not credit_cards:
             print("Customer has no registered credit card, please enter card: ")
-            os.system('pause')
+            self._system.pause_system()
             new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
             self._customer_service.add_credit_card(new_card)
             card_selected = new_card._card_number
@@ -479,10 +481,10 @@ class RentalSubMenu:
             card_selected = input("Enter number of card to use: ")
         
         print("Payment charged to card no: " + card_selected)
-        os.system('pause')
+        self._system.pause_system()
     
     def return_a_car_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t ___     _                     _      ___          \n"
                 "\t| _ \___| |_ _  _ _ _ _ _     /_\    / __|__ _ _ _ \n"
                 "\t|   / -_)  _| || | '_| ' \   / _ \  | (__/ _` | '_|\n"
@@ -490,7 +492,7 @@ class RentalSubMenu:
 
     def see_insurance_list(self):
         insurance_list = self._rental_service.get_insurance_list()
-        os.system('cls')
+        self._system.clear_screen()
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print("\t*************** Bragginn Car Rental ************ \n"
               "\t************************************************** \n"
@@ -498,7 +500,7 @@ class RentalSubMenu:
                 "\tshort code:     name of insurance:       price per day: \n")
         for insurance in insurance_list:
             print(insurance)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_order(self, rental):
         # Here we need a proper header in a seperate function in DisplayHeader.py
@@ -506,14 +508,14 @@ class RentalSubMenu:
         print(rental)
 
     def cancel_order_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t  ___                  _    ___         _         \n"
                 "\t / __|__ _ _ _  __ ___| |  / _ \ _ _ __| |___ _ _ \n"
                 "\t| (__/ _` | ' \/ _/ -_) | | (_) | '_/ _` / -_) '_|\n"
                 "\t \___\__,_|_||_\__\___|_|  \___/|_| \__,_\___|_|  \n")
 
     def change_order_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t  ___ _                          ___         _         \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
                 "\t| (__| ' \/ _` | ' \/ _` / -_) | (_) | '_/ _` / -_) '_|\n"
@@ -532,7 +534,7 @@ class RentalSubMenu:
 
     def all_order_view(self):
         rental_list = self._rental_service.get_rental_list()
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t   _   _ _    ___         _            \n"
                 "\t  /_\ | | |  / _ \ _ _ __| |___ _ _ ___\n"
                 "\t / _ \| | | | (_) | '_/ _` / -_) '_(_-<\n"
@@ -542,7 +544,7 @@ class RentalSubMenu:
             print(rental)
 
     def rental_history_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t ___         _        _   _  _ _    _                \n"
                 "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
                 "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
