@@ -294,19 +294,15 @@ class CustomerSubMenu:
                 "\t / __|  _ __| |_ ___ _ __  ___ _ _  | || (_)__| |_ ___ _ _ _  _ \n"
                 "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_| | __ | (_-<  _/ _ \ '_| || |\n"
                 "\t \___\_,_/__/\__\___/_|_|_\___|_|   |_||_|_/__/\__\___/_|  \_, |\n"
-                "\t                                                          |__/ \n\n"
-                "Customer info:\n"
-                "customerID:     First name:       Last name:           Country:")
-        
-
+                "\t                                                           |__/ \n\n"
+                "Customer info:\n\n"
+                "customerID   Name                              Phone           House          Zip            City            Country     LicenceNr")
         print(customer)
-        print("Credit Cards:")
+        print("Credit Cards: \n")
         for creditcard in credit_cards:
             print(creditcard)
-        print("\nRental history:")
-        #Þarf að breyta þessu. Of mikið af upplýsingum. Henda út customerID, First og last name
-        #Einnig henda út days og setja s_date og e_date hlið við hlið
-        print("OrderID: CustomerID:  First name: Last name: CarID: Car brand: þarf að breyta sjá kóða")
+        print("\nRental history:\n")
+        print("Order  CustomerID   Name                       CarNr   Brand             StartDate    EndDate      Ins.  Total cost")
 
         for rental in customer_rentals:
             print(rental)

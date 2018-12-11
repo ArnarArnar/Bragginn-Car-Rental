@@ -11,7 +11,7 @@ class Insurance:
         return "Car({}', {}', '{}')".format(self._short_code, self._name, self._price)
 
     def __str__(self):
-        return '{}  :   {}  :   {}'.format(self._short_code, self._name, self._price)
+        return '{}  |   {}  |   {}'.format(self._short_code, self._name, self._price)
 
 #Need to add get and set functions for all the elements
 

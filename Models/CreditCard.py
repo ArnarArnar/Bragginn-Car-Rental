@@ -13,7 +13,7 @@ class CreditCard:
                 self._card_number, self._expiry, self._cvc)
 
     def __str__(self):
-        return '{:^12}  :   {:^12}  :   {:^8}'.format(self._card_number, 
+        return '{:^12}  |  {:^12}  |   {:^8}'.format(self._card_number, 
                 self._expiry, self._cvc)
 
 #Need to add get and set functions for all the elements
