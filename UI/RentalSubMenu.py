@@ -500,7 +500,7 @@ class RentalSubMenu:
         self._system.clear_screen()
         rental_list = self._rental_service.get_rental_list()
         for rental in rental_list:
-            if rental.order_id == car_return._order_id:
+            if rental._order_id == car_return._order_id:
                 rental_returned = rental
 
         customer = self._customer_service.get_customer(rental_returned._customer_id)
@@ -514,7 +514,7 @@ class RentalSubMenu:
         print("Rental overview: ")
         print(rental_returned)
         print("Return overview")
-        print(rental_returned)
+        print(car_return)
         print("Customer")
         print(customer)
         if not credit_cards:
