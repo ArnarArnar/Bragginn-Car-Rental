@@ -13,7 +13,7 @@ class CarReturn:
                 self._days_late, self._gas_level, self._return_comment)
 
     def __str__(self):
-        return '{:^12}  :   {:^12}  :   {:^8} :   {:^8}'.format(self._order_id, 
+        return '{:^12}  |  {:^12}  |   {:^8} |   {:^8}'.format(self._order_id, 
                 self._days_late, self._gas_level, self._return_comment)
 
 #GetFunctions

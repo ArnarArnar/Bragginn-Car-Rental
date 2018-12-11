@@ -14,7 +14,7 @@ class Car:
                 self._brand, self._year, self._price_per_day, self._car_type)
 
     def __str__(self):
-        return '{:<7}  :   {:^15}  :   {:^4}  :   {:^5}  :   {:^8s}'.format(self._car_id, 
+        return '{:<7} | {:^15} | {:^4} | {:^5} | {:^8s}'.format(self._car_id, 
                 self._brand, self._year, self._price_per_day, self._car_type)
 
 #Get functions
