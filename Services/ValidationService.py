@@ -203,3 +203,10 @@ class ValidationService:
         #     return False
         # else:
         return True
+
+    def does_card_exist(self, card_selected):
+        card_pkeys = self._customer_repo.get_credit_card_primary_keys()
+        if card_selected in card_pkeys:
+            return True
+        else:
+            return False
