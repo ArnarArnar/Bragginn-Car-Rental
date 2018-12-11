@@ -193,18 +193,16 @@ class RentalSubMenu:
             self.valid = not self._validation_service.has_order_already_been_returned(order_id)
             if not self.valid:
                 print("Order has already been returned")
-                self._system.pause_system()
         self.return_a_car_view()
         self.return_a_car_view_order_selected(order_id)
         self._system.pause_system()
         self.valid = False
         self._system.clear_screen()
         self.return_a_car_view()
-        print ( "Is the Car being return late?: \n\n"
+        print ( "Is the car being returned late?: \n\n"
                 "[ 1 ] It's right on time!\n"
                 "[ 2 ] It's too late\n"
                 "[ q ] Return to main menu\n")
-
         while not self.valid:
             return_car_user_input_is_ok = input('Please select an option: ')
             if return_car_user_input_is_ok == "1":
@@ -407,7 +405,7 @@ class RentalSubMenu:
                 "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
                 "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
                 "\t                                                |__/ \n\n"
-        "Order  CustomerID   Name                       CarNr   Brand     Type    StartDate     EndDate     Ins.  Total cost: \n")
+        "Order  CustomerID   Name                       CarNr   Brand             Type       StartDate    EndDate      Ins.  Total cost: ")
         for rental in rvList:
             print(rental)
         self._system.pause_system()
@@ -415,11 +413,11 @@ class RentalSubMenu:
     def return_a_car_view_order_selected(self, order_id):
         
         print("Order selected for return: \n")
-        print("Rental overview: \n\n"
-                "Order  CustomerID   Name                       CarNr   Brand     Type    StartDate     EndDate     Ins.  Total cost: \n")
+        print("Order  CustomerID   Name                       CarNr   Brand             Type       StartDate    EndDate      Ins.  Total cost: ")
         rental_view = self._rental_service.get_order_rental_history(order_id)
         print(rental_view)
-        print(order_id)
+        print("\n\n\n")
+
 
     def see_rental_overview(self, rental): #Rental viewlist comes in
         self._system.clear_screen()
@@ -534,7 +532,7 @@ class RentalSubMenu:
 
     def see_order(self, rental):
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        print("Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost\n")
         print(rental)
 
     def cancel_order_view(self):

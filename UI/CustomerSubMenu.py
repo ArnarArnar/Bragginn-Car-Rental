@@ -74,6 +74,7 @@ class CustomerSubMenu:
         # See All Customers
         if user_input == "6":
             self.see_customer_list()
+            self._system.pause_system()
         # Add Customer Credit Card
         if user_input == "7":
             self.add_credit_card_view()
@@ -303,7 +304,7 @@ class CustomerSubMenu:
         for creditcard in credit_cards:
             print(creditcard)
         print("\nRental history:\n")
-        print("Order  CustomerID   Name                       CarNr   Brand             StartDate    EndDate      Ins.  Total cost")
+        print("Order  CustomerID   Name                       CarNr   Brand             Type       StartDate    EndDate      Ins.  Total cost ")
 
         for rental in customer_rentals:
             print(rental)

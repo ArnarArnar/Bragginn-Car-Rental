@@ -31,6 +31,7 @@ class CarSubMenu:
         # See Fleet List
         if user_input == "1":
             self.see_fleet_list()
+            self._system.pause_system()
         # See All in Rental
         if user_input == "2":
             self.see_all_in_rental()
@@ -38,6 +39,7 @@ class CarSubMenu:
         # See All Available Cars
         if user_input == "3":
             self.see_all_available()
+            self._system.pause_system()
         # Add Car
         if user_input == "4":
             self._system.clear_screen()
@@ -133,12 +135,11 @@ class CarSubMenu:
     def get_car_rental_history_input(self):
         self.valid = False
         while not self.valid:
-            car_id = input("Enter car ID to see rental history: ")
+            car_id = input("\nEnter car ID to see rental history: ")
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
-                print("Car Id does not exist! Please enter a car ID that exists")
                 self.see_fleet_list()
-                self._system.pause_system()
+                print("Car Id does not exist! Please enter a car ID that exists")
         return car_id
 
 #Views
@@ -154,7 +155,6 @@ class CarSubMenu:
             "CarNr          Brand           Type       Year      Price     \n")
         for car in fleet_list:
             print(car)
-        self._system.pause_system()
 
     def see_fleet_list_in_rent_a_car(self):
         fleet_list = self._car_service.get_fleet_list()
@@ -196,18 +196,19 @@ class CarSubMenu:
             "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_available:
             print(car)
-        self._system.pause_system()
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         self._system.clear_screen()
         # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t ___         _        _   _    _    _   \n"
-              "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
-              "\t|   / -_) ' \  _/ _` | | | |__| (_-<  _|\n"
-              "\t|_|_\___|_||_\__\__,_|_| |____|_/__/\__|\n\n"              
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        print(  "\t  ___            _  _ _    _                \n" 
+                "\t / __|__ _ _ _  | || (_)__| |_ ___ _ _ _  _ \n" 
+                "\t| (__/ _` | '_| | __ | (_-<  _/ _ \ '_| || |\n" 
+                "\t \___\__,_|_|   |_||_|_/__/\__\___/_|  \_, |\n" 
+                "\t                                       |__/ \n\n"              
+                "Order  CustomerID   Name                       CarNr   Brand             Type       StartDate    EndDate      Ins.  Total cost: ")
         for rental in rvList:
             print(rental)
+        print("\n\n\n\n")
         self._system.pause_system()
         
     def add_car_view(self): #Rental viewlist comes in

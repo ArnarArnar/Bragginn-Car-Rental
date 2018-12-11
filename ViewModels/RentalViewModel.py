@@ -28,9 +28,9 @@ class RentalViewModel:
                 self._car_brand, self._start_date, self._days, self._insurance, self._total_price, self._end_date, self._car_type)
 
     def __str__(self):
-        return '{:^4} | {:<10} | {:<10}  {:<12} | {:^5} | {:<15} | {} | {} | {:^3} | {:^8} kr. | {:^8}'.format(
+        return '{:^4} | {:<10} | {:<10}  {:<12} | {:^5} | {:<15} | {:<8} | {} | {} | {:^3} | {:>8} kr '.format(
                 self._order_id, self._customer_id, self._first_name, self._last_name, self._car_id, 
-                self._car_brand, self._start_date, self._end_date,  self._insurance, self._total_price, self._car_type)
+                self._car_brand, self._car_type, self._start_date, self._end_date,  self._insurance, self._total_price)
 
 
 #GetFunctions
