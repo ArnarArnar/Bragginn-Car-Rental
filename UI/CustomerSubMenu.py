@@ -36,16 +36,25 @@ class CustomerSubMenu:
         if user_input == "1":
             self.new_customer_view()
             new_customer = self.get_add_customer_input()
+            if new_customer == "q":
+                print("Adding a new customer has been cancelled")
+                self._system.pause_system()
+                return
             self._customer_service.add_customer(new_customer)
         # Search Customers
         if user_input == "2":
             customer_id = self.get_customer_id_input()
+            if customer_id == "q":
+                return
             customer = self._customer_service.get_customer(customer_id)
             credit_cards = self._customer_service.get_customer_credit_cards(customer_id)
             self.see_customer(customer, credit_cards)
         # Delete Customer
         if user_input == "3":
+            self.delete_customer_view()
             customer_id = self.get_customer_id_input()
+            if customer_id == "q":
+                return
             print("Are you sure you want to delete customer number: " + customer_id)
             user_answer = input("Select y to delete customer from database: ")
             if user_answer == 'y' or user_answer == 'Y':
@@ -61,12 +70,16 @@ class CustomerSubMenu:
             self._system.clear_screen()
             self.change_customer_info_view()
             customer_id = self.get_customer_id_input()
+            if customer_id == "q":
+                return
             customer = self._customer_service.get_customer(customer_id)
             change = self.get_change_customer_input(customer)
             self.update_customer(change, customer)
         # See Customer History
         if user_input == "5":
             customer_id = self.get_customer_id_input()
+            if customer_id == "q":
+                return
             customer = self._customer_service.get_customer(customer_id)
             customer_rentals = self._rental_service.get_customer_rental_history(customer_id)
             credit_cards = self._customer_service.get_customer_credit_cards(customer_id)
@@ -79,6 +92,10 @@ class CustomerSubMenu:
         if user_input == "7":
             self.add_credit_card_view()
             new_card = self.get_add_creditcard_input()
+            if new_card == "q":
+                print("Adding a new credit card has been cancelled")
+                self._system.pause_system()
+                return
             self._customer_service.add_credit_card(new_card)
 
 # Inputs
@@ -86,6 +103,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
+            if customer_id == "q":
+                return "q"
             self.valid = self._validation_service.is_customer_id_valid(customer_id)
             if not self.valid:
                 print("Customer Id is not valid")
@@ -96,26 +115,42 @@ class CustomerSubMenu:
                 self._system.pause_system()
         self.valid = False
         first_name = input("Enter customer first name: ") # Do we need to validate?
+        if first_name == "q":
+                return "q"
         last_name = input("Enter customer last name: ") # Do we need to validate?
+        if last_name == "q":
+                return "q"
         while not self.valid:
             phone = input("Enter customer phone: ")
+            if last_name == "q":
+                return "q"
             self.valid = self._validation_service.is_phone_valid(phone)
             if not self.valid:
                 print("Please enter a valid phone number")
                 self._system.pause_system()
         self.valid = False
         street = input("Enter customer street: ") # Do we need to validate?
+        if street == "q":
+            return "q"
         while not self.valid:
             zip = input("Enter customer zip: ")
+            if zip == "q":
+                return "q"
             self.valid = self._validation_service.is_zip_valid(zip)
             if not self.valid:
                 print("Please enter a valid Zip")
                 self._system.pause_system()
         self.valid = False
         town = input("Enter customer town: ")
+        if town == "q":
+            return "q"
         country = input("Enter customer country: ")
+        if country == "q":
+            return "q"
         while not self.valid:
             drivers_license = input("Enter customer driver's license number: ")
+            if drivers_license == "q":
+                return "q"
             self.valid = self._validation_service.is_drivers_license_valid(drivers_license)
             if not self.valid:
                 print("Please enter a valid driver's license number")
@@ -128,6 +163,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             customer_id = input("Enter customer ID for owner of credit card: ")
+            if customer_id == "q":
+                return "q"
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer does not exist, please register customer first")
@@ -138,6 +175,8 @@ class CustomerSubMenu:
         self.add_credit_card_view_and_customer(customer)
         while not self.valid:
             card_number = input("Credit card number: ")
+            if card_number == "q":
+                return "q"
             self.valid = self._validation_service.is_card_number_valid(card_number)
             if not self.valid:
                 print("Please enter a valid card number")
@@ -145,6 +184,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             expiry = input("Enter expiry date (MM/YY): ")
+            if expiry == "q":
+                return "q"
             self.valid = self._validation_service.is_expiry_valid(expiry)
             if not self.valid:
                 print("Please enter a valid expiry date")
@@ -152,6 +193,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             cvc = input("Enter cvc number: ")
+            if cvc == "q":
+                return "q"
             self.valid = self._validation_service.is_cvc_valid(cvc)
             if not self.valid:
                 print("Please enter a valid cvc number (3 digits on back of card) ")
@@ -166,6 +209,8 @@ class CustomerSubMenu:
         self.add_credit_card_view_and_customer(customer)
         while not self.valid:
             card_number = input("Credit card number: ")
+            if card_number == "q":
+                return "q"
             self.valid = self._validation_service.is_card_number_valid(card_number)
             if not self.valid:
                 print("Please enter a valid card number")
@@ -173,6 +218,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             expiry = input("Enter expiry date (MM/YY): ")
+            if expiry == "q":
+                return "q"
             self.valid = self._validation_service.is_expiry_valid(expiry)
             if not self.valid:
                 print("Please enter a valid expiry date")
@@ -180,6 +227,8 @@ class CustomerSubMenu:
         self.valid = False
         while not self.valid:
             cvc = input("Enter cvc number: ")
+            if cvc == "q":
+                return "q"
             self.valid = self._validation_service.is_cvc_valid(cvc)
             if not self.valid:
                 print("Please enter a valid cvc number (3 digits on back of card) ")
@@ -191,12 +240,13 @@ class CustomerSubMenu:
     def get_customer_id_input(self):
         self.valid = False
         while not self.valid:
-            customer_id = input("Enter customer ID: ")
+            customer_id = input("\nEnter customer ID: ")
+            if customer_id == "q":
+                return "q"
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
-                print("Customer does not exist")
-                self._system.pause_system()
                 self.see_customer_list()
+                print("Customer does not exist")
         return customer_id
 
     def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
@@ -345,3 +395,11 @@ class CustomerSubMenu:
         for creditcard in Customer._card_number:
             print(creditcard)
         print("\nEnter a new credit card in the format 0000111122223333\n")
+
+    def delete_customer_view(self):
+        self._system.clear_screen()
+        print(  "\t ___      _     _          ___        _                     \n"
+                "\t|   \ ___| |___| |_ ___   / __|  _ __| |_ ___ _ __  ___ _ _ \n"
+                "\t| |) / -_) / -_)  _/ -_) | (_| || (_-<  _/ _ \ '  \/ -_) '_|\n"
+                "\t|___/\___|_\___|\__\___|  \___\_,_/__/\__\___/_|_|_\___|_|  \n"
+                "\t                                                            \n\n")
