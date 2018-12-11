@@ -157,6 +157,34 @@ class CustomerSubMenu:
         new_card = CreditCard(customer_id, card_number, expiry, cvc)
         return new_card
 
+    def get_add_creditcard_input_from_rental(self, customer_id):
+        self.valid = False
+        customer = self._customer_service.get_customer_viewmodel(customer_id)
+        self.add_credit_card_view_and_customer(customer)
+        while not self.valid:
+            card_number = input("Credit card number: ")
+            self.valid = self._validation_service.is_card_number_valid(card_number)
+            if not self.valid:
+                print("Please enter a valid card number")
+                os.system('pause')
+        self.valid = False
+        while not self.valid:
+            expiry = input("Enter expiry date (MM/YY): ")
+            self.valid = self._validation_service.is_expiry_valid(expiry)
+            if not self.valid:
+                print("Please enter a valid expiry date")
+                os.system('pause')
+        self.valid = False
+        while not self.valid:
+            cvc = input("Enter cvc number: ")
+            self.valid = self._validation_service.is_cvc_valid(cvc)
+            if not self.valid:
+                print("Please enter a valid cvc number (3 digits on back of card) ")
+                os.system('pause')
+        self.valid = False
+        new_card = CreditCard(customer_id, card_number, expiry, cvc)
+        return new_card
+
     def get_customer_id_input(self):
         self.valid = False
         while not self.valid:
