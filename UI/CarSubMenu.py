@@ -34,6 +34,7 @@ class CarSubMenu:
         # See All in Rental
         if user_input == "2":
             self.see_all_in_rental()
+            self._system.pause_system()
         # See All Available Cars
         if user_input == "3":
             self.see_all_available()
@@ -177,11 +178,10 @@ class CarSubMenu:
               "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
               "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
               "\n"
-              "All cars now in Rental: \n"
-            "CarNr          Brand           Type       Year      Price     \n")
+              "All cars now in Rental: \n\n"
+            "CarNr          Brand           Type       Year      Price     ")
         for car in cars_in_rental:
             print(car)
-        self._system.pause_system()
 
     def see_all_available(self):
         cars_available = self._car_service.get_all_available()
