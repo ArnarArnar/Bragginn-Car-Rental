@@ -94,6 +94,10 @@ class RentalSubMenu:
         if user_input == "7":
             self.see_insurance_list()
             insurance = self.get_insurance_input()
+            if insurance == "q":
+                print("Adding insurance has been cancelled")
+                self._system.pause_system()
+                return
             self._rental_service.add_insurance(insurance)
 
 #Inputs
@@ -273,6 +277,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             name = input("Enter name new of insurance: ")
+            if name == "q":
+                return "q"
             self.valid = not self._validation_service.does_insurance_name_exist(name)
             if not self.valid:
                 print("Insurance already exists ")
@@ -281,6 +287,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             short_code = input("\nEnter short code for Insurance: ")
+            if short_code == "q":
+                return "q"
             self.valid = not self._validation_service.does_short_code_exist(short_code)
             if not self.valid:
                 print("Short Code already exists ")
@@ -289,6 +297,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             price = input("Enter price per day for insurance: ")
+            if price == "q":
+                return "q"
             self.valid = self._validation_service.is_number_valid(price)
             if not self.valid:
                 print("Car does not exist")
