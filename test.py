@@ -63,7 +63,7 @@ customer_service.delete_customer(customer_to_del)
 display = DisplayHeader()
 
 display.display_header_fleet()
-display.display_header_fleet() """
+display.display_header_fleet()
 
 validation_service = ValidationService()
 rental_service = RentalService()
@@ -82,4 +82,7 @@ start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
 
 end_date = rental_service.calculate_end_date(start_date, days)
 
-print(end_date)
+print(end_date)"""
+
+print(os.name)
+input("Press enter to continue...")
