@@ -14,8 +14,8 @@ class CarReturn:
                 self._days_late, self._gas_level, self._return_comment, self._extra_fee)
 
     def __str__(self):
-        return '{:^12}  :   {:^12}  :   {:^8} :   {:^8} :   {:^8}'.format(self._order_id,
-                self._days_late, self._gas_level, self._return_comment, self._extra_fee)
+        return '   {:^4}   |     {:^4}    |   {:>6} kr   | {}  '.format(self._days_late,
+         self._gas_level, self._extra_fee, self._return_comment)
 
 #GetFunctions
 
