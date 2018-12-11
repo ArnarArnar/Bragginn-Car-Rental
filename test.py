@@ -17,74 +17,207 @@ from ViewModels.RentalViewModel import RentalViewModel
 from UI.RentalSubMenu import RentalSubMenu
 from UI.DisplayHeader import DisplayHeader
 
+
 """
-car_repo = CarRepository()
+    def __init__(self):
+        self._car_repo = CarRepository()
+        self._customer_repo = CustomerRepository()
+        self._rental_repo = RentalRepository()
 
-car_id_to_check = "JZ263"
+# General validation services
+    def is_number_negative(self, number):
+        # can be used for input of all integers eg. price, days etc., can not be negative
+        if int(number) < 0:
+            return False
+        else:
+            return True
 
-car_primary_keys = car_repo.get_primary_key()
+    def is_date_valid(self, input_date):
+        # Check if entered date is in the valid format DD/MM/YYYY
+        try:           
+            #date = datetime.date(datetime.strptime(date, "%d/%m/%Y"))
+            datetime.date(datetime.strptime(input_date, '%d/%m/%Y'))
+        except ValueError:
+           return False
+        return True
 
-if car_id_to_check in car_primary_keys:
-    print("Bingo!")
-else:
-    print("no go")
+    def is_date_in_past(self, date):
+        current_day = datetime.date(datetime.now())
+        if date < current_day:
+            return True
+        else:
+            return False
 
-sverrir_validation = ValidationService()
 
-number = 12
+# Order input validation
+    def is_order_id_valid(self, order_id):
+        try:
+            val = int(order_id)
+        except ValueError:
+            print("That's not an int!")
+            return False
+        else:
+            if val < 0:
+                print("Negative number warning!")
+                return False
+        return True
 
-TrueOrFalse = sverrir_validation.is_number_negative(number)
 
-print(TrueOrFalse) 
+# Car input validation
+    def is_car_id_valid(self, car_id):
+        # This is just an example, maybe we just want to limit length?
+        if not re.match(r"[A-Z]{2,3}[0-9]{2,3}", car_id):
+            return False
+        # Needs to be valid car ID
+        return True
 
-# Dagur test
-# rental_sub = RentalSubMenu()
+    def is_year_valid(self, year):
+        #Must be in format YYYY ex. 2018
+        currentYear = int(datetime.now().year)
+        val = int(year)
+        if val < 1980:
+            return False
+        if currentYear < val:
+            return False  
+        return True
 
-# rental_sub.see_insurance_list()
+    def is_car_type_option_valid(self, car_type):
+        if car_type == "1" or car_type == "2" or car_type == "3" or car_type == "3":
+            return True
 
-customer_repo = CustomerRepository()
-customer_list = customer_repo.get_customer_list()
+    #Má mögulega henda vegna þess að tékkið hér að ofan ætti að vera nóg.
+    def is_car_type_valid(self, car_type):
+        # Can only enter the types that we decide e.g. budget, off road, luxury etc.
+        return True
 
-def add_customer_list(customer_list):
-    with open('TestCustomers.csv', 'w', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file, delimiter=';')
-            for customer in customer_list:
-                csv_writer.writerow([customer._customer_id, customer._first_name, customer._last_name,
-                                    customer._phone, customer._street, customer._zip, customer._town, 
-                                    customer._country, customer._drivers_license])
+    def is_car_start_date_available(self, car_id, start_date):
+        Rentals = self._rental_repo.get_rental_list()
+        for rental in Rentals:
+            if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date <= rental.get_end_date():
+                return False
+        return True
+    
+    def is_car_end_date_available(self, car_id, start_date, days, end_date):
+        Rentals = self._rental_repo.get_rental_list()
+        for rental in Rentals:
+            if car_id == rental._car_id() and end_date >= rental.get_start_date() and end_date <= rental.get_end_date():
+                return False
+        return True
 
-add_customer_list(customer_list) 
-customer_service = CustomerService()
+# Rental validation services
+    def does_order_id_exist(self, order_id):
+        rentals_pkeys = self._rental_repo.get_rentals_primary_keys()
+        if order_id in rentals_pkeys:
+            return True
+        else:
+            return False
 
-customer_to_del = "2006814019"
+    def does_customer_id_exist(self, customer_id):
+        # Here we don't need regex, need to check if it exist in the database
+        customer_pkeys = self._customer_repo.get_customer_primary_keys()
+        if customer_id in customer_pkeys:
+            return True
+        else:
+            return False
+        # If it does not exist we print out all customers in database
+        # And the option of adding a customer in rental sub menu
 
-customer_service.delete_customer(customer_to_del)
+    def does_car_id_exist(self, car_id):
+        # Here we don't need regex, need to check if it exist in the database
+        car_pkeys = self._car_repo.get_car_primary_keys()
+        if car_id in car_pkeys:
+            return True
+        else:
+            return False
+        # If it does not exist we print out all cars in database in rental sub menu
 
-display = DisplayHeader()
+    def does_insurance_name_exist(self, insurance_name):
+        Insurances = self._rental_repo.get_insurance_list()
+        for insurance in Insurances:
+            if insurance.get_name() == insurance_name:
+                return True
+        return False
 
-display.display_header_fleet()
-display.display_header_fleet()
+    def has_order_already_been_returned(self, order_id):
+        returns_pkeys = self._rental_repo.get_returns_primary_keys()  
+        if order_id in returns_pkeys:
+            return True
+        else:
+            return False
 
-validation_service = ValidationService()
-rental_service = RentalService()
+    def does_short_code_exist(self, short_code):
+        insurance_pkeys = self._rental_repo.get_insurance_primary_keys()
+        if short_code in insurance_pkeys:
+            return True
+        else:
+            return False
 
-valid = False
-days = 2
+# Customer validation services
+    def is_customer_id_valid(self, customer_id):
+        # We need to decide what we want customer Id to be, kennitala? passport?
+        # This only test if it is a negative number or not a number
+        try:
+            val = int(customer_id)
+        except ValueError:
+            return False
+        else:
+            if val < 0:
+                return False
+        return True
 
-while not valid:
-    start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
-    valid = validation_service.is_date_valid(start_date_input)
-    if not valid:
-        print("Date not in right format")
-        os.system('pause')
+    def is_phone_valid(self, phone):
+        # Regex a valid phone number
+        if not re.match(r"[0-9]{7,12}$", phone):
+            return False
+        else:
+            return True
 
-start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
+    def is_zip_valid(self, zip):
+        # What should the validation be for this?
+        if not re.match(r"[0-9]{3,7}$", zip):
+            return False
+        else:
+            return True
 
-end_date = rental_service.calculate_end_date(start_date, days)
+    def is_drivers_license_valid(self, drivers_license):
+        # This is just an example, maybe we just want to limit length?
+        return True
+    
+    def is_card_number_valid(self, card_number):
+        # Validate creditcard number
+        if re.match(r"[0-9]{16}$", card_number):
+            return True
+        else:
+            return False
 
-print(end_date)"""
+    def is_expiry_valid(self, expiry):
+        try:           
+            re.match("%d/%m/", expiry)
+        except ValueError:
+            return False
+        return True
 
-self.rental_history_view()
-car_id = self.get_car_rental_history_input()
-rental_view = self._rental_service.get_car_rental_history(car_id)
-self.see_rental_view_list(rental_view)
+    def is_cvc_valid(self, cvc):
+        # Validate cvc (3 digits) Kommentaði þetta út því ekkert komið inn til að setja in cvc þannig ótestað
+        if not re.match("[0-9]{3}$ or ^\d{3}$", cvc):
+            return False
+        else:
+            return True
+
+    def does_card_exist(self, card_selected):
+        card_pkeys = self._customer_repo.get_credit_card_primary_keys()
+        if card_selected in card_pkeys:
+            return True
+        else:
+            return False  """
+
+validate = ValidationService()
+# Testing def is_number_negative(self, number):
+
+number = "Dagur"
+
+outcome = validate.is_number_valid(number)
+
+print(outcome)
+
+

@@ -13,9 +13,11 @@ class ValidationService:
         self._rental_repo = RentalRepository()
 
 # General validation services
-    def is_number_negative(self, number):
+    def is_number_valid(self, number):
         # can be used for input of all integers eg. price, days etc., can not be negative
-        if int(number) < 0:
+        if isinstance(number, str):
+            return False
+        elif int(number) < 0:
             return False
         else:
             return True

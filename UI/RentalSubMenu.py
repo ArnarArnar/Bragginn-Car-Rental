@@ -129,9 +129,9 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")
-            self.valid = self._validation_service.is_number_negative(days)
+            self.valid = self._validation_service.is_number_valid(days)
             if not self.valid:
-                print("Can not rent for negative days")
+                print("Invalid number")
                 # Print a list of cars here
                 self._system.pause_system()
                 continue
@@ -291,7 +291,7 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             price = input("Enter price per day for insurance: ")
-            self.valid = self._validation_service.is_number_negative(price)
+            self.valid = self._validation_service.is_number_valid(price)
             if not self.valid:
                 print("Car does not exist")
                 # Print a list of cars here
@@ -370,9 +370,9 @@ class RentalSubMenu:
         elif change == '4': #days
             while not self.valid:
                 new_days = input("Enter how many days to rent: ")
-                self.valid = self._validation_service.is_number_negative(new_days)
+                self.valid = self._validation_service.is_number_valid(new_days)
                 if not self.valid:
-                    print("Can not rent for negative days")
+                    print("Invalid number")
                     # Print a list of cars here
                     self._system.pause_system()
             self._rental_service.update_days(rental, new_days)
