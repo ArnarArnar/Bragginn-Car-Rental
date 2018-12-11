@@ -84,5 +84,7 @@ end_date = rental_service.calculate_end_date(start_date, days)
 
 print(end_date)"""
 
-print(os.name)
-input("Press enter to continue...")
+self.rental_history_view()
+car_id = self.get_car_rental_history_input()
+rental_view = self._rental_service.get_car_rental_history(car_id)
+self.see_rental_view_list(rental_view)

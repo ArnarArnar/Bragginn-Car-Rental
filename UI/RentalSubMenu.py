@@ -255,13 +255,16 @@ class RentalSubMenu:
                     how_much_fuel = input('Please select an option: ')
                     if how_much_fuel == "1":
                         gas_level = "3/4"
+                        self.valid = True
                     if how_much_fuel == "2":
                         gas_level = "2/4"
+                        self.valid = True
                     if how_much_fuel == "3":
                         gas_level = "1/4"
+                        self.valid = True
                     if how_much_fuel == "4":
                         gas_level = "less than 1/4"
-                    self.valid = True
+                        self.valid = True
             if return_car_user_input_fuel_full == "q":
                 return
         extra_fee = self._rental_service.calculate_extra_fee(order_id, days_late, gas_level)

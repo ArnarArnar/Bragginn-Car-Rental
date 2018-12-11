@@ -16,12 +16,12 @@ class RentalRepository:
 
 #Post functions
     def add_rental(self, Rental):
-        rental_date = datetime.strftime(Rental.get_start_date, '%d %m %Y')
-        rental_end_date = datetime.strftime(Rental.get_end_date, '%d %m %Y')
+        rental_date = datetime.strftime(Rental.get_start_date(), '%d %m %Y')
+        rental_end_date = datetime.strftime(Rental.get_end_date(), '%d %m %Y')
         with open(os.path.realpath('Data/Rentals.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Rental.get_order_id, Rental.get_customer_id, Rental.get_car_id,
-                                rental_date, Rental.get_days, Rental.get_insurance, Rental.get_total_price, rental_end_date])
+            csv_writer.writerow([Rental.get_order_id(), Rental.get_customer_id(), Rental.get_car_id(),
+                                rental_date, Rental.get_days(), Rental.get_insurance(), Rental.get_total_price(), rental_end_date()])
 
     def add_order_id(self, order_id):
         with open(os.path.realpath('Data/OrderIDs.csv'), 'a+', newline='') as csv_file:
@@ -31,20 +31,20 @@ class RentalRepository:
     def add_insurance(self, Insurance):
         with open(os.path.realpath('Data/Insurance.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Insurance.get_short_code, Insurance.get_name, Insurance.get_price])
+            csv_writer.writerow([Insurance.get_short_code(), Insurance.get_name(), Insurance.get_price()])
 
     def overwrite_rentals_list(self, rentals_list):
         with open(os.path.realpath('Data/Rentals.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for rental in rentals_list:
-                    csv_writer.writerow([rental.get_order_id, rental.get_customer_id, rental.get_car_id,
-                                datetime.strftime(rental.get_start_date, '%d %m %Y'), rental.get_days, rental.get_insurance, 
-                                rental.get_total_price, datetime.strftime(rental.get_end_date, '%d %m %Y')])
+                    csv_writer.writerow([rental.get_order_id(), rental.get_customer_id(), rental.get_car_id(),
+                                datetime.strftime(rental.get_start_date(), '%d %m %Y'), rental.get_days(), rental.get_insurance(), 
+                                rental.get_total_price(), datetime.strftime(rental.get_end_date(), '%d %m %Y')])
 
     def add_return(self, CarReturn):
         with open(os.path.realpath('Data/Returns.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([CarReturn.get_order_id, CarReturn.get_days_late, CarReturn.get_gas_level, CarReturn.get_return_comment, CarReturn.get_extra_fee])
+            csv_writer.writerow([CarReturn.get_order_id(), CarReturn.get_days_late(), CarReturn.get_gas_level(), CarReturn.get_return_comment(), CarReturn.get_extra_fee()])
 
 
 #Get functions

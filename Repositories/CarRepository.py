@@ -15,7 +15,7 @@ class CarRepository:
     def add_car(self, Car):
         with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Car.get_car_id, Car.get_brand, Car.get_year, Car.get_price_per_day, Car.get_car_type])
+            csv_writer.writerow([Car.get_car_id(), Car.get_brand(), Car.get_year(), Car.get_price_per_day(), Car.get_car_type()])
 
 #Get functions
     def get_fleet_list(self):

@@ -21,12 +21,12 @@ class CustomerService:
     def delete_customer(self, customer_to_del):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_del: #Maybe need to find a more efficient way
+            if customer.get_customer_id() == customer_to_del: #Maybe need to find a more efficient way
                 customer_list.remove(customer)
         self._customer_repo.overwrite_customer_list(customer_list)
         credit_card_list = self._customer_repo.get_credit_card_list()
         for credit_card in credit_card_list:
-            if credit_card.get_customer_id == customer_to_del: #Maybe need to find a more efficient way
+            if credit_card.get_customer_id() == customer_to_del: #Maybe need to find a more efficient way
                 credit_card_list.remove(credit_card)
         self._customer_repo.overwrite_credit_card_list(credit_card_list)
 
@@ -34,63 +34,63 @@ class CustomerService:
     def update_customer_id(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_customer_id(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_first_name(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_first_name(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_last_name(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_last_name(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_phone(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_phone(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_street(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_street(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_zip(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_zip(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_town(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_town(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_country(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_country(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_license(self, customer_to_change, new_value):
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
-            if customer.get_customer_id == customer_to_change.get_customer_id:
+            if customer.get_customer_id() == customer_to_change.get_customer_id():
                 customer.set_drivers_license(new_value)
         self._customer_repo.overwrite_customer_list(customer_list)
 
@@ -101,7 +101,7 @@ class CustomerService:
     def get_customer(self, customer_id):
         customers = self._customer_repo.get_customer_list()
         for customer in customers:
-            if customer.get_customer_id == customer_id:
+            if customer.get_customer_id() == customer_id:
                 customer_to_return = customer
         return customer_to_return
 
@@ -109,8 +109,8 @@ class CustomerService:
         customer_credit_card_list = []
         credit_cards = self._customer_repo.get_credit_card_list()
         for credit_card in credit_cards:
-                    if credit_card.get_customer_id == customer_id:
-                        customer_credit_card_list.append(credit_card._card_number)
+                    if credit_card.get_customer_id() == customer_id:
+                        customer_credit_card_list.append(credit_card.get_card_number())
         return customer_credit_card_list
         
 
@@ -120,13 +120,13 @@ class CustomerService:
         customers = self._customer_repo.get_customer_list()
         credit_cards = self._customer_repo.get_credit_card_list()
         for customer in customers:
-            if customer.get_customer_id == customer_id:
-                customer_first_name = customer.get_first_name
-                customer_last_name = customer.get_last_name
-                country = customer.get_country
+            if customer.get_customer_id() == customer_id:
+                customer_first_name = customer.get_first_name()
+                customer_last_name = customer.get_last_name()
+                country = customer.get_country()
                 for credit_card in credit_cards:
-                    if credit_card.get_customer_id == customer_id:
-                        credit_card_list.append(credit_card.get_card_number)
+                    if credit_card.get_customer_id() == customer_id:
+                        credit_card_list.append(credit_card.get_card_number())
                 customer_to_view = CustomerViewModel(customer_id, customer_first_name,
                                                 customer_last_name, country, credit_card_list)
         return customer_to_view

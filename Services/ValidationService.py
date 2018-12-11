@@ -81,14 +81,14 @@ class ValidationService:
     def is_car_start_date_available(self, car_id, start_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental.get_car_id and start_date >= rental.get_start_date and start_date <= rental.get_end_date:
+            if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date <= rental.get_end_date():
                 return False
         return True
     
     def is_car_end_date_available(self, car_id, start_date, days, end_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental._car_id and end_date >= rental.get_start_date and end_date <= rental.get_end_date:
+            if car_id == rental._car_id() and end_date >= rental.get_start_date() and end_date <= rental.get_end_date():
                 return False
         return True
 
@@ -122,7 +122,7 @@ class ValidationService:
     def does_insurance_name_exist(self, insurance_name):
         Insurances = self._rental_repo.get_insurance_list()
         for insurance in Insurances:
-            if insurance.get_name == insurance_name:
+            if insurance.get_name() == insurance_name:
                 return True
         return False
 
