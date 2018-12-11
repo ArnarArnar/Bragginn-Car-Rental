@@ -101,7 +101,6 @@ class RentalSubMenu:
             customer_id = input("Enter ID for customer: ")
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
-                print("Customer does not exist, please register customer first")
                 self._customer_sub_menu.see_customer_list()
                 print("Customer does not exist, please register customer first")
         self.valid = False
@@ -119,11 +118,13 @@ class RentalSubMenu:
             if not self.valid:
                 print("Date is not in valid format")
                 self._system.pause_system()
+                continue
             start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
             self.valid = not self._validation_service.is_date_in_past(start_date)
             if not self.valid:
                 print("Date can not be in the past")
                 self._system.pause_system()
+                continue
             self.valid = self._validation_service.is_car_start_date_available(car_id, start_date)
             if not self.valid:
                 print("This start date is not available for chosen car")
