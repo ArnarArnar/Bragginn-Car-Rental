@@ -81,14 +81,14 @@ class ValidationService:
     def is_car_start_date_available(self, car_id, start_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental._car_id and start_date >= rental._start_date and start_date <= rental._end_date:
+            if car_id == rental.get_car_id and start_date >= rental.get_start_date and start_date <= rental.get_end_date:
                 return False
         return True
     
     def is_car_end_date_available(self, car_id, start_date, days, end_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental._car_id and end_date >= rental._start_date and end_date <= rental._end_date:
+            if car_id == rental._car_id and end_date >= rental.get_start_date and end_date <= rental.get_end_date:
                 return False
         return True
 
@@ -122,7 +122,7 @@ class ValidationService:
     def does_insurance_name_exist(self, insurance_name):
         Insurances = self._rental_repo.get_insurance_list()
         for insurance in Insurances:
-            if insurance._name == insurance_name:
+            if insurance.get_name == insurance_name:
                 return True
         return False
 
@@ -147,11 +147,9 @@ class ValidationService:
         try:
             val = int(customer_id)
         except ValueError:
-            print("That's not an int!")
             return False
         else:
             if val < 0:
-                print("Negative number warning!")
                 return False
         return True
 
@@ -159,13 +157,15 @@ class ValidationService:
         # Regex a valid phone number
         if not re.match(r"[0-9]{7,12}$", phone):
             return False
-        return True
+        else:
+            return True
 
     def is_zip_valid(self, zip):
         # What should the validation be for this?
         if not re.match(r"[0-9]{3,7}$", zip):
             return False
-        return True
+        else:
+            return True
 
     def is_drivers_license_valid(self, drivers_license):
         # This is just an example, maybe we just want to limit length?
@@ -173,24 +173,24 @@ class ValidationService:
     
     def is_card_number_valid(self, card_number):
         # Validate creditcard number
-        #if re.match(r"[0-9]{16}$", card_number):
-        return True
+        if re.match(r"[0-9]{16}$", card_number):
+            return True
+        else:
+            return False
 
     def is_expiry_valid(self, expiry):
-        # try:           
-        #      #re.match("%d/%m/", expiry):
-        # except ValueError:
-        #    print("This format does not match!")
-        #    return False
+        try:           
+            re.match("%d/%m/", expiry)
+        except ValueError:
+            return False
         return True
 
     def is_cvc_valid(self, cvc):
         # Validate cvc (3 digits) Kommentaði þetta út því ekkert komið inn til að setja in cvc þannig ótestað
-        # if not re.match("[0-9]{3}$ or ^\d{3}$", cvc):
-        #     print ("Error! Make sure you only use 3 digits in cvc")
-        #     return False
-        # else:
-        return True
+        if not re.match("[0-9]{3}$ or ^\d{3}$", cvc):
+            return False
+        else:
+            return True
 
     def does_card_exist(self, card_selected):
         card_pkeys = self._customer_repo.get_credit_card_primary_keys()
