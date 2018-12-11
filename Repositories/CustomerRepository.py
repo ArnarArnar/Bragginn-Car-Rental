@@ -1,5 +1,6 @@
 """Repo class for Customers"""
 import csv
+import os
 
 from Models.Customer import Customer
 from Models.CreditCard import CreditCard
@@ -13,14 +14,14 @@ class CustomerRepository:
 
 #Post functions
     def add_customer(self, Customer):
-        with open('Data/Customers.csv', 'a+', newline='') as csv_file:
+        with open(os.path.realpath('Data/Customers.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Customer._customer_id, Customer._first_name, Customer._last_name, #Nota get foll her i stadinn
                                 Customer._phone, Customer._street, Customer._zip, Customer._town, 
                                 Customer._country, Customer._drivers_license])
 
     def overwrite_customer_list(self, customer_list):
-        with open('Data/Customers.csv', 'w', newline='') as csv_file:
+        with open(os.path.realpath('Data/Customers.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for customer in customer_list:
                     csv_writer.writerow([customer._customer_id, customer._first_name, customer._last_name,
@@ -28,13 +29,13 @@ class CustomerRepository:
                                         customer._country, customer._drivers_license])
 
     def add_credit_card(self, CreditCard):
-        with open('Data/CreditCards.csv', 'a+', newline='') as csv_file:
+        with open(os.path.realpath('Data/CreditCards.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([CreditCard._customer_id, CreditCard._card_number,
                                 CreditCard._expiry, CreditCard._cvc])
     
     def overwrite_credit_card_list(self, credit_card_list):
-        with open('Data/CreditCards.csv', 'w', newline='') as csv_file:
+        with open(os.path.realpath('Data/CreditCards.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for credit_card in credit_card_list:
                     csv_writer.writerow([credit_card._customer_id, credit_card._card_number,
@@ -43,7 +44,7 @@ class CustomerRepository:
 #Get functions
     def get_customer_list(self):
         self.__Customers.clear()
-        with open('Data/Customers.csv') as customer_file:
+        with open(os.path.realpath('Data/Customers.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:
@@ -53,7 +54,7 @@ class CustomerRepository:
 
     def get_credit_card_list(self):
         self.__CreditCards.clear()
-        with open('Data/CreditCards.csv') as csv_file:
+        with open(os.path.realpath('Data/CreditCards.csv')) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             credit_card_list = list(csv_reader)
             for row in credit_card_list:
@@ -63,7 +64,7 @@ class CustomerRepository:
 
     def get_customer_primary_keys(self):
         self._primary_keys.clear()
-        with open('Data/Customers.csv') as customer_file:
+        with open(os.path.realpath('Data/Customers.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:
@@ -72,7 +73,7 @@ class CustomerRepository:
 
     def get_credit_card_primary_keys(self):
         self._primary_keys.clear()
-        with open('Data/CreditCards.csv') as customer_file:
+        with open(os.path.realpath('Data/CreditCards.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:

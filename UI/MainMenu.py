@@ -1,5 +1,3 @@
-import os
-
 from UI.CarSubMenu import CarSubMenu
 from UI.CustomerSubMenu import CustomerSubMenu
 from UI.RentalSubMenu import RentalSubMenu

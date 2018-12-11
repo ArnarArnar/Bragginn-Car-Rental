@@ -5,6 +5,7 @@ from Services.RentalService import RentalService
 from Services.ValidationService import ValidationService
 from Models.Car import Car
 from UI.DisplayHeader import DisplayHeader
+from UI.SystemSpecificUI import SystemSpecificUI
 
 
 class CarSubMenu:
@@ -15,6 +16,7 @@ class CarSubMenu:
         self._car_service = CarService()
         self._rental_service = RentalService()
         self._validation_service = ValidationService()
+        self._system = SystemSpecificUI()
 
     def car_sub_menu(self):
         """Display's the car submenu"""
@@ -37,7 +39,7 @@ class CarSubMenu:
             self.see_all_available()
         # Add Car
         if user_input == "4":
-            os.system('cls')
+            self._system.clear_screen()
             self.add_car_view()
             new_car = self.get_add_car_input()
             self._car_service.add_car(new_car)
@@ -55,12 +57,12 @@ class CarSubMenu:
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
                 print("Car Id can not be longer then X ")
-                os.system('pause')
+                self._system.pause_system()
                 continue
             self.valid = not self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id already exists")
-                os.system('pause')
+                self._system.pause_system()
         brand = input("Enter car brand: ")
         self.valid = False
         while not self.valid:
@@ -68,14 +70,14 @@ class CarSubMenu:
             self.valid = self._validation_service.is_year_valid(year)
             if not self.valid:
                 print("Year needs to be in the format (YYYY), not older then 1980 and of course cannot be in the future")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             price_per_day = input("Enter price per day: ")
             self.valid = self._validation_service.is_year_valid(year)
             if not self.valid:
                 print("Price can not be negative")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         print ( "Please select insurance: \n\n"
             "[ 1 ] Budget\n"
@@ -99,9 +101,9 @@ class CarSubMenu:
             self.valid = self.valid = self._validation_service.is_car_type_valid(car_type)
             if not self.valid:
                 print("Car type can only be one of 4 types (Jeep, Luxury, Budget, Family")
-                os.system('pause')
+                self._system.pause_system()
         new_car = Car(car_id, brand, year, price_per_day, car_type)
-        os.system('cls')
+        self._system.clear_screen()
         self.add_car_view()
         print("New car registered \n\n"
         "Car name:        " + car_id + "\n" 
@@ -109,7 +111,7 @@ class CarSubMenu:
         "Production year: " + str(year) + "\n"
         "Price per day:   " + str(price_per_day) + "\n"
         "Car type:        " + car_type + "\n")
-        os.system('pause')
+        self._system.pause_system()
         return new_car
 
     def get_car_id_input(self):
@@ -119,12 +121,12 @@ class CarSubMenu:
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
                 print("Car Id can not be longer then X ")
-                os.system('pause')
+                self._system.pause_system()
                 continue
             self.valid = not self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id already exists")
-                os.system('pause')
+                self._system.pause_system()
         return car_id
     
     def get_car_rental_history_input(self):
@@ -135,13 +137,13 @@ class CarSubMenu:
             if not self.valid:
                 print("Car Id does not exist! Please enter a car ID that exists")
                 self.see_fleet_list()
-                os.system('pause')
+                self._system.pause_system()
         return car_id
 
 #Views
     def see_fleet_list(self):
         fleet_list = self._car_service.get_fleet_list()
-        os.system('cls') ##display header function instead
+        self._system.clear_screen() ##display header function instead
         print(
               "\t ___ _         _     _    _    _   \n"
               "\t| __| |___ ___| |_  | |  (_)__| |_\n"
@@ -151,11 +153,11 @@ class CarSubMenu:
             "ID                Brand           Year      Price        Type       \n")
         for car in fleet_list:
             print(car)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_fleet_list_in_rent_a_car(self):
         fleet_list = self._car_service.get_fleet_list()
-        os.system('cls') ##display header function instead
+        self._system.clear_screen() ##display header function instead
         print(
               "\t ___ _         _     _    _    _   \n"
               "\t| __| |___ ___| |_  | |  (_)__| |_\n"
@@ -168,7 +170,7 @@ class CarSubMenu:
 
     def see_all_in_rental(self):
         cars_in_rental = self._car_service.get_all_in_rental()
-        os.system('cls') ##display header function instead
+        self._system.clear_screen() ##display header function instead
         print(
               "\t ___ _         _     _    _    _   \n"
               "\t| __| |___ ___| |_  | |  (_)__| |_\n"
@@ -179,11 +181,11 @@ class CarSubMenu:
             "ID                Brand           Year      Price        Type       \n")
         for car in cars_in_rental:
             print(car)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_all_available(self):
         cars_available = self._car_service.get_all_available()
-        os.system('cls') ##display header function instead
+        self._system.clear_screen() ##display header function instead
         print(
               "\t ___ _         _     _    _    _   \n"
               "\t| __| |___ ___| |_  | |  (_)__| |_\n"
@@ -194,10 +196,10 @@ class CarSubMenu:
             "ID                Brand           Year      Price        Type       \n")
         for car in cars_available:
             print(car)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
-        os.system('cls')
+        self._system.clear_screen()
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print("\t ___         _        _   _    _    _   \n"
               "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
@@ -206,7 +208,7 @@ class CarSubMenu:
                 "\tcustomerID:     carID:       startDate:      days:      total price: \n")
         for rental in rvList:
             print(rental)
-        os.system('pause')
+        self._system.pause_system()
         
     def add_car_view(self): #Rental viewlist comes in
         print(  "\t   _      _    _    ___          \n"

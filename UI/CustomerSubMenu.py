@@ -6,6 +6,7 @@ from Services.ValidationService import ValidationService
 from Models.Customer import Customer
 from Models.CreditCard import CreditCard
 from UI.DisplayHeader import DisplayHeader
+from UI.SystemSpecificUI import SystemSpecificUI
 
 
 class CustomerSubMenu:
@@ -16,6 +17,7 @@ class CustomerSubMenu:
         self._customer_service = CustomerService()
         self._rental_service = RentalService()
         self._validation_service = ValidationService()
+        self._system = SystemSpecificUI()
 
     def customer_sub_menu(self):
         """Display's the customer submenu"""
@@ -49,14 +51,14 @@ class CustomerSubMenu:
             if user_answer == 'y' or user_answer == 'Y':
                 self._customer_service.delete_customer(customer_id)
                 print("Customer deleted from database")
-                os.system('pause')
+                self._system.pause_system()
             else:
                 print("Customer deletion cancelled ")
-                os.system('pause')
+                self._system.pause_system()
                 return
         #Change Customer Info
         if user_input == "4":
-            os.system('cls')
+            self._system.clear_screen()
             self.change_customer_info_view()
             customer_id = self.get_customer_id_input()
             customer = self._customer_service.get_customer(customer_id)
@@ -86,11 +88,11 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_customer_id_valid(customer_id)
             if not self.valid:
                 print("Customer Id is not valid")
-                os.system('pause')
+                self._system.pause_system()
             self.valid = not self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer Id already exists")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         first_name = input("Enter customer first name: ") # Do we need to validate?
         last_name = input("Enter customer last name: ") # Do we need to validate?
@@ -99,7 +101,7 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_phone_valid(phone)
             if not self.valid:
                 print("Please enter a valid phone number")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         street = input("Enter customer street: ") # Do we need to validate?
         while not self.valid:
@@ -107,7 +109,7 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_zip_valid(zip)
             if not self.valid:
                 print("Please enter a valid Zip")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         town = input("Enter customer town: ")
         country = input("Enter customer country: ")
@@ -116,7 +118,7 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_drivers_license_valid(drivers_license)
             if not self.valid:
                 print("Please enter a valid driver's license number")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         new_customer = Customer(customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license)
         return new_customer
@@ -128,7 +130,7 @@ class CustomerSubMenu:
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer does not exist, please register customer first")
-                os.system('pause')
+                self._system.pause_system()
                 self.see_customer_list()
         self.valid = False
         customer = self._customer_service.get_customer_viewmodel(customer_id)
@@ -138,21 +140,21 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_card_number_valid(card_number)
             if not self.valid:
                 print("Please enter a valid card number")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             expiry = input("Enter expiry date (MM/YY): ")
             self.valid = self._validation_service.is_expiry_valid(expiry)
             if not self.valid:
                 print("Please enter a valid expiry date")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             cvc = input("Enter cvc number: ")
             self.valid = self._validation_service.is_cvc_valid(cvc)
             if not self.valid:
                 print("Please enter a valid cvc number (3 digits on back of card) ")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         new_card = CreditCard(customer_id, card_number, expiry, cvc)
         return new_card
@@ -166,21 +168,21 @@ class CustomerSubMenu:
             self.valid = self._validation_service.is_card_number_valid(card_number)
             if not self.valid:
                 print("Please enter a valid card number")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             expiry = input("Enter expiry date (MM/YY): ")
             self.valid = self._validation_service.is_expiry_valid(expiry)
             if not self.valid:
                 print("Please enter a valid expiry date")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         while not self.valid:
             cvc = input("Enter cvc number: ")
             self.valid = self._validation_service.is_cvc_valid(cvc)
             if not self.valid:
                 print("Please enter a valid cvc number (3 digits on back of card) ")
-                os.system('pause')
+                self._system.pause_system()
         self.valid = False
         new_card = CreditCard(customer_id, card_number, expiry, cvc)
         return new_card
@@ -192,12 +194,12 @@ class CustomerSubMenu:
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer does not exist")
-                os.system('pause')
+                self._system.pause_system()
                 self.see_customer_list()
         return customer_id
 
     def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
-        os.system('cls')
+        self._system.clear_screen()
         self.change_customer_info_view()
         print("ID           Name                              Phone           Street         Zip         Town          Country     License")
         print(customer)
@@ -232,7 +234,7 @@ class CustomerSubMenu:
                 self.valid = self._validation_service.is_phone_valid(new_phone)
                 if not self.valid:
                     print("Please enter a valid phone number")
-                    os.system('pause')
+                    self._system.pause_system()
             self._customer_service.update_customer_phone(customer, new_phone)
         elif change == '5': #street
             new_street = input("Enter customer new street: ")
@@ -243,7 +245,7 @@ class CustomerSubMenu:
                 self.valid = self._validation_service.is_zip_valid(new_zip)
                 if not self.valid:
                     print("Please enter a valid Zip")
-                    os.system('pause')
+                    self._system.pause_system()
             self._customer_service.update_customer_zip(customer, new_zip)
         elif change == '7': #town
             new_town = input("Enter customer new town: ")
@@ -257,13 +259,13 @@ class CustomerSubMenu:
                 self.valid = self._validation_service.is_drivers_license_valid(new_drivers_license)
                 if not self.valid:
                     print("Please enter a valid driver's license number")
-                    os.system('pause')
+                    self._system.pause_system()
             self._customer_service.update_customer_license(customer, new_drivers_license)
 
 # Views
     def see_customer_list(self):
         customer_list = self._customer_service.get_customer_list()
-        os.system('cls')
+        self._system.clear_screen()
         print("\t  ___        _                        \n"
               "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
               "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
@@ -271,10 +273,10 @@ class CustomerSubMenu:
                 "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         for customer in customer_list:
             print(customer)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_customer(self, Customer, credit_cards):
-        os.system('cls')
+        self._system.clear_screen()
         print("\t  ___        _                        \n"
               "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
               "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
@@ -285,10 +287,10 @@ class CustomerSubMenu:
         print("Credit Cards:")
         for creditcard in credit_cards:
             print(creditcard)
-        os.system('pause')
+        self._system.pause_system()
 
     def see_customer_history(self, customer, customer_rentals, credit_cards): #Rental viewlist comes in
-        os.system('cls')
+        self._system.clear_screen()
         # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t  ___        _                       _  _ _    _                \n"
                 "\t / __|  _ __| |_ ___ _ __  ___ _ _  | || (_)__| |_ ___ _ _ _  _ \n"
@@ -306,10 +308,10 @@ class CustomerSubMenu:
 
         for rental in customer_rentals:
             print(rental)
-        os.system('pause')
+        self._system.pause_system()
 
     def change_customer_info_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t  ___ _                          ___        _                       ___       __     \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / __|  _ __| |_ ___ _ __  ___ _ _  |_ _|_ _  / _|___ \n"
                 "\t| (__| ' \/ _` | ' \/ _` / -_) | (_| || (_-<  _/ _ \ '  \/ -_) '_|  | || ' \|  _/ _ \ \n"
@@ -317,21 +319,21 @@ class CustomerSubMenu:
                 "\t                    |___/                                                            \n\n")
     
     def new_customer_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t _  _               ___        _                     \n"
                 "\t| \| |_____ __ __  / __|  _ __| |_ ___ _ __  ___ _ _ \n"
                 "\t| .` / -_) V  V / | (_| || (_-<  _/ _ \ '  \/ -_) '_|\n"
                 "\t|_|\_\___|\_/\_/   \___\_,_/__/\__\___/_|_|_\___|_|   \n\n")
 
     def add_credit_card_view(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
                 "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
                 "\t / _ \/ _` / _` | | (__| '_/ -_) _` | |  _| | (__/ _` | '_/ _` |\n"
                 "\t/_/ \_\__,_\__,_|  \___|_| \___\__,_|_|\__|  \___\__,_|_| \__,_|\n\n")
 
     def add_credit_card_view_and_customer(self, Customer):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
                 "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
                 "\t / _ \/ _` / _` | | (__| '_/ -_) _` | |  _| | (__/ _` | '_/ _` |\n"

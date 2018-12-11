@@ -13,14 +13,14 @@ class CarRepository:
 
 #Post functions
     def add_car(self, Car):
-        with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='', encoding='ASCII') as csv_file:
+        with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Car._car_id, Car._brand, Car._year, Car._price_per_day, Car._car_type])
 
 #Get functions
     def get_fleet_list(self):
         self.__Cars.clear()
-        with open('Data/Cars.csv') as cars_file:
+        with open(os.path.realpath('Data/Cars.csv')) as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
             cars_list = list(csv_reader)
             for row in cars_list:
@@ -30,7 +30,7 @@ class CarRepository:
 
     def get_car_primary_keys(self):
         self._primary_keys.clear()
-        with open('Data/Cars.csv') as cars_file:
+        with open(os.path.realpath('Data/Cars.csv')) as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
             cars_list = list(csv_reader)
             for row in cars_list:
