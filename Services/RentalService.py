@@ -148,7 +148,7 @@ class RentalService:
             if order_id == rental.get_order_id():
                 for car in Cars:
                     if rental.get_car_id() == car.get_car_id():
-                        car_price = car.get_price_per_day()
+                        car_price = car.get_car_price_per_day()
         
         if gas_level == "FULL":
             gas_extra = 0
