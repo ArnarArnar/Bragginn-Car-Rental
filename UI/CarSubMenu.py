@@ -88,21 +88,21 @@ class CarSubMenu:
         while not self.valid:
             car_type = input("Enter car type: ")
             if car_type == "1":
-                self.valid = self._validation_service.is_car_type_option_valid(car_type)
                 car_type = "Budget"
+                self.valid = True
             if car_type == "2":
-                self.valid = self._validation_service.is_car_type_option_valid(car_type)
-                car_type = "Family"  
+                car_type = "Family"
+                self.valid = True
             if car_type == "3":
-                self.valid = self._validation_service.is_car_type_option_valid(car_type)
                 car_type = "Jeep"
+                self.valid = True
             if car_type == "4":
-                self.valid = self._validation_service.is_car_type_option_valid(car_type)
                 car_type = "Luxury"
-            self.valid = self.valid = self._validation_service.is_car_type_valid(car_type)
+                self.valid = True
             if not self.valid:
                 print("Car type can only be one of 4 types (Jeep, Luxury, Budget, Family")
                 self._system.pause_system()
+                continue
         new_car = Car(car_id, brand, year, price_per_day, car_type)
         self._system.clear_screen()
         self.add_car_view()
