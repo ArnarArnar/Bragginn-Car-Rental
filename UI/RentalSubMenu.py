@@ -138,6 +138,7 @@ class RentalSubMenu:
                 print("Can not rent for negative days")
                 # Print a list of cars here
                 self._system.pause_system()
+                continue
             end_date = self._rental_service.calculate_end_date(start_date, days)
             self.valid = self._validation_service.is_car_end_date_available(car_id, start_date, days, end_date)
             if not self.valid:
