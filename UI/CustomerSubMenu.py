@@ -273,7 +273,6 @@ class CustomerSubMenu:
                 "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
         for customer in customer_list:
             print(customer)
-        self._system.pause_system()
 
     def see_customer(self, Customer, credit_cards):
         self._system.clear_screen()
