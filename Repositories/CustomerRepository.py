@@ -16,30 +16,30 @@ class CustomerRepository:
     def add_customer(self, Customer):
         with open(os.path.realpath('Data/Customers.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([Customer._customer_id, Customer._first_name, Customer._last_name, #Nota get foll her i stadinn
-                                Customer._phone, Customer._street, Customer._zip, Customer._town, 
-                                Customer._country, Customer._drivers_license])
+            csv_writer.writerow([Customer.get_customer_id, Customer.get_first_name, Customer.get_last_name, #Nota get foll her i stadinn
+                                Customer.get_phone, Customer.get_street, Customer.get_zip, Customer.get_town, 
+                                Customer.get_country, Customer.get_drivers_license])
 
     def overwrite_customer_list(self, customer_list):
         with open(os.path.realpath('Data/Customers.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for customer in customer_list:
-                    csv_writer.writerow([customer._customer_id, customer._first_name, customer._last_name,
-                                        customer._phone, customer._street, customer._zip, customer._town, 
-                                        customer._country, customer._drivers_license])
+                    csv_writer.writerow([customer.get_customer_id, customer.get_first_name, customer.get_last_name,
+                                        customer.get_phone, customer.get_street, customer.get_zip, customer.get_town, 
+                                        customer.get_country, customer.get_drivers_license])
 
     def add_credit_card(self, CreditCard):
         with open(os.path.realpath('Data/CreditCards.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
-            csv_writer.writerow([CreditCard._customer_id, CreditCard._card_number,
-                                CreditCard._expiry, CreditCard._cvc])
+            csv_writer.writerow([CreditCard.get_customer_id, CreditCard.get_card_number,
+                                CreditCard.get_expiry, CreditCard.get_cvc])
     
     def overwrite_credit_card_list(self, credit_card_list):
         with open(os.path.realpath('Data/CreditCards.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for credit_card in credit_card_list:
-                    csv_writer.writerow([credit_card._customer_id, credit_card._card_number,
-                                        credit_card._expiry, credit_card._cvc])
+                    csv_writer.writerow([credit_card.get_customer_id, credit_card.get_card_number,
+                                        credit_card.get_expiry, credit_card.get_cvc])
 
 #Get functions
     def get_customer_list(self):

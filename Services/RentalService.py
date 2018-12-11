@@ -32,7 +32,7 @@ class RentalService:
     def delete_order(self, order_id_to_del):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
-            if rental._order_id == order_id_to_del: #Maybe need to find a more efficient way
+            if rental.get_order_id == order_id_to_del: #Maybe need to find a more efficient way
                 rentals_list.remove(rental)
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
@@ -44,7 +44,7 @@ class RentalService:
         Rentals = self._rental_repo.get_rental_list()
 
         for rental in Rentals:
-            if rental._order_id == order_id:
+            if rental.get_order_id == order_id:
                 rental_to_return = rental
         return rental_to_return
 
@@ -59,26 +59,27 @@ class RentalService:
         cars = self._car_repo.get_fleet_list()
 
         for rental in rentals:
-            if rental._car_id == car_id:
-                order_id = rental._order_id
-                total_price = rental._total_price
-                days = rental._days
-                s_date = rental._start_date
-                insurance = rental._insurance
-                e_date = rental._end_date
+            if rental.get_car_id == car_id:
+                order_id = rental.get_order_id
+                total_price = rental.get_total_price
+                days = rental.get_days
+                s_date = rental.get_start_date
+                insurance = rental.get_insurance
+                e_date = rental.get_end_date
 
                 for car in cars:
-                    if car._car_id == car_id:
-                        car_brand = car._brand
+                    if car.get_car_id == car_id:
+                        car_brand = car.get_brand
+                        car_type = car.get_car_type
 
                 for customer in customers:
-                    if rental._customer_id == customer._customer_id:
-                        c_id = customer._customer_id
-                        c_first_name = customer._first_name
-                        c_last_name = customer._last_name
+                    if rental.get_customer_id == customer.get_customer_id:
+                        c_id = customer.get_customer_id
+                        c_first_name = customer.get_first_name
+                        c_last_name = customer.get_last_name
                 
                         rental_view = RentalViewModel(order_id, c_id, c_first_name, c_last_name, car_id, 
-                                                      car_brand, s_date, days, insurance, total_price, e_date)
+                                                      car_brand, s_date, days, insurance, total_price, e_date, car_type)
                         car_rental_history.append(rental_view)
         return car_rental_history
     
@@ -90,26 +91,27 @@ class RentalService:
         cars = self._car_repo.get_fleet_list()
 
         for rental in rentals:
-            if rental._customer_id == customer_id:
-                order_id = rental._order_id
-                total_price = rental._total_price
-                days = rental._days
-                s_date = rental._start_date
-                insurance = rental._insurance
-                car_id = rental._car_id
-                e_date = rental._end_date
+            if rental.get_customer_id == customer_id:
+                order_id = rental.get_order_id
+                total_price = rental.get_total_price
+                days = rental.get_days
+                s_date = rental.get_start_date
+                insurance = rental.get_insurance
+                car_id = rental.get_car_id
+                e_date = rental.get_end_date
 
                 for car in cars:
-                    if car._car_id == car_id:
-                        car_brand = car._brand
+                    if car.get_car_id == car_id:
+                        car_brand = car.get_brand
+                        car_type = car.get_car_type
 
                 for customer in customers:
-                    if customer._customer_id == customer_id:
-                        c_first_name = customer._first_name
-                        c_last_name = customer._last_name
+                    if customer.get_customer_id == customer_id:
+                        c_first_name = customer.get_first_name
+                        c_last_name = customer.get_last_name
                 
                         rental_view = RentalViewModel(order_id, customer_id, c_first_name, c_last_name, car_id, 
-                                                      car_brand, s_date, days, insurance, total_price, e_date)
+                                                      car_brand, s_date, days, insurance, total_price, e_date, car_type)
                         customer_rental_history.append(rental_view)
         return customer_rental_history
     
@@ -126,11 +128,11 @@ class RentalService:
         Cars = self._car_repo.get_fleet_list()
         Insurances = self._rental_repo.get_insurance_list()
         for car in Cars:
-            if car._car_id == car_id:
-                car_price = car._price_per_day
+            if car.get_car_id == car_id:
+                car_price = car.get_price_per_day
         for insurance in Insurances:
-            if insurance._short_code == insurance_short_code:
-                insurance_price = insurance._price
+            if insurance.get_short_code == insurance_short_code:
+                insurance_price = insurance.get_price
         
         VAT = 1.245
         total_price = (int(car_price) * int(days)) + (int(insurance_price) * int(days))
@@ -142,10 +144,10 @@ class RentalService:
         Cars = self._car_repo.get_fleet_list()
         
         for rental in Rentals:
-            if order_id == rental._order_id:
+            if order_id == rental.get_order_id:
                 for car in Cars:
-                    if rental._car_id == car._car_id:
-                        car_price = car._price_per_day
+                    if rental.get_car_id == car.get_car_id:
+                        car_price = car.get_price_per_day
         
         if gas_level == "FULL":
             gas_extra = 0
@@ -163,44 +165,42 @@ class RentalService:
 
         return extra_fee
 
-    
-
 #Update functions
     def update_customer_id(self, rental_to_change, new_customer_id):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
-            if rental._order_id == rental_to_change._order_id:
-                rental._customer_id = new_customer_id
+            if rental._order_id == rental_to_change.get_order_id:
+                rental.set_customer_id(new_customer_id)
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_car_id(self, rental_to_change, new_car_id):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
-            if rental._order_id == rental_to_change._order_id:
-                rental._car_id = new_car_id
+            if rental.get_order_id == rental_to_change.get_order_id:
+                rental.set_car_id(new_car_id)
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_start_date(self, rental_to_change, new_start_date):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
-            if rental._order_id == rental_to_change._order_id:
-                rental._start_date = new_start_date
-                rental._end_date = self.calculate_end_date(new_start_date, rental._days)
+            if rental.get_order_id == rental_to_change.get_order_id:
+                rental.set_start_date(new_start_date)
+                rental.set_end_date(self.calculate_end_date(new_start_date, rental.get_days))
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_days(self, rental_to_change, new_days):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental._order_id == rental_to_change._order_id:
-                rental._days = new_days
-                rental._end_date = self.calculate_end_date(rental._start_date, new_days)
-                rental._total_price = self.calculate_total_price(rental._car_id, rental._insurance, new_days)
+                rental.set_days(new_days)
+                rental.set_end_date(self.calculate_end_date(rental.get_start_date, new_days))
+                rental.set_total_price(self.calculate_total_price(rental.get_car_id, rental.get_insurance, new_days))
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_insurance(self, rental_to_change, new_insurance):
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental._order_id == rental_to_change._order_id:
-                rental._insurance = new_insurance
-                rental._total_price = self.calculate_total_price(rental._car_id, new_insurance, rental._days)
+                rental.set_insurance(new_insurance)
+                rental.set_total_price(self.calculate_total_price(rental.get_car_id, new_insurance, rental.get_days))
         self._rental_repo.overwrite_rentals_list(rentals_list)

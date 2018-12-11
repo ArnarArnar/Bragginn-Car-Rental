@@ -4,7 +4,7 @@ class RentalViewModel:
     #Einskonar constructor, er samt u raun ad configure object sem er nu tegar til
     #Heitir initializer
     def __init__(self, order_id, customer_id, customer_first_name, customer_last_name, 
-                car_id, car_brand, start_date, days, insurance, total_price, end_date):
+                car_id, car_brand, start_date, days, insurance, total_price, end_date, car_type):
         
         #Nota underscore tarna fyrir private breytur, samt er i raun ekkert private i Python
         self._order_id = order_id
@@ -18,18 +18,19 @@ class RentalViewModel:
         self._insurance = insurance
         self._total_price = total_price
         self._end_date = end_date
+        self._car_type = car_type
 
     #Get og set foll fyrir allt vantar svo, og __str__ fall
 
     def __repr__(self):
-        return "RentalViewModel('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
+        return "RentalViewModel('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
                 self._order_id, self._customer_id, self._first_name, self._last_name, self._car_id, 
-                self._car_brand, self._start_date, self._days, self._insurance, self._total_price, self._end_date)
+                self._car_brand, self._start_date, self._days, self._insurance, self._total_price, self._end_date, self._car_type)
 
     def __str__(self):
-        return '{:^4} | {:<10} | {:<10}  {:<12} | {:^5} | {:<15} | {} | {} | {:^3} | {:^8} kr.'.format(
+        return '{:^4} | {:<10} | {:<10}  {:<12} | {:^5} | {:<15} | {} | {} | {:^3} | {:^8} kr. | {:^8}'.format(
                 self._order_id, self._customer_id, self._first_name, self._last_name, self._car_id, 
-                self._car_brand, self._start_date, self._end_date,  self._insurance, self._total_price)
+                self._car_brand, self._start_date, self._end_date,  self._insurance, self._total_price, self._car_type)
 
 
 #GetFunctions
@@ -66,6 +67,9 @@ class RentalViewModel:
     
     def get_end_date(self):
         return self._end_date
+
+    def get_car_type(self):
+        return self._car_type
     
 #SetFunctions
 
@@ -101,3 +105,6 @@ class RentalViewModel:
 
     def set_end_date(self, end_date):
         self._end_date = end_date
+
+    def set_car_type(self, car_type):
+        self._car_type = car_type
