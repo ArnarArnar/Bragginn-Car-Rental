@@ -33,8 +33,8 @@ class RentalRepository:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Insurance._short_code, Insurance._name, Insurance._price])
 
-    def overwrite_rentals_list(self, rentals_list, encoding='ASCII'):
-        with open(os.path.realpath('Data/Rentals.csv'), 'w', newline='') as csv_file:
+    def overwrite_rentals_list(self, rentals_list):
+        with open(os.path.realpath('Data/Rentals.csv'), 'w', newline='', encoding='ASCII') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for rental in rentals_list:
                     csv_writer.writerow([rental._order_id, rental._customer_id, rental._car_id,
