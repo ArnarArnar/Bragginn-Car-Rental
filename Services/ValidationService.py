@@ -133,18 +133,6 @@ class ValidationService:
         else:
             return False
 
-# Order UI insurance
-    #þarf að vera í lagi að setja annaðhvort inn insurance short code eða tölur
-    def is_insurance_valid(self, insurance_name):
-        if insurance_name == "1" or insurance_name == "2" or insurance_name == "3":
-            return True
-        Insurances = self._rental_repo.get_insurance_list()
-        for insurance in Insurances:
-            if insurance._name == insurance_name:
-                return True
-        return False
-#má henda þessu hér að neðan út ef það ekki verið að nota þetta check annarstaðar
-#en í rentalSubMenu
     def does_short_code_exist(self, short_code):
         insurance_pkeys = self._rental_repo.get_insurance_primary_keys()
         if short_code in insurance_pkeys:

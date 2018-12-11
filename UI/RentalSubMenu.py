@@ -92,6 +92,7 @@ class RentalSubMenu:
             self._system.pause_system()
         # Add Insurance Type
         if user_input == "7":
+            self.see_insurance_list()
             insurance = self.get_insurance_input()
             self._rental_service.add_insurance(insurance)
 
@@ -111,25 +112,20 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car does not exist")
-                self._system.pause_system()
         self.valid = False
         while not self.valid:
             start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
             self.valid = self._validation_service.is_date_valid(start_date_input)
             if not self.valid:
                 print("Date is not in valid format")
-                self._system.pause_system()
-                continue
             start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
             self.valid = not self._validation_service.is_date_in_past(start_date)
             if not self.valid:
                 print("Date can not be in the past")
-                self._system.pause_system()
-                continue
+
             self.valid = self._validation_service.is_car_start_date_available(car_id, start_date)
             if not self.valid:
                 print("This start date is not available for chosen car")
-                self._system.pause_system()
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")
@@ -137,56 +133,21 @@ class RentalSubMenu:
             if not self.valid:
                 print("Can not rent for negative days")
                 # Print a list of cars here
-                self._system.pause_system()
             end_date = self._rental_service.calculate_end_date(start_date, days)
             self.valid = self._validation_service.is_car_end_date_available(car_id, start_date, days, end_date)
             if not self.valid:
                 print("Car is not available for this rental period")
-                self._system.pause_system()
         self.valid = False
-        print ( "Please select insurance: \n\n"
-            "[ 1 ] Front Window Insurance. 4500 kr\n"
-            "[ 2 ] Gravel Insurance. 2500 kr\n"
-            "[ 3 ] No Insurance. 0 kr\n")
-        insurance = input('Please select an option: ')
-        while not self.valid:
-            if insurance == "1":
-                insurance = "FWI"
-                self.valid = self._validation_service.does_short_code_exist(insurance)
-                if not self.valid:
-                    print("Invalid input")
-                    self._system.pause_system()
-            if insurance == "2":
-                insurance = "GRI"
-                self.valid = self._validation_service.does_short_code_exist(insurance)
-                if not self.valid:
-                    print("Invalid input")
-                    self._system.pause_system()  
-            if insurance == "3":
-                insurance = "NON"
-                self.valid = self._validation_service.does_short_code_exist(insurance)
-                if not self.valid:
-                    print("Invalid input")
-                    self._system.pause_system()
+        self.see_insurance_list()
 
+        insurance = input('Please enter a short code: ')
+        while not self.valid:
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
                 print("Insurance short code does not exist")
-                print(insurance)
-                print ( "Please select insurance: \n\n"
-                    "[ 1 ] Front Window Insurance. 4500 kr\n"
-                    "[ 2 ] Gravel Insurance. 2500 kr\n"
-                    "[ 3 ] No Insurance. 0 kr\n")
-                insurance = input('Please try again: ')
         total_price = self._rental_service.calculate_total_price(car_id, insurance, days)
         order_id = self._rental_service.get_and_set_next_order_id()
         new_rental = Rental(order_id, customer_id, car_id, start_date, days, insurance, total_price, end_date)
-        
-        print("t\ Order successful \n"
-            "t\ Customer " + customer_id + "\n"
-            "t\ Car number"  + car_id + "\n"
-        )
-        self._system.pause_system()
         return new_rental
 
     def get_car_id_input(self):
@@ -216,9 +177,6 @@ class RentalSubMenu:
         return car_id
 
     def get_return_a_car_input(self):
-        #Má henda út Order ID úr þessu ef við ákveðum að það sé bara hægt að leita eftir bílnúmeri
-        #Hef ekki search for Customer ID vegna þess að ef vv. hefur fleiri
-        #en tvo bíla á leigu þá þarf að setja inn auka valmynd fyrir það
         self.return_a_car_view()
         
         print ( "Search order by: \n\n"
@@ -325,7 +283,7 @@ class RentalSubMenu:
     def get_insurance_input(self): # name, price
         self.valid = False
         while not self.valid:
-            name = input("Enter name of insurance: ")
+            name = input("Enter name new of insurance: ")
             self.valid = not self._validation_service.does_insurance_name_exist(name)
             if not self.valid:
                 print("Insurance already exists ")
@@ -333,7 +291,7 @@ class RentalSubMenu:
                 self.see_insurance_list()
         self.valid = False
         while not self.valid:
-            short_code = input("Enter short code for Insurance: ")
+            short_code = input("\nEnter short code for Insurance: ")
             self.valid = not self._validation_service.does_short_code_exist(short_code)
             if not self.valid:
                 print("Short Code already exists ")
@@ -467,23 +425,24 @@ class RentalSubMenu:
         self._system.clear_screen()
         customer = self._customer_service.get_customer(rental._customer_id)
         credit_cards = self._customer_service.get_customer_credit_cards(rental._customer_id)
-        print(  "\t ___         _        _   _  _ _    _                \n"
-                "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
-                "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
-                "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
-                "\t                                                |__/ \n\n"             
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
-        print("Rental overview: ")
+        print(  "\t  ___         _                               _            \n"
+                "\t / _ \ _ _ __| |___ _ _   _____ _____ _ ___ _(_)_____ __ __\n"
+                "\t| (_) | '_/ _` / -_) '_| / _ \ V / -_) '_\ V / / -_) V  V /\n"
+                "\t \___/|_| \__,_\___|_|   \___/\_/\___|_|  \_/|_\___|\_/\_/ \n\n")
+        print("Rental overview: \n\n"
+                "Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost")
         print(rental)
-        print("Customer")
+        print("\nCustomer:\n\n"
+                "ID           Name                              Phone           Street         Zip         Town             Country     License ")
         print(customer)
         if not credit_cards:
-            print("Customer has no registered credit card, please enter card: ")
+            print("\nCustomer has no registered credit card, please enter card: ")
             self._system.pause_system()
             new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
             self._customer_service.add_credit_card(new_card)
             card_selected = new_card._card_number
         else:
+            print("\nRegistered Credit Cards:\n")
             for card in credit_cards:
                 print(card)
             while not self.valid:
@@ -493,8 +452,16 @@ class RentalSubMenu:
                     print("Please enter a number of customer credit card")
                     self._system.pause_system()
         
-        print("Payment charged to card no: " + card_selected)
+
+        print(  "\t ___                         _                              __      _ \n"
+                "\t| _ \__ _ _  _ _ __  ___ _ _| |_   ____  _ __ __ ___ ______/ _|_  _| |\n"
+                "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
+                "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
+                "\t          |__/                                                        \n\n\n")
+        print("\tPayment to order number " + str(rental._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+        print("\tThe car with the number " + str(rental._car_id) + " will be available for pickup at " + str(rental._start_date) + "\n\n\n\n")
         self._system.pause_system()
+
     
     def see_return_overvew(self, car_return):
         self._system.clear_screen()
@@ -547,14 +514,14 @@ class RentalSubMenu:
     def see_insurance_list(self):
         insurance_list = self._rental_service.get_insurance_list()
         self._system.clear_screen()
-        # Here we need a proper header in a seperate function in DisplayHeader.py
-        print("\t*************** Bragginn Car Rental ************ \n"
-              "\t************************************************** \n"
-                "\t**************** Insurance List **************** \n"
-                "\tshort code:     name of insurance:       price per day: \n")
+        print(  "\t ___                                   \n"
+                "\t|_ _|_ _  ____  _ _ _ __ _ _ _  __ ___ \n"
+                "\t | || ' \(_-< || | '_/ _` | ' \/ _/ -_)\n"
+                "\t|___|_||_/__/\_,_|_| \__,_|_||_\__\___|\n\n"
+                "Short code      Name of insurance            Price per day\n")
         for insurance in insurance_list:
             print(insurance)
-        self._system.pause_system()
+
 
     def see_order(self, rental):
         # Here we need a proper header in a seperate function in DisplayHeader.py

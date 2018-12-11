@@ -150,7 +150,7 @@ class CarSubMenu:
               "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
               "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
               "\n"
-            "ID                Brand           Year      Price        Type       \n")
+            "CarNr          Brand           Type       Year      Price     \n")
         for car in fleet_list:
             print(car)
         self._system.pause_system()
@@ -164,7 +164,7 @@ class CarSubMenu:
               "\t| _|| / -_) -_)  _| | |__| (_-<  _|\n"
               "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
               "\n"
-            "ID                Brand           Year      Price        Type       \n")
+            "CarNr          Brand           Type       Year      Price     \n")
         for car in fleet_list:
             print(car)
 
@@ -178,7 +178,7 @@ class CarSubMenu:
               "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
               "\n"
               "All cars now in Rental: \n"
-            "ID                Brand           Year      Price        Type       \n")
+            "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_in_rental:
             print(car)
         self._system.pause_system()
@@ -193,7 +193,7 @@ class CarSubMenu:
               "\t|_| |_\___\___|\__| |____|_/__/\__|\n"
               "\n"
               "All cars now available: \n"
-            "ID                Brand           Year      Price        Type       \n")
+            "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_available:
             print(car)
         self._system.pause_system()
