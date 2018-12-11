@@ -270,7 +270,7 @@ class CustomerSubMenu:
               "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
               "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
               "\t \___\_,_/__/\__\___/_|_|_\___|_| /__/\n\n"
-                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+                "customerID   Name                              Phone           House          Zip            City            Country     LicenceNr")
         for customer in customer_list:
             print(customer)
 
@@ -281,7 +281,7 @@ class CustomerSubMenu:
               "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_(_-<\n"
               "\t \___\_,_/__/\__\___/_|_|_\___|_| /__/\n\n"
                                       
-                "ID           Name                              Phone           Street         Zip         Town          Country     License: \n")
+                "customerID   Name                              Phone           House          Zip            City            Country     LicenceNr")
         print(Customer)
         print("Credit Cards:")
         for creditcard in credit_cards:

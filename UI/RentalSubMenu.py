@@ -198,6 +198,8 @@ class RentalSubMenu:
         self.return_a_car_view_order_selected(order_id)
         self._system.pause_system()
         self.valid = False
+        self._system.clear_screen()
+        self.return_a_car_view()
         print ( "Is the Car being return late?: \n\n"
                 "[ 1 ] It's right on time!\n"
                 "[ 2 ] It's too late\n"
@@ -214,8 +216,6 @@ class RentalSubMenu:
             if return_car_user_input_is_ok == "q":
                 return "q"
         self.return_a_car_view()
-        print(days_late)
-        self._system.pause_system()
         self.valid = False
         print ( "Is the Car OK?: \n\n"
                 "[ 1 ] Yes\n"
@@ -232,8 +232,6 @@ class RentalSubMenu:
             if return_car_user_input_is_ok == "q":
                 return
         self.return_a_car_view()
-        print(return_comment)
-        self._system.pause_system()
         self.valid = False
         print ( "Was the fuel tank full?: \n\n"
             "[ 1 ] Yes\n"
@@ -243,8 +241,6 @@ class RentalSubMenu:
             return_car_user_input_fuel_full = input('Please select an option: ')
             if return_car_user_input_fuel_full == "1":
                 gas_level = "FULL"
-                print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
-                self._system.pause_system()
                 self.valid = True
             if return_car_user_input_fuel_full == "2":
                 self.return_a_car_view()
@@ -266,8 +262,6 @@ class RentalSubMenu:
                     if how_much_fuel == "4":
                         gas_level = "less than 1/4"
                     self.valid = True
-                    print('Print reciept. \n\nThank you for renting a car from Bragginn\n')
-                    self._system.pause_system()
             if return_car_user_input_fuel_full == "q":
                 return
         extra_fee = self._rental_service.calculate_extra_fee(order_id, days_late, gas_level)
@@ -474,17 +468,18 @@ class RentalSubMenu:
 
         customer = self._customer_service.get_customer(rental_returned._customer_id)
         credit_cards = self._customer_service.get_customer_credit_cards(rental_returned._customer_id)
-        print(  "\t ___         _        _   _  _ _    _                \n"
-                "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
-                "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
-                "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
-                "\t                                                |__/ \n\n"
-                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
-        print("Rental overview: ")
+        print(  "\t ___     _                    ___                  _            \n"
+                "\t| _ \___| |_ _  _ _ _ _ _    / _ \__ _____ _ ___ _(_)_____ __ __\n"
+                "\t|   / -_)  _| || | '_| ' \  | (_) \ V / -_) '_\ V / / -_) V  V /\n"
+                "\t|_|_\___|\__|\_,_|_| |_||_|  \___/ \_/\___|_|  \_/|_\___|\_/\_/ \n\n")
+        print("Rental overview: \n\n"
+                "Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost")
         print(rental_returned)
-        print("Return overview")
+        print("\nReturn information:\n")
+        print("Days late    Gas level      Extra fee       Comment")
         print(car_return)
-        print("Customer")
+        print("\nCustomer information: \n")
+        print("customerID   Name                              Phone           House          Zip            City            Country     LicenceNr")
         print(customer)
         if not credit_cards:
             print("Customer has no registered credit card, please enter card: ")
@@ -493,18 +488,26 @@ class RentalSubMenu:
             self._customer_service.add_credit_card(new_card)
             card_selected = new_card._card_number
         else:
+            print("\nRegistered Credit Cards:")
             for card in credit_cards:
                 print(card)
             self.valid = False
             while not self.valid:
-                card_selected = input("Enter number of card to use: ")
+                card_selected = input("\nEnter number of card to use: ")
                 self.valid = self._validation_service.does_card_exist(card_selected)
                 if not self.valid:
-                    print("Please enter a number of customer credit card")
+                    print("\nPlease enter a number of customer credit card")
                     self._system.pause_system()
-
-        print("Payment charged to card no: " + card_selected)
+        self._system.clear_screen()
+        print(  "\t ___                         _                              __      _ \n"
+                "\t| _ \__ _ _  _ _ __  ___ _ _| |_   ____  _ __ __ ___ ______/ _|_  _| |\n"
+                "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
+                "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
+                "\t          |__/                                                        \n\n\n")
+        print("     Payment to order number " + str(rental._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+        print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
         self._system.pause_system()
+
 
     def return_a_car_view(self):
         self._system.clear_screen()
