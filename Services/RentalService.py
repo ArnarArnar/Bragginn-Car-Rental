@@ -137,6 +137,34 @@ class RentalService:
         total_price *= VAT
         return total_price
 
+    def calculate_extra_fee(self, order_id, days_late, gas_level):
+        Rentals = self._rental_repo.get_rental_list()
+        Cars = self._car_repo.get_fleet_list()
+        
+        for rental in Rentals:
+            if order_id == rental._order_id:
+                for car in Cars:
+                    if rental._car_id == car._car_id:
+                        car_price = car._price_per_day
+        
+        if gas_level == "FULL":
+            gas_extra = 0
+        elif gas_level == "3/4":
+            gas_extra = int(car_price) * 0.75
+        elif gas_level == "2/4":
+            gas_extra = int(car_price) * 0.5
+        elif gas_level == "1/4":
+            gas_extra = int(car_price) * 0.25
+        elif gas_level == "less than 1/4":
+            gas_extra = int(car_price)
+
+        late_days_fee = int(car_price) * int(days_late)
+        extra_fee = late_days_fee + gas_extra
+
+        return extra_fee
+
+    
+
 #Update functions
     def update_customer_id(self, rental_to_change, new_customer_id):
         rentals_list = self._rental_repo.get_rental_list()

@@ -126,6 +126,13 @@ class ValidationService:
                 return True
         return False
 
+    def has_order_already_been_returned(self, order_id):
+        returns_pkeys = self._rental_repo.get_returns_primary_keys()  
+        if order_id in returns_pkeys:
+            return True
+        else:
+            return False
+
     def does_short_code_exist(self, short_code):
         insurance_pkeys = self._rental_repo.get_insurance_primary_keys()
         if short_code in insurance_pkeys:
@@ -184,3 +191,10 @@ class ValidationService:
         #     return False
         # else:
         return True
+
+    def does_card_exist(self, card_selected):
+        card_pkeys = self._customer_repo.get_credit_card_primary_keys()
+        if card_selected in card_pkeys:
+            return True
+        else:
+            return False

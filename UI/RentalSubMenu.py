@@ -58,6 +58,7 @@ class RentalSubMenu:
                 self._system.pause_system()
                 return
             self._rental_service.add_return(car_return)
+            self.see_return_overvew(car_return)
         # Cancel Order
         if user_input == "4":
             self.cancel_order_view()
@@ -193,14 +194,19 @@ class RentalSubMenu:
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
                 print("Order id does not exsist")
-                self._system.pause_system()  
+                self._system.pause_system()
+                continue
+            self.valid = not self._validation_service.has_order_already_been_returned(order_id)
+            if not self.valid:
+                print("Order has already been returned")
+                self._system.pause_system()
         self.return_a_car_view()
         print(order_id)
         self._system.pause_system()
         self.valid = False
         print ( "Is the Car being return late?: \n\n"
                 "[ 1 ] It's right on time!\n"
-                "[ 2 ] No, it's too late\n"
+                "[ 2 ] It's too late\n"
                 "[ q ] Return to main menu\n")
         
         while not self.valid:
@@ -270,7 +276,8 @@ class RentalSubMenu:
                     self._system.pause_system()
             if return_car_user_input_fuel_full == "q":
                 return
-        car_return = CarReturn(order_id, days_late, gas_level, return_comment)
+        extra_fee = self._rental_service.calculate_extra_fee(order_id, days_late, gas_level)
+        car_return = CarReturn(order_id, days_late, gas_level, return_comment, extra_fee)
         return car_return
 
     def get_insurance_input(self): # name, price
@@ -438,7 +445,12 @@ class RentalSubMenu:
             print("\nRegistered Credit Cards:\n")
             for card in credit_cards:
                 print(card)
-            card_selected = input("\nEnter number of card to use: ")
+            while not self.valid:
+                card_selected = input("Enter number of card to use: ")
+                self.valid = self._validation_service.does_card_exist(card_selected)
+                if not self.valid:
+                    print("Please enter a number of customer credit card")
+                    self._system.pause_system()
         
 
         print(  "\t ___                         _                              __      _ \n"
@@ -451,6 +463,47 @@ class RentalSubMenu:
         self._system.pause_system()
 
     
+    def see_return_overvew(self, car_return):
+        self._system.clear_screen()
+        rental_list = self._rental_service.get_rental_list()
+        for rental in rental_list:
+            if rental._order_id == car_return._order_id:
+                rental_returned = rental
+
+        customer = self._customer_service.get_customer(rental_returned._customer_id)
+        credit_cards = self._customer_service.get_customer_credit_cards(rental_returned._customer_id)
+        print(  "\t ___         _        _   _  _ _    _                \n"
+                "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
+                "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
+                "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
+                "\t                                                |__/ \n\n"             
+                "\tcustomerID:     carID:       startDate:      days:      total price: \n")
+        print("Rental overview: ")
+        print(rental_returned)
+        print("Return overview")
+        print(car_return)
+        print("Customer")
+        print(customer)
+        if not credit_cards:
+            print("Customer has no registered credit card, please enter card: ")
+            self._system.pause_system()
+            new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
+            self._customer_service.add_credit_card(new_card)
+            card_selected = new_card._card_number
+        else:
+            for card in credit_cards:
+                print(card)
+            self.valid = False
+            while not self.valid:
+                card_selected = input("Enter number of card to use: ")
+                self.valid = self._validation_service.does_card_exist(card_selected)
+                if not self.valid:
+                    print("Please enter a number of customer credit card")
+                    self._system.pause_system()
+            
+        print("Payment charged to card no: " + card_selected)
+        self._system.pause_system()
+
     def return_a_car_view(self):
         self._system.clear_screen()
         print(  "\t ___     _                     _      ___          \n"

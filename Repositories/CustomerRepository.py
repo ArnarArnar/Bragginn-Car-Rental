@@ -77,6 +77,6 @@ class CustomerRepository:
             csv_reader = csv.reader(customer_file, delimiter=';')
             customer_list = list(csv_reader)
             for row in customer_list:
-                self._primary_keys.append(row[0])
+                self._primary_keys.append(row[1])
         return self._primary_keys
         
