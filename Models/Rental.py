@@ -43,6 +43,9 @@ class Rental:
     def get_total_price(self):
         return self._total_price
 
+    def get_end_date(self):
+        return self._end_date
+
 #SetFunctions
 
     def set_order_id(self, order_id):
@@ -65,3 +68,6 @@ class Rental:
 
     def set_total_price(self, total_price):
         self._total_price = total_price
+
+    def set_end_date(self, end_date):
+        self._end_date = end_date

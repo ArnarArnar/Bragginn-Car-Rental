@@ -70,7 +70,7 @@ class RentalService:
 
                 for car in cars:
                     if car.get_car_id() == car_id:
-                        car_brand = car.get_brand()
+                        car_brand = car.get_car_brand()
                         car_type = car.get_car_type()
 
                 for customer in customers:
@@ -103,7 +103,7 @@ class RentalService:
 
                 for car in cars:
                     if car.get_car_id() == car_id:
-                        car_brand = car.get_brand()
+                        car_brand = car.get_car_brand()
                         car_type = car.get_car_type()
 
                 for customer in customers:
@@ -115,6 +115,35 @@ class RentalService:
                                                       car_brand, s_date, days, insurance, total_price, e_date, car_type)
                         customer_rental_history.append(rental_view)
         return customer_rental_history
+
+    def get_order_rental_history(self, order_id):
+        customers = self._customer_repo.get_customer_list()
+        rentals = self._rental_repo.get_rental_list()
+        cars = self._car_repo.get_fleet_list()
+
+        for rental in rentals:
+            if rental.get_order_id() == order_id:
+                car_id = rental.get_car_id()
+                total_price = rental.get_total_price()
+                days = rental.get_days()
+                s_date = rental.get_start_date()
+                insurance = rental.get_insurance()
+                e_date = rental.get_end_date()
+
+                for car in cars:
+                    if car.get_car_id() == car_id:
+                        car_brand = car.get_car_brand()
+                        car_type = car.get_car_type()
+
+                for customer in customers:
+                    if rental.get_customer_id() == customer.get_customer_id():
+                        c_id = customer.get_customer_id()
+                        c_first_name = customer.get_first_name()
+                        c_last_name = customer.get_last_name()
+                
+                        rental_view = RentalViewModel(order_id, c_id, c_first_name, c_last_name, car_id, 
+                                                      car_brand, s_date, days, insurance, total_price, e_date, car_type)
+        return rental_view
     
     def get_and_set_next_order_id(self):
         next_id = self._rental_repo.get_next_order_id()

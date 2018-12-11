@@ -417,7 +417,8 @@ class RentalSubMenu:
         print("Order selected for return: \n")
         print("Rental overview: \n\n"
                 "Order  CustomerID   Name                       CarNr   Brand     Type    StartDate     EndDate     Ins.  Total cost: \n")
-        print("hér vantar að geta séð gamla pöntun")
+        rental_view = self._rental_service.get_order_rental_history(order_id)
+        print(rental_view)
         print(order_id)
 
     def see_rental_overview(self, rental): #Rental viewlist comes in
@@ -507,7 +508,7 @@ class RentalSubMenu:
                 "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
                 "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
                 "\t          |__/                                                        \n\n\n")
-        print("     Payment to order number " + str(rental._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+        print("     Payment to order number " + str(car_return._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
         print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
         self._system.pause_system()
 
