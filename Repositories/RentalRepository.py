@@ -21,7 +21,7 @@ class RentalRepository:
         with open(os.path.realpath('Data/Rentals.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Rental.get_order_id(), Rental.get_customer_id(), Rental.get_car_id(),
-                                rental_date, Rental.get_days(), Rental.get_insurance(), Rental.get_total_price(), rental_end_date()])
+                                rental_date, Rental.get_days(), Rental.get_insurance(), Rental.get_total_price(), rental_end_date])
 
     def add_order_id(self, order_id):
         with open(os.path.realpath('Data/OrderIDs.csv'), 'a+', newline='') as csv_file:
