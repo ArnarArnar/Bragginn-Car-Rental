@@ -118,7 +118,7 @@ class CustomerSubMenu:
             drivers_license = input("Enter customer driver's license number: ")
             self.valid = self._validation_service.is_drivers_license_valid(drivers_license)
             if not self.valid:
-                print("Please enter a valid driver's license number")
+                print("Please enter a valid driver's license number (7-12 digits)")
                 self._system.pause_system()
         self.valid = False
         new_customer = Customer(customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license)
@@ -259,7 +259,7 @@ class CustomerSubMenu:
                 new_drivers_license = input("Enter customer new driver's license number: ")
                 self.valid = self._validation_service.is_drivers_license_valid(new_drivers_license)
                 if not self.valid:
-                    print("Please enter a valid driver's license number")
+                    print("Please enter a valid driver's license number (7-12 digits)")
                     self._system.pause_system()
             self._customer_service.update_customer_license(customer, new_drivers_license)
 

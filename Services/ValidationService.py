@@ -15,17 +15,17 @@ class ValidationService:
 # General validation services
     def is_number_valid(self, number):
         # can be used for input of all integers eg. price, days etc., can not be negative
-        if isinstance(number, str):
+        try:
+            int(number)
+        except ValueError:
             return False
-        elif int(number) < 0:
+        if int(number) < 1:
             return False
-        else:
-            return True
+        return True
 
     def is_date_valid(self, input_date):
         # Check if entered date is in the valid format DD/MM/YYYY
         try:           
-            #date = datetime.date(datetime.strptime(date, "%d/%m/%Y"))
             datetime.date(datetime.strptime(input_date, '%d/%m/%Y'))
         except ValueError:
            return False
@@ -38,31 +38,20 @@ class ValidationService:
         else:
             return False
 
-
-# Order input validation
-    def is_order_id_valid(self, order_id):
-        try:
-            val = int(order_id)
-        except ValueError:
-            print("That's not an int!")
-            return False
-        else:
-            if val < 0:
-                print("Negative number warning!")
-                return False
-        return True
-
-
 # Car input validation
     def is_car_id_valid(self, car_id):
-        # This is just an example, maybe we just want to limit length?
-        if not re.match(r"[A-Z]{2,3}[0-9]{2,3}", car_id):
-            return False
-        # Needs to be valid car ID
-        return True
+        if re.match(r"[A-Z]{3}[0-9]{2}$", car_id):
+            return True
+        if re.match(r"[A-Z]{2}[0-9]{3}$", car_id):
+            return True
+        return False
 
     def is_year_valid(self, year):
         #Must be in format YYYY ex. 2018
+        try:
+            int(year)
+        except ValueError:
+            return False
         currentYear = int(datetime.now().year)
         val = int(year)
         if val < 1980:
@@ -71,26 +60,17 @@ class ValidationService:
             return False  
         return True
 
-    def is_car_type_option_valid(self, car_type):
-        if car_type == "1" or car_type == "2" or car_type == "3" or car_type == "3":
-            return True
-
-    #Má mögulega henda vegna þess að tékkið hér að ofan ætti að vera nóg.
-    def is_car_type_valid(self, car_type):
-        # Can only enter the types that we decide e.g. budget, off road, luxury etc.
-        return True
-
     def is_car_start_date_available(self, car_id, start_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date <= rental.get_end_date():
+            if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date < rental.get_end_date():
                 return False
         return True
     
     def is_car_end_date_available(self, car_id, start_date, days, end_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
-            if car_id == rental._car_id() and end_date >= rental.get_start_date() and end_date <= rental.get_end_date():
+            if car_id == rental._car_id() and end_date > rental.get_start_date() and end_date <= rental.get_end_date():
                 return False
         return True
 
@@ -144,8 +124,6 @@ class ValidationService:
 
 # Customer validation services
     def is_customer_id_valid(self, customer_id):
-        # We need to decide what we want customer Id to be, kennitala? passport?
-        # This only test if it is a negative number or not a number
         try:
             val = int(customer_id)
         except ValueError:
@@ -156,25 +134,24 @@ class ValidationService:
         return True
 
     def is_phone_valid(self, phone):
-        # Regex a valid phone number
         if not re.match(r"[0-9]{7,12}$", phone):
             return False
         else:
             return True
 
     def is_zip_valid(self, zip):
-        # What should the validation be for this?
         if not re.match(r"[0-9]{3,7}$", zip):
             return False
         else:
             return True
 
     def is_drivers_license_valid(self, drivers_license):
-        # This is just an example, maybe we just want to limit length?
-        return True
+        if not re.match(r"[0-9]{7,12}$", drivers_license):
+            return False
+        else:
+            return True
     
     def is_card_number_valid(self, card_number):
-        # Validate creditcard number
         if re.match(r"[0-9]{16}$", card_number):
             return True
         else:
@@ -189,7 +166,7 @@ class ValidationService:
 
     def is_cvc_valid(self, cvc):
         # Validate cvc (3 digits) Kommentaði þetta út því ekkert komið inn til að setja in cvc þannig ótestað
-        if not re.match("[0-9]{3}$ or ^\d{3}$", cvc):
+        if not re.match(r"[0-9]{3}$", cvc):
             return False
         else:
             return True
