@@ -52,6 +52,16 @@ class RentalService:
     def get_insurance_list(self):
         return self._rental_repo.get_insurance_list()
     
+    def get_all_in_rental(self):
+        orders_in_rental = []
+        rentals = self._rental_repo.get_rental_list()
+        today = datetime.date(datetime.now())
+        for rental in rentals:
+            if today >= rental.get_start_date() and today <= rental.get_end_date():
+                orders_in_rental.append(rental)
+                        
+        return orders_in_rental
+
     def get_car_rental_history(self, car_id):
         car_rental_history = []
         # tarf ad na i einn bil her ur grunninunum seme r med tetta carID

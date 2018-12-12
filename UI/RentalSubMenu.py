@@ -219,7 +219,7 @@ class RentalSubMenu:
                 return "q"
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
-                self._car_sub_menu.see_all_in_rental()
+                self.see_all_in_rental()
                 print("\nOrder id does not exsist")
                 continue
             self.valid = not self._validation_service.has_order_already_been_returned(order_id)
@@ -651,3 +651,14 @@ class RentalSubMenu:
                 "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
                 "\t|_|_\___|_||_\__\__,_|_| |_||_|_/__/\__\___/_|  \_, |\n"
                 "\t                                                |__/ \n\n")
+    
+    def see_all_in_rental(self):
+        orders_in_rental = self._rental_service.get_all_in_rental()
+        self._system.clear_screen()
+        print(  "\t  ___         _            \n"
+                "\t / _ \ _ _ __| |___ _ _ ___\n"
+                "\t| (_) | '_/ _` / -_) '_(_-<\n"
+                "\t \___/|_| \__,_\___|_| /__/\n\n"
+                "Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost \n")
+        for rental in orders_in_rental:
+            print(rental)
