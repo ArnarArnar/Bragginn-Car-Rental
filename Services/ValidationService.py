@@ -122,15 +122,27 @@ class ValidationService:
         else:
             return False
 
+    def is_short_code_valid(self, short_code):
+        if not re.match(r"[A-Z]{1,3}$", short_code):
+            return False
+        else:
+            return True
+    
+    def is_insurance_name_valid(self, name):
+        if not re.match(r"[A-Z][a-z]{1,25}$", name):
+            return False
+        else:
+            return True
+
 # Customer validation services
     def is_customer_id_valid(self, customer_id):
         try:
-            val = int(customer_id)
+            int(customer_id)
         except ValueError:
             return False
-        else:
-            if val < 0:
-                return False
+        
+        if customer_id < 1:
+            return False
         return True
 
     def is_phone_valid(self, phone):

@@ -312,6 +312,12 @@ class RentalSubMenu:
                 print("Insurance already exists ")
                 self._system.pause_system()
                 self.see_insurance_list()
+                continue
+            self.valid = self._validation_service.is_insurance_name_valid(name)
+            if not self.valid:
+                print("Enter valid insurance name (1-25 letters) ")
+                self._system.pause_system()
+                self.see_insurance_list()
         self.valid = False
         while not self.valid:
             short_code = input("\nEnter short code for Insurance: ")
@@ -320,6 +326,12 @@ class RentalSubMenu:
             self.valid = not self._validation_service.does_short_code_exist(short_code)
             if not self.valid:
                 print("Short Code already exists ")
+                self._system.pause_system()
+                self.see_insurance_list()
+                continue
+            self.valid = self._validation_service.is_short_code_valid(short_code)
+            if not self.valid:
+                print("Enter short code in format AAA (1-3 letters) ")
                 self._system.pause_system()
                 self.see_insurance_list()
         self.valid = False
