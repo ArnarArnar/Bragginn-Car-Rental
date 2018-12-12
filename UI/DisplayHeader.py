@@ -1,10 +1,14 @@
 import os
 
+from UI.SystemSpecificUI import SystemSpecificUI
 
 class DisplayHeader:
 
+    def __init__(self):
+        self._system = SystemSpecificUI()
+
     def display_header(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t ______                         _                 ______               ______                        _ \n"#Create a seperate function called displayTitlebar
                 "\t(____  \                       (_)               / _____)             (_____ \             _        | |\n"
                 "\t ____)  ) ____ ____  ____  ____ _ ____  ____    | /      ____  ____    _____) ) ____ ____ | |_  ____| |\n"
@@ -16,7 +20,7 @@ class DisplayHeader:
                 )
 #Create submenu headers
     def display_header_rentals(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t ______                        _         ______                    \n"
                 "\t(_____ \             _        | |       |  ___ \                   \n"
                 "\t _____) ) ____ ____ | |_  ____| | ___   | | _ | | ____ ____  _   _ \n"
@@ -27,7 +31,7 @@ class DisplayHeader:
 
 
     def display_header_fleet(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t _______ _                    ______                    \n"
                 "\t(_______) |           _      |  ___ \                   \n"
                 "\t _____  | | ____ ____| |_    | | _ | | ____ ____  _   _ \n"
@@ -37,7 +41,7 @@ class DisplayHeader:
                 )
 
     def display_header_customer(self):
-        os.system('cls')
+        self._system.clear_screen()
         print(  "\t  ______                                          ______                    \n"
                 "\t / _____)          _                             |  ___ \                   \n"
                 "\t| /     _   _  ___| |_  ___  ____   ____  ____   | | _ | | ____ ____  _   _ \n"
