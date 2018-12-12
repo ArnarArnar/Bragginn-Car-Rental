@@ -146,8 +146,8 @@ class ValidationService:
             if today >= rental.get_start_date() and today <= rental.get_end_date() and rental.get_order_id() == order_id:
                 for ret in Returns:
                     if ret.get_order_id() == rental.get_order_id():
-                        return True
-                return False
+                        return False
+                return True
         return False
 
     def does_short_code_exist(self, short_code):
