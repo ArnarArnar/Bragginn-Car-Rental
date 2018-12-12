@@ -176,7 +176,7 @@ class RentalService:
         VAT = 1.245
         total_price = (int(car_price) * int(days)) + (int(insurance_price) * int(days))
         total_price *= VAT
-        return total_price
+        return int(total_price)
 
     def calculate_extra_fee(self, order_id, days_late, gas_level):
         Rentals = self._rental_repo.get_rental_list()
@@ -202,7 +202,7 @@ class RentalService:
         late_days_fee = int(car_price) * int(days_late)
         extra_fee = late_days_fee + gas_extra
 
-        return extra_fee
+        return int(extra_fee)
 
 #Update functions
     def update_customer_id(self, rental_to_change, new_customer_id):

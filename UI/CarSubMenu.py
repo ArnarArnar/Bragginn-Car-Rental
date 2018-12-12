@@ -74,9 +74,13 @@ class CarSubMenu:
             self.valid = not self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id already exists")
-        brand = input("Enter car brand: ")
-        if brand == "q":
-            return brand
+        while not self.valid:
+            brand = input("Enter car brand: ")
+            if brand == "q":
+                return brand
+            self.valid = self._validation_service.is_car_brand_valid(brand)
+            if not self.valid:
+                print("Invalid input! Brand name cannot be longer then 15 letters")
         self.valid = False
         while not self.valid:
             year = input("The cars production year (YYYY): ")
@@ -92,7 +96,7 @@ class CarSubMenu:
                 return price_per_day
             self.valid = self._validation_service.is_number_valid(price_per_day)
             if not self.valid:
-                print("Price can not be negative")
+                print("Invalid input!")
         self.valid = False
         print ( "Please select insurance: \n\n"
             "[ 1 ] Budget\n"

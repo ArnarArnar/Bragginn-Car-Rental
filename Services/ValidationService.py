@@ -73,6 +73,12 @@ class ValidationService:
             if car_id == rental.get_car_id() and end_date > rental.get_start_date() and end_date <= rental.get_end_date():
                 return False
         return True
+    
+    def is_car_brand_valid(self, brand):
+        if not re.match(r"[A-Za-z]{1,15}$", brand):
+            return False
+        else:
+            return True
 
 # Rental validation services
     def does_order_id_exist(self, order_id):
@@ -149,9 +155,15 @@ class ValidationService:
         except ValueError:
             return False
         
-        if customer_id < 1:
+        if int(customer_id) < 1:
             return False
         return True
+    
+    def is_word_length_valid(self, word):
+        if not re.match(r"[A-Za-z]{1,30}$", word):
+            return False
+        else:
+            return True
 
     def is_phone_valid(self, phone):
         if not re.match(r"[0-9]{7,12}$", phone):

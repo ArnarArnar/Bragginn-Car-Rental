@@ -109,17 +109,30 @@ class CustomerSubMenu:
             if not self.valid:
                 print("Customer Id is not valid")
                 self._system.pause_system()
+                continue
             self.valid = not self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 print("Customer Id already exists")
                 self._system.pause_system()
         self.valid = False
-        first_name = input("Enter customer first name: ") # Do we need to validate?
-        if first_name == "q":
-                return "q"
-        last_name = input("Enter customer last name: ") # Do we need to validate?
-        if last_name == "q":
-                return "q"
+        while not self.valid:
+            first_name = input("Enter customer first name: ") # Do we need to validate?
+            if first_name == "q":
+                    return "q"
+            self.valid = self._validation_service.is_word_length_valid(first_name)
+            if not self.valid:
+                print("Please enter between 1-20 letters")
+                self._system.pause_system()
+        self.valid = False
+        while not self.valid:
+            last_name = input("Enter customer last name: ") # Do we need to validate?
+            if last_name == "q":
+                    return "q"
+            self.valid = self._validation_service.is_word_length_valid(last_name)
+            if not self.valid:
+                print("Please enter between 1-30 letters")
+                self._system.pause_system()
+        self.valid = False
         while not self.valid:
             phone = input("Enter customer phone: ")
             if last_name == "q":
@@ -129,9 +142,15 @@ class CustomerSubMenu:
                 print("Please enter a valid phone number")
                 self._system.pause_system()
         self.valid = False
-        street = input("Enter customer street: ") # Do we need to validate?
-        if street == "q":
-            return "q"
+        while not self.valid:
+            street = input("Enter customer street: ") # Do we need to validate?
+            if street == "q":
+                return "q"
+            self.valid = self._validation_service.is_word_length_valid(street)
+            if not self.valid:
+                print("Please enter between 1-20 letters")
+                self._system.pause_system()
+        self.valid = False
         while not self.valid:
             zip = input("Enter customer zip: ")
             if zip == "q":
@@ -141,12 +160,24 @@ class CustomerSubMenu:
                 print("Please enter a valid Zip")
                 self._system.pause_system()
         self.valid = False
-        town = input("Enter customer town: ")
-        if town == "q":
-            return "q"
-        country = input("Enter customer country: ")
-        if country == "q":
-            return "q"
+        while not self.valid:
+            town = input("Enter customer town: ")
+            if town == "q":
+                return "q"
+            self.valid = self._validation_service.is_word_length_valid(last_name)
+            if not self.valid:
+                print("Please enter between 1-30 letters")
+                self._system.pause_system()
+        self.valid = False
+        while not self.valid:
+            country = input("Enter customer country: ")
+            if country == "q":
+                return "q"
+            self.valid = self._validation_service.is_word_length_valid(last_name)
+            if not self.valid:
+                print("Please enter between 1-30 letters")
+                self._system.pause_system()
+        self.valid = False
         while not self.valid:
             drivers_license = input("Enter customer driver's license number: ")
             if drivers_license == "q":
