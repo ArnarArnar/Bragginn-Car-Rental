@@ -79,7 +79,7 @@ class CarSubMenu:
             return brand
         self.valid = False
         while not self.valid:
-            year = int(input("The cars production year (YYYY): "))
+            year = input("The cars production year (YYYY): ")
             if year == "q":
                 return year
             self.valid = self._validation_service.is_year_valid(year)
