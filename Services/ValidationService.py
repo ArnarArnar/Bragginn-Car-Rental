@@ -114,6 +114,14 @@ class ValidationService:
             return True
         else:
             return False
+    
+    def is_order_in_rental(self, order_id):
+        rentals = self._rental_repo.get_rental_list()
+        today = datetime.date(datetime.now())
+        for rental in rentals:
+            if today >= rental.get_start_date() and today <= rental.get_end_date() and rental.get_order_id() == order_id:
+                return True
+        return False
 
     def does_short_code_exist(self, short_code):
         insurance_pkeys = self._rental_repo.get_insurance_primary_keys()
@@ -129,7 +137,7 @@ class ValidationService:
             return True
     
     def is_insurance_name_valid(self, name):
-        if not re.match(r"[A-Z][a-z]{1,25}$", name):
+        if not re.match(r"[A-Za-z]{1,25}$", name):
             return False
         else:
             return True
@@ -171,7 +179,7 @@ class ValidationService:
 
     def is_expiry_valid(self, expiry):
         try:
-            datetime.date(datetime.strptime(expiry, '%m/%Y'))
+            datetime.date(datetime.strptime(expiry, '%m/%y'))
         except ValueError:
            return False
         return True

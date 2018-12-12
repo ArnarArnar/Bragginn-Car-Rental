@@ -59,7 +59,6 @@ class RentalService:
         for rental in rentals:
             if today >= rental.get_start_date() and today <= rental.get_end_date():
                 orders_in_rental.append(rental)
-                        
         return orders_in_rental
 
     def get_car_rental_history(self, car_id):

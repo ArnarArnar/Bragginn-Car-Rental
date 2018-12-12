@@ -222,6 +222,11 @@ class RentalSubMenu:
                 self.see_all_in_rental()
                 print("\nOrder id does not exsist")
                 continue
+            self.valid = self._validation_service.is_order_in_rental(order_id)
+            if not self.valid:
+                self.see_all_in_rental()
+                print("\nPlease enter an order which is in rental")
+                continue
             self.valid = not self._validation_service.has_order_already_been_returned(order_id)
             if not self.valid:
                 print("Order has already been returned")

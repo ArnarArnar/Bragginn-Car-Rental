@@ -18,6 +18,9 @@ from UI.RentalSubMenu import RentalSubMenu
 from UI.DisplayHeader import DisplayHeader
 
 
+validation = ValidationService()
 
+valid = validation.is_insurance_name_valid("123455656562")
 
+print(valid)
 
