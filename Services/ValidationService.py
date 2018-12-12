@@ -22,6 +22,15 @@ class ValidationService:
         if int(number) < 1:
             return False
         return True
+    
+    def is_days_valid(self, days):
+        try:
+            int(days)
+        except ValueError:
+            return False
+        if int(days) < 1 or int(days) > 2000:
+            return False
+        return True
 
     def is_date_valid(self, input_date):
         # Check if entered date is in the valid format DD/MM/YYYY
@@ -173,6 +182,12 @@ class ValidationService:
     
     def is_word_length_valid(self, word):
         if not re.match(r"[A-Za-z]{1,30}$", word):
+            return False
+        else:
+            return True
+
+    def is_street_valid(self, street):
+        if not re.match(r"[A-Za-z0-9 ]{1,40}$", street):
             return False
         else:
             return True

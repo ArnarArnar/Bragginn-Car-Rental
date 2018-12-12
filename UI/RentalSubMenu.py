@@ -158,7 +158,7 @@ class RentalSubMenu:
             days = input("Enter how many days to rent: ")
             if days == "q":
                 return days
-            self.valid = self._validation_service.is_number_valid(days)
+            self.valid = self._validation_service.is_days_valid(days)
             if not self.valid:
                 print("Invalid number")
                 # Print a list of cars here

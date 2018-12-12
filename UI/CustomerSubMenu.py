@@ -146,9 +146,9 @@ class CustomerSubMenu:
             street = input("Enter customer street: ") # Do we need to validate?
             if street == "q":
                 return "q"
-            self.valid = self._validation_service.is_word_length_valid(street)
+            self.valid = self._validation_service.is_street_valid(street)
             if not self.valid:
-                print("Please enter between 1-20 letters")
+                print("Please enter street name and number")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
