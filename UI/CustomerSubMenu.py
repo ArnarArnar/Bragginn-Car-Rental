@@ -100,6 +100,7 @@ class CustomerSubMenu:
 
 # Inputs
     def get_add_customer_input(self):
+        """Gets the input and validates it when adding customer to database"""
         self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
@@ -116,7 +117,7 @@ class CustomerSubMenu:
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
-            first_name = input("Enter customer first name: ") # Do we need to validate?
+            first_name = input("Enter customer first name: ")
             if first_name == "q":
                     return "q"
             self.valid = self._validation_service.is_word_length_valid(first_name)
@@ -125,7 +126,7 @@ class CustomerSubMenu:
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
-            last_name = input("Enter customer last name: ") # Do we need to validate?
+            last_name = input("Enter customer last name: ")
             if last_name == "q":
                     return "q"
             self.valid = self._validation_service.is_word_length_valid(last_name)
@@ -143,7 +144,7 @@ class CustomerSubMenu:
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
-            street = input("Enter customer street: ") # Do we need to validate?
+            street = input("Enter customer street: ")
             if street == "q":
                 return "q"
             self.valid = self._validation_service.is_street_valid(street)
@@ -190,7 +191,8 @@ class CustomerSubMenu:
         new_customer = Customer(customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license)
         return new_customer
 
-    def get_add_creditcard_input(self): # customer_id, card_number, expiry, cvc
+    def get_add_creditcard_input(self):
+        """Gets the input and validates it when adding credit card to database"""
         self.valid = False
         while not self.valid:
             customer_id = input("Enter customer ID for owner of credit card: ")
@@ -235,6 +237,7 @@ class CustomerSubMenu:
         return new_card
 
     def get_add_creditcard_input_from_rental(self, customer_id):
+        """Gets the input and validates it when adding credit card to database straight from a rental"""
         self.valid = False
         customer = self._customer_service.get_customer_viewmodel(customer_id)
         self.add_credit_card_view_and_customer(customer)
@@ -269,6 +272,7 @@ class CustomerSubMenu:
         return new_card
 
     def get_customer_id_input(self):
+        """Gets the input for when adding customer id"""
         self.valid = False
         while not self.valid:
             customer_id = input("\nEnter customer ID: ")
@@ -280,7 +284,8 @@ class CustomerSubMenu:
                 print("Customer does not exist")
         return customer_id
 
-    def get_change_customer_input(self, customer): # customer_id, first_name, last_name, phone, street, zip, town, country, drivers_license
+    def get_change_customer_input(self, customer):
+        """Displays the menu and gets input for when changing customer info"""
         self._system.clear_screen()
         self.change_customer_info_view()
         print("ID           Name                              Phone           Street         Zip         Town          Country     License")
@@ -291,12 +296,12 @@ class CustomerSubMenu:
                 "[4] Change phone                             [9] Change drivers license number \n"
                 "[5] Change street                            [Q] Return to main menu \n\n")
         user_input = input("What would you like to change? ")
-        # Here we need to validate that the input is correct try and catch
         return user_input
 
     def update_customer(self, change, customer):
+        """Gets the input and validates it when when changing customer info"""
         self.valid = False
-        if change == '1': #ID
+        if change == '1':
             new_customer_id = input("Enter new ID for customer: ")
             id_valid = self._validation_service.is_customer_id_valid(new_customer_id)
             id_already_exist = self._validation_service.does_customer_id_exist(new_customer_id)
@@ -304,13 +309,13 @@ class CustomerSubMenu:
                 self._customer_service.update_customer_id(customer, new_customer_id)
             else:
                 print("Can not update to this value")
-        elif change == '2': #First
+        elif change == '2':
             new_first_name = input("Enter customer new first name: ")
             self._customer_service.update_customer_first_name(customer, new_first_name)
-        elif change == '3': #Last
+        elif change == '3':
             new_last_name = input("Enter customer new last name: ")
             self._customer_service.update_customer_last_name(customer, new_last_name)
-        elif change == '4': #phone
+        elif change == '4':
             while not self.valid:
                 new_phone = input("Enter new customer phone: ")
                 self.valid = self._validation_service.is_phone_valid(new_phone)
@@ -318,10 +323,10 @@ class CustomerSubMenu:
                     print("Please enter a valid phone number")
                     self._system.pause_system()
             self._customer_service.update_customer_phone(customer, new_phone)
-        elif change == '5': #street
+        elif change == '5':
             new_street = input("Enter customer new street: ")
             self._customer_service.update_customer_street(customer, new_street)
-        elif change == '6': #zip
+        elif change == '6':
             while not self.valid:
                 new_zip = input("Enter customer new zip: ")
                 self.valid = self._validation_service.is_zip_valid(new_zip)
@@ -329,13 +334,13 @@ class CustomerSubMenu:
                     print("Please enter a valid Zip")
                     self._system.pause_system()
             self._customer_service.update_customer_zip(customer, new_zip)
-        elif change == '7': #town
+        elif change == '7':
             new_town = input("Enter customer new town: ")
             self._customer_service.update_customer_town(customer, new_town)
-        elif change == '8': #country
+        elif change == '8':
             new_country = input("Enter customer new country: ")
             self._customer_service.update_customer_country(customer, new_country)
-        elif change == '9': #license
+        elif change == '9':
             while not self.valid:
                 new_drivers_license = input("Enter customer new driver's license number: ")
                 self.valid = self._validation_service.is_drivers_license_valid(new_drivers_license)
@@ -346,6 +351,7 @@ class CustomerSubMenu:
 
 # Views
     def see_customer_list(self):
+        """Displays list of customers"""
         customer_list = self._customer_service.get_customer_list()
         self._system.clear_screen()
         print("\t  ___        _                        \n"
@@ -357,6 +363,7 @@ class CustomerSubMenu:
             print(customer)
 
     def see_customer(self, Customer, credit_cards):
+        """Displays single customer"""
         self._system.clear_screen()
         print("\t  ___        _                        \n"
               "\t / __|  _ __| |_ ___ _ __  ___ _ _ ___\n"
@@ -370,9 +377,9 @@ class CustomerSubMenu:
             print(creditcard)
         self._system.pause_system()
 
-    def see_customer_history(self, customer, customer_rentals, credit_cards): #Rental viewlist comes in
+    def see_customer_history(self, customer, customer_rentals, credit_cards):
+        """Displays customer history"""
         self._system.clear_screen()
-        # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t  ___        _                       _  _ _    _                \n"
                 "\t / __|  _ __| |_ ___ _ __  ___ _ _  | || (_)__| |_ ___ _ _ _  _ \n"
                 "\t| (_| || (_-<  _/ _ \ '  \/ -_) '_| | __ | (_-<  _/ _ \ '_| || |\n"
@@ -392,6 +399,7 @@ class CustomerSubMenu:
         self._system.pause_system()
 
     def change_customer_info_view(self):
+        """Displays view for when changing customer info"""
         self._system.clear_screen()
         print(  "\t  ___ _                          ___        _                       ___       __     \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / __|  _ __| |_ ___ _ __  ___ _ _  |_ _|_ _  / _|___ \n"
@@ -400,6 +408,7 @@ class CustomerSubMenu:
                 "\t                    |___/                                                            \n\n")
     
     def new_customer_view(self):
+        """Displays view for when adding new customer"""
         self._system.clear_screen()
         print(  "\t _  _               ___        _                     \n"
                 "\t| \| |_____ __ __  / __|  _ __| |_ ___ _ __  ___ _ _ \n"
@@ -407,6 +416,7 @@ class CustomerSubMenu:
                 "\t|_|\_\___|\_/\_/   \___\_,_/__/\__\___/_|_|_\___|_|   \n\n")
 
     def add_credit_card_view(self):
+        """Displays view for when adding new credit card"""
         self._system.clear_screen()
         print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
                 "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
@@ -414,6 +424,7 @@ class CustomerSubMenu:
                 "\t/_/ \_\__,_\__,_|  \___|_| \___\__,_|_|\__|  \___\__,_|_| \__,_|\n\n")
 
     def add_credit_card_view_and_customer(self, Customer):
+        """Displays view for when adding new credit card, with customer"""
         self._system.clear_screen()
         print(  "\t   _      _    _    ___            _ _ _      ___             _ \n"
                 "\t  /_\  __| |__| |  / __|_ _ ___ __| (_) |_   / __|__ _ _ _ __| |\n"
@@ -428,6 +439,7 @@ class CustomerSubMenu:
         print("\nEnter a new credit card in the format 0000111122223333\n")
 
     def delete_customer_view(self):
+        """Displays view for when deleting customer"""
         self._system.clear_screen()
         print(  "\t ___      _     _          ___        _                     \n"
                 "\t|   \ ___| |___| |_ ___   / __|  _ __| |_ ___ _ __  ___ _ _ \n"

@@ -16,6 +16,7 @@ class RentalRepository:
 
 #Post functions
     def add_rental(self, Rental):
+        """Adds a rental object to the database"""
         rental_date = datetime.strftime(Rental.get_start_date(), '%d %m %Y')
         rental_end_date = datetime.strftime(Rental.get_end_date(), '%d %m %Y')
         with open(os.path.realpath('Data/Rentals.csv'), 'a+', newline='') as csv_file:
@@ -24,16 +25,19 @@ class RentalRepository:
                                 rental_date, Rental.get_days(), Rental.get_insurance(), Rental.get_total_price(), rental_end_date])
 
     def add_order_id(self, order_id):
+        """Adds an order id to the database"""
         with open(os.path.realpath('Data/OrderIDs.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([order_id])
     
     def add_insurance(self, Insurance):
+        """Adds insurance object to the database"""
         with open(os.path.realpath('Data/Insurance.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Insurance.get_short_code(), Insurance.get_name(), Insurance.get_price()])
 
     def overwrite_rentals_list(self, rentals_list):
+        """OVerwrites all rentals in the database"""
         with open(os.path.realpath('Data/Rentals.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for rental in rentals_list:
@@ -42,6 +46,7 @@ class RentalRepository:
                                 rental.get_total_price(), datetime.strftime(rental.get_end_date(), '%d %m %Y')])
 
     def add_return(self, CarReturn):
+        """Adds return object to the database"""
         with open(os.path.realpath('Data/Returns.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([CarReturn.get_order_id(), CarReturn.get_days_late(), CarReturn.get_gas_level(), CarReturn.get_return_comment(), CarReturn.get_extra_fee()])
@@ -49,6 +54,7 @@ class RentalRepository:
 
 #Get functions
     def get_rental_list(self):
+        """Gets list of all rentals in the database"""
         self.__Rentals.clear()
         with open(os.path.realpath('Data/Rentals.csv')) as rentals_file:
             rentals_reader = csv.reader(rentals_file, delimiter=';')
@@ -62,6 +68,7 @@ class RentalRepository:
         return self.__Rentals
     
     def get_insurance_list(self):
+        """Gets list of all insurance objects in the database"""
         self.__Insurance.clear()
         with open(os.path.realpath('Data/Insurance.csv')) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
@@ -72,6 +79,7 @@ class RentalRepository:
         return self.__Insurance
 
     def get_returns_list(self):
+        """Gets list of all Returns in the database"""
         Returns = []
         with open(os.path.realpath('Data/Returns.csv')) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
@@ -82,6 +90,7 @@ class RentalRepository:
         return Returns
 
     def get_next_order_id(self):
+        """Gets the next available order id from the database"""
         with open(os.path.realpath('Data/OrderIDs.csv')) as order_id_file:
             order_id_reader = csv.reader(order_id_file, delimiter=';')
             id_list = list(order_id_reader)
@@ -89,6 +98,7 @@ class RentalRepository:
         return next_id
 
     def get_rentals_primary_keys(self):
+        """Gets the primary keys of the rentals table"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/Rentals.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
@@ -98,6 +108,7 @@ class RentalRepository:
         return self._primary_keys
 
     def get_returns_primary_keys(self):
+        """Gets the primary keys of the returns table"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/Returns.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
@@ -107,6 +118,7 @@ class RentalRepository:
         return self._primary_keys
 
     def get_insurance_primary_keys(self):
+        """Gets the primary keys of the insurance table"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/Insurance.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')

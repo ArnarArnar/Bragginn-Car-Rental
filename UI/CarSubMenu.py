@@ -62,6 +62,7 @@ class CarSubMenu:
 
 #Inputs
     def get_add_car_input(self):
+        """Gets the input and validates it when adding a car to the database"""
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID (AAADD if older car AADDD): ")
@@ -136,6 +137,7 @@ class CarSubMenu:
         return new_car
 
     def get_car_id_input(self):
+        """Gets the input and validates it when entering car id"""
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID (AADDD): ")
@@ -151,6 +153,7 @@ class CarSubMenu:
         return car_id
     
     def get_car_rental_history_input(self):
+        """Gets the input and validates it when getting rental history of car"""
         self.valid = False
         while not self.valid:
             car_id = input("\nEnter car ID to see rental history: ")
@@ -164,6 +167,7 @@ class CarSubMenu:
 
 #Views
     def see_fleet_list(self):
+        """Displays all cars in database"""
         fleet_list = self._car_service.get_fleet_list()
         self._system.clear_screen() ##display header function instead
         print(
@@ -177,6 +181,7 @@ class CarSubMenu:
             print(car)
 
     def see_fleet_list_in_rent_a_car(self):
+        """Displays all cars in database"""
         fleet_list = self._car_service.get_fleet_list()
         self._system.clear_screen() ##display header function instead
         print(
@@ -190,6 +195,7 @@ class CarSubMenu:
             print(car)
 
     def see_all_in_rental(self):
+        """Displays all cars in database currently in rental"""
         cars_in_rental = self._car_service.get_all_in_rental()
         self._system.clear_screen() ##display header function instead
         print(
@@ -204,6 +210,7 @@ class CarSubMenu:
             print(car)
 
     def see_all_available(self):
+        """Displays all cars in database currently available"""
         cars_available = self._car_service.get_all_available()
         self._system.clear_screen() ##display header function instead
         print(
@@ -216,16 +223,18 @@ class CarSubMenu:
             "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_available:
             print(car)
+
     def see_car_history_veiw(self):
+        """Displays header for when displaying car history"""
         print(  "\t  ___            _  _ _    _                \n" 
                 "\t / __|__ _ _ _  | || (_)__| |_ ___ _ _ _  _ \n" 
                 "\t| (__/ _` | '_| | __ | (_-<  _/ _ \ '_| || |\n" 
                 "\t \___\__,_|_|   |_||_|_/__/\__\___/_|  \_, |\n" 
                 "\t                                       |__/ \n\n")
 
-    def see_rental_view_list(self, rvList): #Rental viewlist comes in
+    def see_rental_view_list(self, rvList):
+        """Displays rental view list"""
         self._system.clear_screen()
-        # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t  ___            _  _ _    _                \n" 
                 "\t / __|__ _ _ _  | || (_)__| |_ ___ _ _ _  _ \n" 
                 "\t| (__/ _` | '_| | __ | (_-<  _/ _ \ '_| || |\n" 
@@ -237,7 +246,8 @@ class CarSubMenu:
         print("\n\n\n\n")
         self._system.pause_system()
         
-    def add_car_view(self): #Rental viewlist comes in
+    def add_car_view(self):
+        """Displays header for when adding car to database"""
         print(  "\t   _      _    _    ___          \n"
                 "\t  /_\  __| |__| |  / __|__ _ _ _ \n"
                 "\t / _ \/ _` / _` | | (__/ _` | '_|\n"

@@ -38,6 +38,7 @@ class CustomerRepository:
                                 CreditCard.get_expiry(), CreditCard.get_cvc()])
     
     def overwrite_credit_card_list(self, credit_card_list):
+        """Overwrites credit card list in database"""
         with open(os.path.realpath('Data/CreditCards.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for credit_card in credit_card_list:
@@ -46,6 +47,7 @@ class CustomerRepository:
 
 #Get functions
     def get_customer_list(self):
+        """Gets all customers from database"""
         self.__Customers.clear()
         with open(os.path.realpath('Data/Customers.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
@@ -56,6 +58,7 @@ class CustomerRepository:
         return self.__Customers
 
     def get_credit_card_list(self):
+        """Gets all credit cards from database"""
         self.__CreditCards.clear()
         with open(os.path.realpath('Data/CreditCards.csv')) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
@@ -66,6 +69,7 @@ class CustomerRepository:
         return self.__CreditCards
 
     def get_customer_primary_keys(self):
+        """Gets the primary keys from the customer table in the database"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/Customers.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')
@@ -75,6 +79,7 @@ class CustomerRepository:
         return self._primary_keys
 
     def get_credit_card_primary_keys(self):
+        """Gets the primary keys from the credit card table in the database"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/CreditCards.csv')) as customer_file:
             csv_reader = csv.reader(customer_file, delimiter=';')

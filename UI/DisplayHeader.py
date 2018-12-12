@@ -8,6 +8,7 @@ class DisplayHeader:
         self._system = SystemSpecificUI()
 
     def display_header(self):
+        """Displays the header for the main menu"""
         self._system.clear_screen()
         print(  "\t ______                         _                 ______               ______                        _ \n"#Create a seperate function called displayTitlebar
                 "\t(____  \                       (_)               / _____)             (_____ \             _        | |\n"
@@ -18,8 +19,9 @@ class DisplayHeader:
                 "\t                   (_____(_____|                                                                       \n"
                 "\t************************blow your horn on a car from Bragginn car rental!******************************\n"
                 )
-#Create submenu headers
+
     def display_header_rentals(self):
+        """Displays the header for the rentals menu"""
         self._system.clear_screen()
         print(  "\t ______                        _         ______                    \n"
                 "\t(_____ \             _        | |       |  ___ \                   \n"
@@ -31,6 +33,7 @@ class DisplayHeader:
 
 
     def display_header_fleet(self):
+        """Displays the header for the fleets menu"""
         self._system.clear_screen()
         print(  "\t _______ _                    ______                    \n"
                 "\t(_______) |           _      |  ___ \                   \n"
@@ -41,6 +44,7 @@ class DisplayHeader:
                 )
 
     def display_header_customer(self):
+        """Displays the header for the customer menu"""
         self._system.clear_screen()
         print(  "\t  ______                                          ______                    \n"
                 "\t / _____)          _                             |  ___ \                   \n"

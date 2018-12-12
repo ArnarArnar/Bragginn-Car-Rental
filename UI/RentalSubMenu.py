@@ -116,6 +116,7 @@ class RentalSubMenu:
 
 #Inputs
     def get_rental_input(self):
+        """Gets input and validates it for when adding new rental"""
         self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
@@ -161,7 +162,6 @@ class RentalSubMenu:
             self.valid = self._validation_service.is_days_valid(days)
             if not self.valid:
                 print("Invalid number")
-                # Print a list of cars here
                 self._system.pause_system()
                 continue
             end_date = self._rental_service.calculate_end_date(start_date, days)
@@ -183,6 +183,7 @@ class RentalSubMenu:
         return new_rental
 
     def get_car_id_input(self):
+        """Gets input and validates it for when getting car id input"""
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID (AADDD): ")
@@ -198,6 +199,7 @@ class RentalSubMenu:
         return car_id
 
     def get_car_rental_history_input(self):
+        """Gets input and validates for when getting car rental history"""
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID to see rental history: ")
@@ -211,6 +213,7 @@ class RentalSubMenu:
         return car_id
 
     def get_return_a_car_input(self):
+        """Gets input and validates for when returning a car"""
         self.return_a_car_view()
         self.valid = False
         while not self.valid:
@@ -306,7 +309,8 @@ class RentalSubMenu:
         car_return = CarReturn(order_id, days_late, gas_level, return_comment, extra_fee)
         return car_return
 
-    def get_insurance_input(self): # name, price
+    def get_insurance_input(self):
+        """Gets the input and validates for insurance"""
         self.valid = False
         while not self.valid:
             name = input("Enter name new of insurance: ")
@@ -354,6 +358,7 @@ class RentalSubMenu:
         return new_insurance
 
     def get_order_id_input(self):
+        """Gets input and validates for order id"""
         self.valid = False
         while not self.valid:
             order_id = input("Please enter a order ID: ")
@@ -367,6 +372,7 @@ class RentalSubMenu:
         return order_id
 
     def get_order_id_input_to_cancel(self):
+        """Gets input and validates for when canceling an order"""
         self.valid = False
         while not self.valid:
             order_id = input("Please enter a order id to delete: ")
@@ -379,6 +385,7 @@ class RentalSubMenu:
         return order_id
 
     def get_change_order_input(self, rental):
+        """Shows menu and gets input for when changing an order"""
         self._system.clear_screen()
         self.change_order_view()
         print("OderID        CustomerID CarID ..... þarf að breyta þessu view modeli: \n")
@@ -389,7 +396,8 @@ class RentalSubMenu:
         user_input = input("What would you like to change? ")
         return user_input
 
-    def update_rental(self, change, rental): # customer_id, car_id, start_date, days, insurance
+    def update_rental(self, change, rental):
+        """Gets input and validates for when changing an order"""
         self.valid = False
         if change == '1': #ID
             while not self.valid:
@@ -464,8 +472,8 @@ class RentalSubMenu:
 
 #Views
     def see_rental_list(self):
+        """Displays list of rentals"""
         rental_list = self._rental_service.get_rental_list()
-        # Here we need a proper header in a seperate function in DisplayHeader.py
         print("\t ___         _        _   _    _    _   \n"
               "\t| _ \___ _ _| |_ __ _| | | |  (_)__| |_ \n"
               "\t|   / -_) ' \  _/ _` | | | |__| (_-<  _|\n"
@@ -474,9 +482,9 @@ class RentalSubMenu:
         for rental in rental_list:
             print(rental)
 
-    def see_rental_view_list(self, rvList): #Rental viewlist comes in
+    def see_rental_view_list(self, rvList):
+        """Displays list of rental view models"""
         self._system.clear_screen()
-        # Here we need a proper header in a seperate function in DisplayHeader.py
         print(  "\t ___         _        _   _  _ _    _                \n"
                 "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
                 "\t|   / -_) ' \  _/ _` | | | __ | (_-<  _/ _ \ '_| || |\n"
@@ -488,7 +496,7 @@ class RentalSubMenu:
         self._system.pause_system()
     
     def return_a_car_view_order_selected(self, order_id):
-        
+        """Displays rental view model for order"""
         print("Order selected for return: \n")
         print("Order  CustomerID   Name                       CarNr   Brand             Type       StartDate    EndDate      Ins.  Total cost: ")
         rental_view = self._rental_service.get_order_rental_history(order_id)
@@ -496,7 +504,8 @@ class RentalSubMenu:
         print("\n\n\n")
 
 
-    def see_rental_overview(self, rental): #Rental viewlist comes in
+    def see_rental_overview(self, rental):
+        """Displays rental overview"""
         self._system.clear_screen()
         customer = self._customer_service.get_customer(rental._customer_id)
         credit_cards = self._customer_service.get_customer_credit_cards(rental._customer_id)
@@ -544,6 +553,7 @@ class RentalSubMenu:
 
 
     def see_return_overvew(self, car_return):
+        """Displays return overview"""
         self._system.clear_screen()
         rental_list = self._rental_service.get_rental_list()
         for rental in rental_list:
@@ -602,6 +612,7 @@ class RentalSubMenu:
 
 
     def return_a_car_view(self):
+        """Displays return a car header"""
         self._system.clear_screen()
         print(  "\t ___     _                     _      ___          \n"
                 "\t| _ \___| |_ _  _ _ _ _ _     /_\    / __|__ _ _ _ \n"
@@ -609,6 +620,7 @@ class RentalSubMenu:
                 "\t|_|_\___|\__|\_,_|_| |_||_| /_/ \_\  \___\__,_|_|   \n\n"  )
 
     def see_insurance_list(self):
+        """Displays list of insurances"""
         insurance_list = self._rental_service.get_insurance_list()
         self._system.clear_screen()
         print(  "\t ___                                   \n"
@@ -621,11 +633,12 @@ class RentalSubMenu:
 
 
     def see_order(self, rental):
-        # Here we need a proper header in a seperate function in DisplayHeader.py
+        """Displays single rental"""
         print("Order CustomerID   CarID    StartDate    EndDate     Ins.  Total cost\n")
         print(rental)
 
     def cancel_order_view(self):
+        """Displays cancel order header"""
         self._system.clear_screen()
         print(  "\t  ___                  _    ___         _         \n"
                 "\t / __|__ _ _ _  __ ___| |  / _ \ _ _ __| |___ _ _ \n"
@@ -633,6 +646,7 @@ class RentalSubMenu:
                 "\t \___\__,_|_||_\__\___|_|  \___/|_| \__,_\___|_|  \n")
 
     def change_order_view(self):
+        """Displays change order header"""
         self._system.clear_screen()
         print(  "\t  ___ _                          ___         _         \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
@@ -641,6 +655,7 @@ class RentalSubMenu:
                 "\t                    |___/                              \n")
 
     def change_order_view_list_all(self):
+        """Displays change order list"""
         rental_list = self._rental_service.get_rental_list()
         print(  "\t  ___ _                          ___         _         \n"
                 "\t / __| |_  __ _ _ _  __ _ ___   / _ \ _ _ __| |___ _ _ \n"
@@ -651,6 +666,7 @@ class RentalSubMenu:
             print(rental)
 
     def all_order_view(self):
+        """Displays all orders"""
         rental_list = self._rental_service.get_rental_list()
         self._system.clear_screen()
         print(  "\t   _   _ _    ___         _            \n"
@@ -662,6 +678,7 @@ class RentalSubMenu:
             print(rental)
 
     def rental_history_view(self):
+        """Displays rental history"""
         self._system.clear_screen()
         print(  "\t ___         _        _   _  _ _    _                \n"
                 "\t| _ \___ _ _| |_ __ _| | | || (_)__| |_ ___ _ _ _  _ \n"
@@ -670,6 +687,7 @@ class RentalSubMenu:
                 "\t                                                |__/ \n\n")
     
     def see_all_in_rental(self):
+        """Displays all currently in rental"""
         orders_in_rental = self._rental_service.get_all_in_rental()
         self._system.clear_screen()
         print(  "\t  ___         _            \n"

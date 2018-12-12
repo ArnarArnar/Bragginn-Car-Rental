@@ -13,12 +13,15 @@ class CustomerService:
 
 # Post functions
     def add_customer(self, Customer):
+        """Sends Customer object to repo layer to add to database"""
         self._customer_repo.add_customer(Customer)
 
     def add_credit_card(self, CreditCard):
+        """credit card object to repo layer to add to database"""
         self._customer_repo.add_credit_card(CreditCard)
 
     def delete_customer(self, customer_to_del):
+        """Delete customer from database"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_del: #Maybe need to find a more efficient way
@@ -32,6 +35,7 @@ class CustomerService:
 
 #Update function
     def update_customer_id(self, customer_to_change, new_value):
+        """Change value of customer ID"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -39,6 +43,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_first_name(self, customer_to_change, new_value):
+        """Change value of first name"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -46,6 +51,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_last_name(self, customer_to_change, new_value):
+        """Change value of customer last name"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -53,6 +59,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_phone(self, customer_to_change, new_value):
+        """Change value of customer phone"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -60,6 +67,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_street(self, customer_to_change, new_value):
+        """Change value of customer street"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -67,6 +75,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_zip(self, customer_to_change, new_value):
+        """Change value of customer zip"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -74,6 +83,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_town(self, customer_to_change, new_value):
+        """Change value of customer town"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -81,6 +91,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
 
     def update_customer_country(self, customer_to_change, new_value):
+        """Change value of customer country"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -88,6 +99,7 @@ class CustomerService:
         self._customer_repo.overwrite_customer_list(customer_list)
     
     def update_customer_license(self, customer_to_change, new_value):
+        """Change value of customer license"""
         customer_list = self._customer_repo.get_customer_list()
         for customer in customer_list:
             if customer.get_customer_id() == customer_to_change.get_customer_id():
@@ -96,9 +108,11 @@ class CustomerService:
 
 # Get functions
     def get_customer_list(self):
+        """Get list of customers"""
         return self._customer_repo.get_customer_list()
 
     def get_customer(self, customer_id):
+        """Get one customer"""
         customers = self._customer_repo.get_customer_list()
         for customer in customers:
             if customer.get_customer_id() == customer_id:
@@ -106,6 +120,7 @@ class CustomerService:
         return customer_to_return
 
     def get_customer_credit_cards(self, customer_id):
+        """Get list of credit cards belonging to customer"""
         customer_credit_card_list = []
         credit_cards = self._customer_repo.get_credit_card_list()
         for credit_card in credit_cards:
@@ -116,6 +131,7 @@ class CustomerService:
 
     # Maybe not being used anymore, we just use customer and credit card seperately
     def get_customer_viewmodel(self, customer_id):
+        """Create viewmodel of customer along with creditcards owned"""
         credit_card_list = []
         customers = self._customer_repo.get_customer_list()
         credit_cards = self._customer_repo.get_credit_card_list()

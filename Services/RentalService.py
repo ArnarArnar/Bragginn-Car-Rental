@@ -22,15 +22,19 @@ class RentalService:
 
 #post functions
     def add_rental(self, Rental):
+        """Sends Rental object to repo layer to add to database"""
         self._rental_repo.add_rental(Rental)
 
     def add_insurance(self, new_insurance):
+        """Sends insurance object to repo layer to add to database"""
         self._rental_repo.add_insurance(new_insurance)
 
     def add_return(self, car_return):
+        """Sends return object to repo layer to add to database"""
         self._rental_repo.add_return(car_return)
 
     def delete_order(self, order_id_to_del):
+        """Removes order from database"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental.get_order_id() == order_id_to_del: #Maybe need to find a more efficient way
@@ -39,9 +43,11 @@ class RentalService:
 
 # Get functions
     def get_rental_list(self):
+        """Get list of all rentals"""
         return self._rental_repo.get_rental_list()
 
     def get_rental(self, order_id):
+        """Get a single rental"""
         Rentals = self._rental_repo.get_rental_list()
 
         for rental in Rentals:
@@ -50,9 +56,11 @@ class RentalService:
         return rental_to_return
 
     def get_insurance_list(self):
+        """Get list of all insurances"""
         return self._rental_repo.get_insurance_list()
     
     def get_all_in_rental(self):
+        """Get list of all orders currently in rental"""
         orders_in_rental = []
         rentals = self._rental_repo.get_rental_list()
         Returns = self._rental_repo.get_returns_list()
@@ -66,6 +74,7 @@ class RentalService:
         return orders_in_rental
 
     def get_car_rental_history(self, car_id):
+        """Get rental history of one car"""
         car_rental_history = []
         # tarf ad na i einn bil her ur grunninunum seme r med tetta carID
         customers = self._customer_repo.get_customer_list()
@@ -98,6 +107,7 @@ class RentalService:
         return car_rental_history
     
     def get_customer_rental_history(self, customer_id):
+        """Get rental history for one customer"""
         customer_rental_history = []
         # tarf ad na i einn bil her ur grunninunum seme r med tetta carID
         customers = self._customer_repo.get_customer_list()
@@ -130,6 +140,7 @@ class RentalService:
         return customer_rental_history
 
     def get_order_rental_history(self, order_id):
+        """Get rental view model for from one order"""
         customers = self._customer_repo.get_customer_list()
         rentals = self._rental_repo.get_rental_list()
         cars = self._car_repo.get_fleet_list()
@@ -159,15 +170,18 @@ class RentalService:
         return rental_view
     
     def get_and_set_next_order_id(self):
+        """Get next available order id and add next order id to database"""
         next_id = self._rental_repo.get_next_order_id()
         self._rental_repo.add_order_id(next_id)
         return next_id
 
     def calculate_end_date(self, start_date, days_to_add):
+        """Calculate end date for order"""
         end_date = start_date + timedelta(days=int(days_to_add))
         return end_date
 
     def calculate_total_price(self, car_id, insurance_short_code, days):
+        """Calculate total price for order"""
         Cars = self._car_repo.get_fleet_list()
         Insurances = self._rental_repo.get_insurance_list()
         for car in Cars:
@@ -183,6 +197,7 @@ class RentalService:
         return int(total_price)
 
     def calculate_extra_fee(self, order_id, days_late, gas_level):
+        """Calculate extra fee for returns"""
         Rentals = self._rental_repo.get_rental_list()
         Cars = self._car_repo.get_fleet_list()
         
@@ -210,6 +225,7 @@ class RentalService:
 
 #Update functions
     def update_customer_id(self, rental_to_change, new_customer_id):
+        """Change value of rental customer id"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental.get_order_id() == rental_to_change.get_order_id():
@@ -217,6 +233,7 @@ class RentalService:
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_car_id(self, rental_to_change, new_car_id):
+        """Change value of rental car id"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental.get_order_id() == rental_to_change.get_order_id():
@@ -224,6 +241,7 @@ class RentalService:
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_start_date(self, rental_to_change, new_start_date):
+        """Change value of rental start date"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental.get_order_id() == rental_to_change.get_order_id():
@@ -232,6 +250,7 @@ class RentalService:
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_days(self, rental_to_change, new_days):
+        """Change value of rental days"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental.get_order_id() == rental_to_change.get_order_id():
@@ -241,6 +260,7 @@ class RentalService:
         self._rental_repo.overwrite_rentals_list(rentals_list)
 
     def update_insurance(self, rental_to_change, new_insurance):
+        """Change value of rental insurance"""
         rentals_list = self._rental_repo.get_rental_list()
         for rental in rentals_list:
             if rental._order_id == rental_to_change._order_id:

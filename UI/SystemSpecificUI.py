@@ -6,6 +6,7 @@ import platform
 class SystemSpecificUI:
 
     def clear_screen(self):
+        """Clear screen for most common operating systems"""
         if platform.system() == 'Windows':
             os.system('cls')
         elif platform.system() == 'Darwin':
@@ -14,6 +15,7 @@ class SystemSpecificUI:
             os.system('clear')
     
     def pause_system(self):
+        """Pause system for most common operating systems"""
         if platform.system() == 'Windows':
             os.system('pause')
         else:
