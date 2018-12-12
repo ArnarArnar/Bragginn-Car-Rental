@@ -159,9 +159,9 @@ class ValidationService:
 
     def is_expiry_valid(self, expiry):
         try:           
-            re.match("%d/%m/", expiry)
+            datetime.date(datetime.strptime(expiry, '%m/%y'))
         except ValueError:
-            return False
+           return False
         return True
 
     def is_cvc_valid(self, cvc):
