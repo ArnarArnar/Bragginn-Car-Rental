@@ -159,7 +159,7 @@ class ValidationService:
 
     def is_expiry_valid(self, expiry):
         try:
-            datetime.date(datetime.strptime(expiry, '%d/%m'))
+            datetime.date(datetime.strptime(expiry, '%m/%Y'))
         except ValueError:
            return False
         return True
