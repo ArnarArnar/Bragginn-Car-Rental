@@ -48,6 +48,8 @@ class RentalSubMenu:
         if user_input == "2":
             self.rental_history_view()
             car_id = self.get_car_rental_history_input()
+            if car_id == "q":
+                return
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
         # Return Car
@@ -175,6 +177,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID to see rental history: ")
+            if car_id == "q":
+                return car_id
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id does not exist! Please enter a car ID that exists")

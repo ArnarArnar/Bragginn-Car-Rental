@@ -48,7 +48,11 @@ class CarSubMenu:
             self._car_service.add_car(new_car)
         # See Car History
         if user_input == "5":
+            self._system.clear_screen()
+            self.see_car_history_veiw()
             car_id = self.get_car_rental_history_input()
+            if car_id == "q":
+                return
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
 
@@ -136,6 +140,8 @@ class CarSubMenu:
         self.valid = False
         while not self.valid:
             car_id = input("\nEnter car ID to see rental history: ")
+            if car_id == "q":
+                return "q"
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 self.see_fleet_list()
@@ -196,6 +202,12 @@ class CarSubMenu:
             "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_available:
             print(car)
+    def see_car_history_veiw(self):
+        print(  "\t  ___            _  _ _    _                \n" 
+                "\t / __|__ _ _ _  | || (_)__| |_ ___ _ _ _  _ \n" 
+                "\t| (__/ _` | '_| | __ | (_-<  _/ _ \ '_| || |\n" 
+                "\t \___\__,_|_|   |_||_|_/__/\__\___/_|  \_, |\n" 
+                "\t                                       |__/ \n\n")
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         self._system.clear_screen()
