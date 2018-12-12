@@ -124,11 +124,12 @@ class RentalSubMenu:
             self.valid = self._validation_service.is_date_valid(start_date_input)
             if not self.valid:
                 print("Date is not in valid format")
+                continue
             start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
             self.valid = not self._validation_service.is_date_in_past(start_date)
             if not self.valid:
                 print("Date can not be in the past")
-
+                continue
             self.valid = self._validation_service.is_car_start_date_available(car_id, start_date)
             if not self.valid:
                 print("This start date is not available for chosen car")
@@ -147,9 +148,8 @@ class RentalSubMenu:
                 print("Car is not available for this rental period")
         self.valid = False
         self.see_insurance_list()
-
-        insurance = input('Please enter a short code: ')
         while not self.valid:
+            insurance = input('Please enter a short code: ')
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
                 print("Insurance short code does not exist")
@@ -457,6 +457,7 @@ class RentalSubMenu:
             print("\nRegistered Credit Cards:\n")
             for card in credit_cards:
                 print(card)
+            self.valid = False
             while not self.valid:
                 card_selected = input("Enter number of card to use: ")
                 self.valid = self._validation_service.does_card_exist(card_selected)
@@ -470,8 +471,8 @@ class RentalSubMenu:
                 "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
                 "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
                 "\t          |__/                                                        \n\n\n")
-        print("\tPayment to order number " + str(rental._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
-        print("\tThe car with the number " + str(rental._car_id) + " will be available for pickup at " + str(rental._start_date) + "\n\n\n\n")
+        print("\tPayment to order number " + str(rental.get_order_id()) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+        print("\tThe car with the number " + str(rental.get_car_id()) + " will be available for pickup at " + str(rental.get_start_date()) + "\n\n\n\n")
         self._system.pause_system()
 
 

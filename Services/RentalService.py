@@ -159,7 +159,7 @@ class RentalService:
         Insurances = self._rental_repo.get_insurance_list()
         for car in Cars:
             if car.get_car_id() == car_id:
-                car_price = car.get_price_per_day()
+                car_price = car.get_car_price_per_day()
         for insurance in Insurances:
             if insurance.get_short_code() == insurance_short_code:
                 insurance_price = insurance.get_price()
