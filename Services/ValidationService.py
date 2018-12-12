@@ -25,7 +25,7 @@ class ValidationService:
 
     def is_date_valid(self, input_date):
         # Check if entered date is in the valid format DD/MM/YYYY
-        try:           
+        try:
             datetime.date(datetime.strptime(input_date, '%d/%m/%Y'))
         except ValueError:
            return False
@@ -57,7 +57,7 @@ class ValidationService:
         if val < 1980:
             return False
         if currentYear < val:
-            return False  
+            return False
         return True
 
     def is_car_start_date_available(self, car_id, start_date):
@@ -66,7 +66,7 @@ class ValidationService:
             if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date < rental.get_end_date():
                 return False
         return True
-    
+
     def is_car_end_date_available(self, car_id, start_date, days, end_date):
         Rentals = self._rental_repo.get_rental_list()
         for rental in Rentals:
@@ -109,7 +109,7 @@ class ValidationService:
         return False
 
     def has_order_already_been_returned(self, order_id):
-        returns_pkeys = self._rental_repo.get_returns_primary_keys()  
+        returns_pkeys = self._rental_repo.get_returns_primary_keys()
         if order_id in returns_pkeys:
             return True
         else:
@@ -150,7 +150,7 @@ class ValidationService:
             return False
         else:
             return True
-    
+
     def is_card_number_valid(self, card_number):
         if re.match(r"[0-9]{16}$", card_number):
             return True
@@ -158,8 +158,8 @@ class ValidationService:
             return False
 
     def is_expiry_valid(self, expiry):
-        try:           
-            datetime.date(datetime.strptime(expiry, '%m/%y'))
+        try:
+            datetime.date(datetime.strptime(expiry, '%d/%m'))
         except ValueError:
            return False
         return True
