@@ -62,15 +62,23 @@ class ValidationService:
 
     def is_car_start_date_available(self, car_id, start_date):
         Rentals = self._rental_repo.get_rental_list()
+        Returns = self._rental_repo.get_returns_list()
         for rental in Rentals:
             if car_id == rental.get_car_id() and start_date >= rental.get_start_date() and start_date < rental.get_end_date():
+                for ret in Returns:
+                    if ret.get_order_id() == rental.get_order_id():
+                        return True
                 return False
         return True
 
     def is_car_end_date_available(self, car_id, start_date, days, end_date):
         Rentals = self._rental_repo.get_rental_list()
+        Returns = self._rental_repo.get_returns_list()
         for rental in Rentals:
             if car_id == rental.get_car_id() and end_date > rental.get_start_date() and end_date <= rental.get_end_date():
+                for ret in Returns:
+                    if ret.get_order_id() == rental.get_order_id():
+                        return True
                 return False
         return True
     
@@ -123,10 +131,14 @@ class ValidationService:
     
     def is_order_in_rental(self, order_id):
         rentals = self._rental_repo.get_rental_list()
+        Returns = self._rental_repo.get_returns_list()
         today = datetime.date(datetime.now())
         for rental in rentals:
             if today >= rental.get_start_date() and today <= rental.get_end_date() and rental.get_order_id() == order_id:
-                return True
+                for ret in Returns:
+                    if ret.get_order_id() == rental.get_order_id():
+                        return True
+                return False
         return False
 
     def does_short_code_exist(self, short_code):
