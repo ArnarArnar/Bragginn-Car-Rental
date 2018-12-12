@@ -45,10 +45,18 @@ class CarSubMenu:
             self._system.clear_screen()
             self.add_car_view()
             new_car = self.get_add_car_input()
+            if new_car == "q":
+                print("Adding new car to fleet cancelled")
+                self._system.pause_system()
+                return
             self._car_service.add_car(new_car)
         # See Car History
         if user_input == "5":
+            self._system.clear_screen()
+            self.see_car_history_veiw()
             car_id = self.get_car_rental_history_input()
+            if car_id == "q":
+                return
             rental_view = self._rental_service.get_car_rental_history(car_id)
             self.see_rental_view_list(rental_view)
 
@@ -57,30 +65,34 @@ class CarSubMenu:
         self.valid = False
         while not self.valid:
             car_id = input("Enter car ID (AAADD if older car AADDD): ")
+            if car_id == "q":
+                return car_id
             self.valid = self._validation_service.is_car_id_valid(car_id)
             if not self.valid:
                 print("Car Id can not be longer then X ")
-                self._system.pause_system()
                 continue
             self.valid = not self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car Id already exists")
-                self._system.pause_system()
         brand = input("Enter car brand: ")
+        if brand == "q":
+            return brand
         self.valid = False
         while not self.valid:
             year = int(input("The cars production year (YYYY): "))
+            if year == "q":
+                return year
             self.valid = self._validation_service.is_year_valid(year)
             if not self.valid:
                 print("Year needs to be in the format (YYYY), not older then 1980 and of course cannot be in the future")
-                self._system.pause_system()
         self.valid = False
         while not self.valid:
             price_per_day = input("Enter price per day: ")
-            self.valid = self._validation_service.is_year_valid(year)
+            if price_per_day == "q":
+                return price_per_day
+            self.valid = self._validation_service.is_number_valid(price_per_day)
             if not self.valid:
                 print("Price can not be negative")
-                self._system.pause_system()
         self.valid = False
         print ( "Please select insurance: \n\n"
             "[ 1 ] Budget\n"
@@ -89,6 +101,8 @@ class CarSubMenu:
             "[ 4 ] Luxury\n")
         while not self.valid:
             car_type = input("Enter car type: ")
+            if car_type == "q":
+                return car_type
             if car_type == "1":
                 car_type = "Budget"
                 self.valid = True
@@ -103,7 +117,6 @@ class CarSubMenu:
                 self.valid = True
             if not self.valid:
                 print("Car type can only be one of 4 types (Jeep, Luxury, Budget, Family")
-                self._system.pause_system()
                 continue
         new_car = Car(car_id, brand, year, price_per_day, car_type)
         self._system.clear_screen()
@@ -136,6 +149,8 @@ class CarSubMenu:
         self.valid = False
         while not self.valid:
             car_id = input("\nEnter car ID to see rental history: ")
+            if car_id == "q":
+                return "q"
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 self.see_fleet_list()
@@ -196,6 +211,12 @@ class CarSubMenu:
             "CarNr          Brand           Type       Year      Price     \n")
         for car in cars_available:
             print(car)
+    def see_car_history_veiw(self):
+        print(  "\t  ___            _  _ _    _                \n" 
+                "\t / __|__ _ _ _  | || (_)__| |_ ___ _ _ _  _ \n" 
+                "\t| (__/ _` | '_| | __ | (_-<  _/ _ \ '_| || |\n" 
+                "\t \___\__,_|_|   |_||_|_/__/\__\___/_|  \_, |\n" 
+                "\t                                       |__/ \n\n")
 
     def see_rental_view_list(self, rvList): #Rental viewlist comes in
         self._system.clear_screen()
