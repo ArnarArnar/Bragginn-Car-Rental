@@ -1,7 +1,6 @@
 """Repo class for Cars"""
 import csv
 import os
-from pathlib import Path
 
 from Models.Car import Car
 
@@ -13,12 +12,14 @@ class CarRepository:
 
 #Post functions
     def add_car(self, Car):
+        """Adds Car object to the database"""
         with open(os.path.realpath('Data/Cars.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Car.get_car_id(), Car.get_car_brand(), Car.get_car_year(), Car.get_car_price_per_day(), Car.get_car_type()])
 
 #Get functions
     def get_fleet_list(self):
+        """Retreives all Cars in database"""
         self.__Cars.clear()
         with open(os.path.realpath('Data/Cars.csv')) as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')
@@ -29,6 +30,7 @@ class CarRepository:
         return self.__Cars
 
     def get_car_primary_keys(self):
+        """Gets the primary keys in the Cars table from the database"""
         self._primary_keys.clear()
         with open(os.path.realpath('Data/Cars.csv')) as cars_file:
             csv_reader = csv.reader(cars_file, delimiter=';')

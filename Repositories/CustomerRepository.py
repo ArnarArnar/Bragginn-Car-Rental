@@ -14,6 +14,7 @@ class CustomerRepository:
 
 #Post functions
     def add_customer(self, Customer):
+        """Adds Customer object to the database"""
         with open(os.path.realpath('Data/Customers.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([Customer.get_customer_id(), Customer.get_first_name(), Customer.get_last_name(), #Nota get foll her i stadinn
@@ -21,6 +22,7 @@ class CustomerRepository:
                                 Customer.get_country(), Customer.get_drivers_license()])
 
     def overwrite_customer_list(self, customer_list):
+        """Overwrites all the customers in the database"""
         with open(os.path.realpath('Data/Customers.csv'), 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=';')
                 for customer in customer_list:
@@ -29,6 +31,7 @@ class CustomerRepository:
                                         customer.get_country(), customer.get_drivers_license()])
 
     def add_credit_card(self, CreditCard):
+        """Adds credit card object to database"""
         with open(os.path.realpath('Data/CreditCards.csv'), 'a+', newline='') as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=';')
             csv_writer.writerow([CreditCard.get_customer_id(), CreditCard.get_card_number(),

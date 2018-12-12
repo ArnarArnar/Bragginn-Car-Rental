@@ -21,12 +21,16 @@ class CarService:
         Cars_in_rental = []
         Cars = self._car_repo.get_fleet_list()
         Rentals = self._rental_repo.get_rental_list()
+        Returns = self._rental_repo.get_returns_list()
         today = datetime.date(datetime.now())
         for rental in Rentals:
             if today >= rental.get_start_date() and today <= rental.get_end_date():
                 for car in Cars:
                     if car.get_car_id() == rental.get_car_id():
                         Cars_in_rental.append(car)
+                        for ret in Returns:
+                            if ret.get_order_id() == rental.get_order_id():
+                                Cars_in_rental.remove(car)
         return Cars_in_rental
 
     def get_all_available(self):
