@@ -548,35 +548,40 @@ class RentalSubMenu:
         print("\nCustomer information: \n")
         print("customerID   Name                              Phone           House          Zip            City            Country     LicenceNr")
         print(customer)
-        if not credit_cards:
-            print("Customer has no registered credit card, please enter card: ")
+
+        if car_return.get_extra_fee() < 1:
+            print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
             self._system.pause_system()
-            new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
-            self._customer_service.add_credit_card(new_card)
-            card_selected = new_card._card_number
         else:
-            print("\nRegistered Credit Cards:")
-            for card in credit_cards:
-                print(card)
-            self.valid = False
-            while not self.valid:
-                card_selected = input("\nEnter number of card to use: ")
-                if card_selected == "q":
-                    print("Returning a car cancelled")
-                    self._system.pause_system()
-                    return
-                self.valid = self._validation_service.does_card_exist(card_selected)
-                if not self.valid:
-                    print("\nPlease enter a number of customer credit card")
-        self._system.clear_screen()
-        print(  "\t ___                         _                              __      _ \n"
-                "\t| _ \__ _ _  _ _ __  ___ _ _| |_   ____  _ __ __ ___ ______/ _|_  _| |\n"
-                "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
-                "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
-                "\t          |__/                                                        \n\n\n")
-        print("     Payment to order number " + str(car_return._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
-        print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
-        self._system.pause_system()
+            if not credit_cards:
+                print("Customer has no registered credit card, please enter card: ")
+                self._system.pause_system()
+                new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
+                self._customer_service.add_credit_card(new_card)
+                card_selected = new_card._card_number
+            else:
+                print("\nRegistered Credit Cards:")
+                for card in credit_cards:
+                    print(card)
+                self.valid = False
+                while not self.valid:
+                    card_selected = input("\nEnter number of card to use: ")
+                    if card_selected == "q":
+                        print("Returning a car cancelled")
+                        self._system.pause_system()
+                        return
+                    self.valid = self._validation_service.does_card_exist(card_selected)
+                    if not self.valid:
+                        print("\nPlease enter a number of customer credit card")
+            self._system.clear_screen()
+            print(  "\t ___                         _                              __      _ \n"
+                    "\t| _ \__ _ _  _ _ __  ___ _ _| |_   ____  _ __ __ ___ ______/ _|_  _| |\n"
+                    "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
+                    "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
+                    "\t          |__/                                                        \n\n\n")
+            print("     Payment to order number " + str(car_return._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+            print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
+            self._system.pause_system()
 
 
     def return_a_car_view(self):
