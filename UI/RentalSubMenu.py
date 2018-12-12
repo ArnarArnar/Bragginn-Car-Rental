@@ -42,6 +42,10 @@ class RentalSubMenu:
         # Rent a Car
         if user_input == "1":
             new_rental = self.get_rental_input()
+            if new_rental == "q":
+                print("Renting a car cancelled")
+                self._system.pause_system()
+                return
             self._rental_service.add_rental(new_rental)
             self.see_rental_overview(new_rental)
         # Rental History
@@ -65,6 +69,10 @@ class RentalSubMenu:
         if user_input == "4":
             self.cancel_order_view()
             order_id = self.get_order_id_input()
+            if order_id == "q":
+                print("return car cancelled")
+                self._system.pause_system()
+                return
             rental = self._rental_service.get_rental(order_id)
             self.cancel_order_view()
             self.see_order(rental)
@@ -84,6 +92,10 @@ class RentalSubMenu:
         if user_input == "5":
             self.change_order_view()
             order_id = self.get_order_id_input()
+            if order_id == "q":
+                print("Change to order cancelled")
+                self._system.pause_system()
+                return
             rental = self._rental_service.get_rental(order_id)
             self.see_order(rental)
             change = self.get_change_order_input(rental)
@@ -107,6 +119,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             customer_id = input("Enter ID for customer: ")
+            if customer_id == "q":
+                return customer_id
             self.valid = self._validation_service.does_customer_id_exist(customer_id)
             if not self.valid:
                 self._customer_sub_menu.see_customer_list()
@@ -115,17 +129,23 @@ class RentalSubMenu:
         while not self.valid:
             self._car_sub_menu.see_fleet_list_in_rent_a_car()
             car_id = input("Enter ID of car to rent: ")
+            if car_id == "q":
+                return car_id
             self.valid = self._validation_service.does_car_id_exist(car_id)
             if not self.valid:
                 print("Car does not exist")
         self.valid = False
         while not self.valid:
             start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
+            if start_date_input == "q":
+                return start_date_input
             self.valid = self._validation_service.is_date_valid(start_date_input)
             if not self.valid:
                 print("Date is not in valid format")
                 continue
             start_date = datetime.date(datetime.strptime(start_date_input, '%d/%m/%Y'))
+            if start_date == "q":
+                return start_date
             self.valid = not self._validation_service.is_date_in_past(start_date)
             if not self.valid:
                 print("Date can not be in the past")
@@ -136,6 +156,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             days = input("Enter how many days to rent: ")
+            if days == "q":
+                return days
             self.valid = self._validation_service.is_number_valid(days)
             if not self.valid:
                 print("Invalid number")
@@ -150,6 +172,8 @@ class RentalSubMenu:
         self.see_insurance_list()
         while not self.valid:
             insurance = input('Please enter a short code: ')
+            if insurance == "q":
+                return insurance
             self.valid = self._validation_service.does_short_code_exist(insurance)
             if not self.valid:
                 print("Insurance short code does not exist")
@@ -316,6 +340,8 @@ class RentalSubMenu:
         self.valid = False
         while not self.valid:
             order_id = input("Please enter a order ID: ")
+            if order_id == "q":
+                return order_id
             self.valid = self._validation_service.does_order_id_exist(order_id)
             if not self.valid:
                 self._system.clear_screen()
@@ -351,6 +377,10 @@ class RentalSubMenu:
         if change == '1': #ID
             while not self.valid:
                 new_customer_id = input("Enter new ID for customer: ")
+                if new_customer_id == "q":
+                    print("Change to customer ID cancelled")
+                    self._system.pause_system()
+                    return
                 id_valid = self._validation_service.is_customer_id_valid(new_customer_id)
                 id_already_exist = not self._validation_service.does_customer_id_exist(new_customer_id)
                 if id_valid and not id_already_exist:
@@ -361,6 +391,10 @@ class RentalSubMenu:
         elif change == '2': #car_id
             while not self.valid:
                 new_car_id = input("Enter new car id: ")
+                if new_car_id == "q":
+                    print("A change of car cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.does_car_id_exist(new_car_id)
                 if not self.valid:
                     print("Please enter a valid car id")
@@ -369,6 +403,10 @@ class RentalSubMenu:
         elif change == '3': #Start_date
             while not self.valid:
                 new_start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
+                if new_start_date_input == "q":
+                    print("Change of start date cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.is_date_valid(new_start_date_input)
                 if not self.valid:
                     print("Date is not in valid format")
@@ -382,6 +420,10 @@ class RentalSubMenu:
         elif change == '4': #days
             while not self.valid:
                 new_days = input("Enter how many days to rent: ")
+                if new_days == "q":
+                    print("Change to rent duration cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.is_number_valid(new_days)
                 if not self.valid:
                     print("Invalid number")
@@ -392,6 +434,10 @@ class RentalSubMenu:
             self.valid = False
             while not self.valid:
                 new_insurance = input("Enter insurance short code: ")
+                if new_insurance == "q":
+                    print("Insurance change cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.does_short_code_exist(new_insurance)
                 if not self.valid:
                     print("Insurance short code does not exist")
@@ -460,6 +506,10 @@ class RentalSubMenu:
             self.valid = False
             while not self.valid:
                 card_selected = input("Enter number of card to use: ")
+                if card_selected == "q":
+                    print("Renting a car cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.does_card_exist(card_selected)
                 if not self.valid:
                     print("Please enter a number of customer credit card")
@@ -472,7 +522,7 @@ class RentalSubMenu:
                 "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
                 "\t          |__/                                                        \n\n\n")
         print("\tPayment to order number " + str(rental.get_order_id()) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
-        print("\tThe car with the number " + str(rental.get_car_id()) + " will be available for pickup at " + str(rental.get_start_date()) + "\n\n\n\n")
+        print("\tThe car with the number " + str(rental.get_car_id()) + " will be available for pickup on " + str(rental.get_start_date()) + "\n\n\n\n")
         self._system.pause_system()
 
 
@@ -511,10 +561,13 @@ class RentalSubMenu:
             self.valid = False
             while not self.valid:
                 card_selected = input("\nEnter number of card to use: ")
+                if card_selected == "q":
+                    print("Returning a car cancelled")
+                    self._system.pause_system()
+                    return
                 self.valid = self._validation_service.does_card_exist(card_selected)
                 if not self.valid:
                     print("\nPlease enter a number of customer credit card")
-                    self._system.pause_system()
         self._system.clear_screen()
         print(  "\t ___                         _                              __      _ \n"
                 "\t| _ \__ _ _  _ _ __  ___ _ _| |_   ____  _ __ __ ___ ______/ _|_  _| |\n"
