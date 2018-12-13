@@ -399,7 +399,7 @@ class RentalSubMenu:
     def update_rental(self, change, rental):
         """Gets input and validates for when changing an order"""
         self.valid = False
-        if change == '1': #ID
+        if change == '1':
             while not self.valid:
                 new_customer_id = input("Enter new ID for customer: ")
                 if new_customer_id == "q":
@@ -413,7 +413,7 @@ class RentalSubMenu:
                     self._rental_service.update_customer_id(rental, new_customer_id)
                 else:
                     print("Can not update to this value")
-        elif change == '2': #car_id
+        elif change == '2':
             while not self.valid:
                 new_car_id = input("Enter new car id: ")
                 if new_car_id == "q":
@@ -425,7 +425,7 @@ class RentalSubMenu:
                     print("Please enter a valid car id")
                     self._system.pause_system()
             self._rental_service.update_car_id(rental, new_car_id)
-        elif change == '3': #Start_date
+        elif change == '3':
             while not self.valid:
                 new_start_date_input = input("Enter start date in the format DD/MM/YYYY: ")
                 if new_start_date_input == "q":
@@ -442,7 +442,7 @@ class RentalSubMenu:
                     print("Date can not be in the past")
                     self._system.pause_system()
             self._rental_service.update_start_date(rental, new_start_date)
-        elif change == '4': #days
+        elif change == '4':
             while not self.valid:
                 new_days = input("Enter how many days to rent: ")
                 if new_days == "q":
@@ -452,10 +452,9 @@ class RentalSubMenu:
                 self.valid = self._validation_service.is_number_valid(new_days)
                 if not self.valid:
                     print("Invalid number")
-                    # Print a list of cars here
                     self._system.pause_system()
             self._rental_service.update_days(rental, new_days)
-        elif change == '5': #insurance
+        elif change == '5':
             self.valid = False
             while not self.valid:
                 new_insurance = input("Enter insurance short code: ")
@@ -466,7 +465,6 @@ class RentalSubMenu:
                 self.valid = self._validation_service.does_short_code_exist(new_insurance)
                 if not self.valid:
                     print("Insurance short code does not exist")
-                    # Print list of available insurance
                     self._system.pause_system()
             self._rental_service.update_insurance(rental, new_insurance)
 
@@ -507,8 +505,8 @@ class RentalSubMenu:
     def see_rental_overview(self, rental):
         """Displays rental overview"""
         self._system.clear_screen()
-        customer = self._customer_service.get_customer(rental._customer_id)
-        credit_cards = self._customer_service.get_customer_credit_cards(rental._customer_id)
+        customer = self._customer_service.get_customer(rental.get_customer_id())
+        credit_cards = self._customer_service.get_customer_credit_cards(rental.get_customer_id())
         print(  "\t  ___         _                               _            \n"
                 "\t / _ \ _ _ __| |___ _ _   _____ _____ _ ___ _(_)_____ __ __\n"
                 "\t| (_) | '_/ _` / -_) '_| / _ \ V / -_) '_\ V / / -_) V  V /\n"
@@ -522,7 +520,7 @@ class RentalSubMenu:
         if not credit_cards:
             print("\nCustomer has no registered credit card, please enter card: ")
             self._system.pause_system()
-            new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
+            new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental.get_customer_id())
             self._customer_service.add_credit_card(new_card)
             card_selected = new_card._card_number
         else:
@@ -557,11 +555,11 @@ class RentalSubMenu:
         self._system.clear_screen()
         rental_list = self._rental_service.get_rental_list()
         for rental in rental_list:
-            if rental._order_id == car_return._order_id:
+            if rental.get_order_id() == car_return.get_order_id():
                 rental_returned = rental
 
-        customer = self._customer_service.get_customer(rental_returned._customer_id)
-        credit_cards = self._customer_service.get_customer_credit_cards(rental_returned._customer_id)
+        customer = self._customer_service.get_customer(rental_returned.get_customer_id())
+        credit_cards = self._customer_service.get_customer_credit_cards(rental_returned.get_customer_id())
         print(  "\t ___     _                    ___                  _            \n"
                 "\t| _ \___| |_ _  _ _ _ _ _    / _ \__ _____ _ ___ _(_)_____ __ __\n"
                 "\t|   / -_)  _| || | '_| ' \  | (_) \ V / -_) '_\ V / / -_) V  V /\n"
@@ -583,9 +581,9 @@ class RentalSubMenu:
             if not credit_cards:
                 print("Customer has no registered credit card, please enter card: ")
                 self._system.pause_system()
-                new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental._customer_id)
+                new_card = self._customer_sub_menu.get_add_creditcard_input_from_rental(rental.get_customer_id())
                 self._customer_service.add_credit_card(new_card)
-                card_selected = new_card._card_number
+                card_selected = new_card.get_card_number()
             else:
                 print("\nRegistered Credit Cards:")
                 for card in credit_cards:
@@ -606,7 +604,7 @@ class RentalSubMenu:
                     "\t|  _/ _` | || | '  \/ -_) ' \  _| (_-< || / _/ _/ -_|_-<_-<  _| || | |\n"
                     "\t|_| \__,_|\_, |_|_|_\___|_||_\__| /__/\_,_\__\__\___/__/__/_|  \_,_|_|\n"
                     "\t          |__/                                                        \n\n\n")
-            print("     Payment to order number " + str(car_return._order_id) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
+            print("     Payment to order number " + str(car_return.get_order_id()) + " has been successfully charged to card no " + str(card_selected) + "\n\n")
             print("\t\tThank you for selecting Bragginn Car rental\n\n\n\n")
             self._system.pause_system()
 
