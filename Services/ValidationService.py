@@ -98,7 +98,7 @@ class ValidationService:
     
     def is_car_brand_valid(self, brand):
         """Checks if car brand name is valid"""
-        if not re.match(r"[A-Za-z]{1,15}$", brand):
+        if not re.match(r"[A-Za-z ]{1,35}$", brand):
             return False
         else:
             return True
@@ -174,7 +174,7 @@ class ValidationService:
     
     def is_insurance_name_valid(self, name):
         """Checks if insurance name is valid"""
-        if not re.match(r"[A-Za-z]{1,25}$", name):
+        if not re.match(r"[A-Za-z ]{1,45}$", name):
             return False
         else:
             return True
@@ -193,7 +193,7 @@ class ValidationService:
     
     def is_word_length_valid(self, word):
         """Checks if word length is valid"""
-        if not re.match(r"[A-Za-z]{1,30}$", word):
+        if not re.match(r"[A-Za-z ]{1,30}$", word):
             return False
         else:
             return True

@@ -82,7 +82,7 @@ class CarSubMenu:
                 return brand
             self.valid = self._validation_service.is_car_brand_valid(brand)
             if not self.valid:
-                print("Invalid input! Brand name cannot be longer then 15 letters")
+                print("Invalid input! Brand name cannot be longer then 35 letters")
         self.valid = False
         while not self.valid:
             year = input("The cars production year (YYYY): ")

@@ -322,9 +322,9 @@ class RentalSubMenu:
                 self._system.pause_system()
                 self.see_insurance_list()
                 continue
-            self.valid = self._validation_service.is_insurance_name_valid(name)
+            self.valid = self._validation_service.is_insurance_name_valid(name) 
             if not self.valid:
-                print("Enter valid insurance name (1-25 letters) ")
+                print("Enter valid insurance name (1-45 letters) ")
                 self._system.pause_system()
                 self.see_insurance_list()
         self.valid = False
