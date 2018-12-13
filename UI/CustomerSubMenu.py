@@ -174,7 +174,7 @@ class CustomerSubMenu:
             country = input("Enter customer country: ")
             if country == "q":
                 return "q"
-            self.valid = self._validation_service.is_country_valid(last_name)
+            self.valid = self._validation_service.is_country_valid(country)
             if not self.valid:
                 print("Please enter between 1-10 letters")
                 self._system.pause_system()
