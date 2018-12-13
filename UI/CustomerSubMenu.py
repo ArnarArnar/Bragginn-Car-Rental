@@ -120,18 +120,18 @@ class CustomerSubMenu:
             first_name = input("Enter customer first name: ")
             if first_name == "q":
                     return "q"
-            self.valid = self._validation_service.is_word_length_valid(first_name)
+            self.valid = self._validation_service.is_first_name_valid(first_name)
             if not self.valid:
-                print("Please enter between 1-20 letters")
+                print("Please enter between 1-10 letters")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
             last_name = input("Enter customer last name: ")
             if last_name == "q":
                     return "q"
-            self.valid = self._validation_service.is_word_length_valid(last_name)
+            self.valid = self._validation_service.is_last_name_valid(last_name)
             if not self.valid:
-                print("Please enter between 1-30 letters")
+                print("Please enter between 1-15 letters")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
@@ -149,7 +149,7 @@ class CustomerSubMenu:
                 return "q"
             self.valid = self._validation_service.is_street_valid(street)
             if not self.valid:
-                print("Please enter street name and number")
+                print("Please enter street name and number (Max length 20 letters)")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
@@ -165,18 +165,18 @@ class CustomerSubMenu:
             town = input("Enter customer town: ")
             if town == "q":
                 return "q"
-            self.valid = self._validation_service.is_word_length_valid(last_name)
+            self.valid = self._validation_service.is_town_valid(town)
             if not self.valid:
-                print("Please enter between 1-30 letters")
+                print("Please enter between 1-20 letters")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:
             country = input("Enter customer country: ")
             if country == "q":
                 return "q"
-            self.valid = self._validation_service.is_word_length_valid(last_name)
+            self.valid = self._validation_service.is_country_valid(last_name)
             if not self.valid:
-                print("Please enter between 1-30 letters")
+                print("Please enter between 1-10 letters")
                 self._system.pause_system()
         self.valid = False
         while not self.valid:

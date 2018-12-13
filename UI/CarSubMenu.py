@@ -82,7 +82,7 @@ class CarSubMenu:
                 return brand
             self.valid = self._validation_service.is_car_brand_valid(brand)
             if not self.valid:
-                print("Invalid input! Brand name cannot be longer then 35 letters")
+                print("Invalid input! Brand name cannot be longer then 15 letters")
         self.valid = False
         while not self.valid:
             year = input("The cars production year (YYYY): ")
@@ -96,7 +96,7 @@ class CarSubMenu:
             price_per_day = input("Enter price per day: ")
             if price_per_day == "q":
                 return price_per_day
-            self.valid = self._validation_service.is_number_valid(price_per_day)
+            self.valid = self._validation_service.is_price_valid(price_per_day)
             if not self.valid:
                 print("Invalid input!")
         self.valid = False

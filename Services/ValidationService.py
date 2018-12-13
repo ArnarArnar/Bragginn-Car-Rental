@@ -22,6 +22,18 @@ class ValidationService:
         if int(number) < 1:
             return False
         return True
+
+    def is_price_valid(self, number):
+        """Validates if number is valid or not"""
+        try:
+            int(number)
+        except ValueError:
+            return False
+        if int(number) < 1:
+            return False
+        elif int(number) > 99999:
+            return False
+        return True
     
     def is_days_valid(self, days):
         """Validates if days is valid or not"""
@@ -98,7 +110,7 @@ class ValidationService:
     
     def is_car_brand_valid(self, brand):
         """Checks if car brand name is valid"""
-        if not re.match(r"[A-Za-z ]{1,35}$", brand):
+        if not re.match(r"[A-Za-z ]{1,15}$", brand):
             return False
         else:
             return True
@@ -191,16 +203,37 @@ class ValidationService:
             return False
         return True
     
-    def is_word_length_valid(self, word):
+    def is_first_name_valid(self, word):
+        """Checks if first name is valid"""
+        if not re.match(r"[A-Za-z ]{1,10}$", word):
+            return False
+        else:
+            return True
+
+    def is_last_name_valid(self, word):
         """Checks if word length is valid"""
-        if not re.match(r"[A-Za-z ]{1,30}$", word):
+        if not re.match(r"[A-Za-z ]{1,15}$", word):
+            return False
+        else:
+            return True
+
+    def is_country_valid(self, word):
+        """Checks if country is valid"""
+        if not re.match(r"[A-Za-z ]{1,10}$", word):
+            return False
+        else:
+            return True
+
+    def is_town_valid(self, word):
+        """Checks if country is valid"""
+        if not re.match(r"[A-Za-z ]{1,20}$", word):
             return False
         else:
             return True
 
     def is_street_valid(self, street):
         """Checks if street name is valid"""
-        if not re.match(r"[A-Za-z0-9 ]{1,40}$", street):
+        if not re.match(r"[A-Za-z0-9 ]{1,20}$", street):
             return False
         else:
             return True
